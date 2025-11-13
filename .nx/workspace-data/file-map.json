@@ -13,10 +13,6 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": "jest.preset.js",
-        "hash": "9326083157899857896"
-      },
-      {
         "file": "package-lock.json",
         "hash": "1393916029769863530"
       },
@@ -25,83 +21,95 @@
         "hash": "13910298152250619511"
       },
       {
-        "file": ".gitignore",
-        "hash": "807343443648437010"
-      },
-      {
-        "file": "package.json",
-        "hash": "2006888358261459508"
-      },
-      {
-        "file": "README.md",
-        "hash": "5299023175901469406"
-      },
-      {
         "file": ".editorconfig",
         "hash": "9130906877357932621"
       },
       {
-        "file": "nx.json",
-        "hash": "309489943549514740"
+        "file": "package.json",
+        "hash": "15210814805987131605"
       },
       {
         "file": "lambdas.yml",
         "hash": "4739913750236652947"
       },
       {
-        "file": ".vscode/extensions.json",
-        "hash": "17129306119304673999"
-      },
-      {
         "file": ".vscode/settings.json",
         "hash": "4737873168531426497"
       },
       {
+        "file": "nx.json",
+        "hash": "309489943549514740"
+      },
+      {
+        "file": "README.md",
+        "hash": "5299023175901469406"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9326083157899857896"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "17129306119304673999"
+      },
+      {
         "file": "tsconfig.base.json",
         "hash": "2222130378217785474"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "17041750902723477905"
       }
     ],
     "projectFileMap": {
-      "common-types": [
+      "api-client": [
         {
-          "file": "packages/common-types/README.md",
-          "hash": "15006173812700895405"
+          "file": "packages/api-client/README.md",
+          "hash": "8498288855403938881"
         },
         {
-          "file": "packages/common-types/package.json",
-          "hash": "8965815133290168466"
+          "file": "packages/api-client/jest.config.ts",
+          "hash": "1524681538027761546"
         },
         {
-          "file": "packages/common-types/project.json",
-          "hash": "13027723795811731109"
+          "file": "packages/api-client/package.json",
+          "hash": "10308238074069665891"
         },
         {
-          "file": "packages/common-types/src/api.types.ts",
-          "hash": "8841576204018521387"
+          "file": "packages/api-client/project.json",
+          "hash": "8592020204636736055"
         },
         {
-          "file": "packages/common-types/src/common.types.ts",
-          "hash": "17363205306541189483"
+          "file": "packages/api-client/src/__tests__/api-client.spec.ts",
+          "hash": "10310535692282121502",
+          "deps": [
+            "npm:axios",
+            "common-types"
+          ]
         },
         {
-          "file": "packages/common-types/src/index.ts",
-          "hash": "15596980135655828469"
+          "file": "packages/api-client/src/api-client.ts",
+          "hash": "14039950681410851935",
+          "deps": [
+            "npm:axios",
+            "common-types"
+          ]
         },
         {
-          "file": "packages/common-types/src/lambda.types.ts",
-          "hash": "4260416675359158228"
+          "file": "packages/api-client/src/index.ts",
+          "hash": "13034485876660086991"
         },
         {
-          "file": "packages/common-types/src/user.types.ts",
-          "hash": "11314823989377359803"
+          "file": "packages/api-client/tsconfig.json",
+          "hash": "3881946269546638605"
         },
         {
-          "file": "packages/common-types/tsconfig.json",
-          "hash": "5257909443336654404"
+          "file": "packages/api-client/tsconfig.lib.json",
+          "hash": "15357337917634527619"
         },
         {
-          "file": "packages/common-types/tsconfig.lib.json",
-          "hash": "17032059854456733348"
+          "file": "packages/api-client/tsconfig.spec.json",
+          "hash": "4228410639530418711"
         }
       ],
       "web": [
@@ -212,6 +220,48 @@
             "npm:@vitejs/plugin-react",
             "npm:@nx/vite"
           ]
+        }
+      ],
+      "common-types": [
+        {
+          "file": "packages/common-types/README.md",
+          "hash": "15006173812700895405"
+        },
+        {
+          "file": "packages/common-types/package.json",
+          "hash": "8965815133290168466"
+        },
+        {
+          "file": "packages/common-types/project.json",
+          "hash": "13027723795811731109"
+        },
+        {
+          "file": "packages/common-types/src/api.types.ts",
+          "hash": "8841576204018521387"
+        },
+        {
+          "file": "packages/common-types/src/common.types.ts",
+          "hash": "17363205306541189483"
+        },
+        {
+          "file": "packages/common-types/src/index.ts",
+          "hash": "15596980135655828469"
+        },
+        {
+          "file": "packages/common-types/src/lambda.types.ts",
+          "hash": "4260416675359158228"
+        },
+        {
+          "file": "packages/common-types/src/user.types.ts",
+          "hash": "11314823989377359803"
+        },
+        {
+          "file": "packages/common-types/tsconfig.json",
+          "hash": "5257909443336654404"
+        },
+        {
+          "file": "packages/common-types/tsconfig.lib.json",
+          "hash": "17032059854456733348"
         }
       ],
       "api": [
@@ -412,56 +462,6 @@
         {
           "file": "apps/api/tsconfig.spec.json",
           "hash": "15023060527793205788"
-        }
-      ],
-      "api-client": [
-        {
-          "file": "packages/api-client/README.md",
-          "hash": "8498288855403938881"
-        },
-        {
-          "file": "packages/api-client/jest.config.ts",
-          "hash": "1524681538027761546"
-        },
-        {
-          "file": "packages/api-client/package.json",
-          "hash": "10308238074069665891"
-        },
-        {
-          "file": "packages/api-client/project.json",
-          "hash": "8592020204636736055"
-        },
-        {
-          "file": "packages/api-client/src/__tests__/api-client.spec.ts",
-          "hash": "10310535692282121502",
-          "deps": [
-            "npm:axios",
-            "common-types"
-          ]
-        },
-        {
-          "file": "packages/api-client/src/api-client.ts",
-          "hash": "361050755264976494",
-          "deps": [
-            "npm:axios",
-            "common-types"
-          ]
-        },
-        {
-          "file": "packages/api-client/src/index.ts",
-          "hash": "13034485876660086991"
-        },
-        {
-          "file": "packages/api-client/tsconfig.json",
-          "hash": "3881946269546638605"
-        },
-        {
-          "file": "packages/api-client/tsconfig.lib.json",
-          "hash": "15357337917634527619"
-        },
-        {
-          "file": "packages/api-client/tsconfig.spec.json",
-          "hash": "4228410639530418711"
         }
       ]
     }

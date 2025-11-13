@@ -26,7 +26,6 @@ node_modules
 .history/*
 
 # misc
-.nx/*
 /.sass-cache
 /connect.lock
 /coverage
@@ -42,6 +41,3 @@ Thumbs.db
 
 # Nx
 .nx/cache
-
-# AWS
-.aws-sam
