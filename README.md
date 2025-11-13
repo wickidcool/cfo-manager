@@ -10,9 +10,10 @@ A production-ready Nx monorepo with React web client, AWS Lambda API, and shared
 - **Zustand** - Lightweight state management solution
 - **Jest Testing** - Comprehensive testing setup with React Testing Library
 - **AWS Lambda API** - Serverless backend with TypeScript Lambda handlers
+- **AWS CDK Infrastructure** - Infrastructure as Code for CloudFront, API Gateway, and S3
 - **Shared Types** - Common TypeScript types shared across frontend and backend
 - **Type Safety** - End-to-end type safety from API to UI
-- **Ready for Production** - Includes SAM template for AWS deployment
+- **Ready for Production** - Complete CDK infrastructure with configuration-driven Lambda deployment
 
 ## 📁 Project Structure
 
@@ -23,7 +24,8 @@ aws-starter-kit/
 │   │   ├── src/
 │   │   │   ├── App.tsx        # Main React component
 │   │   │   ├── main.tsx       # Application entry point
-│   │   │   └── styles.css     # Global styles
+│   │   │   ├── store/         # Zustand state management
+│   │   │   └── theme/         # Chakra UI theme
 │   │   ├── index.html         # HTML template
 │   │   ├── vite.config.ts     # Vite configuration
 │   │   ├── tsconfig.json      # TypeScript config
@@ -32,23 +34,39 @@ aws-starter-kit/
 │   └── api/                    # AWS Lambda API
 │       ├── src/
 │       │   ├── handlers/
-│       │   │   └── users.ts   # User CRUD handlers
+│       │   │   └── users/     # User CRUD handlers
+│       │   ├── services/      # Business logic layer
+│       │   ├── schemas/       # JSON schemas for validation
 │       │   └── utils/
-│       │       ├── response.ts # Response helpers
-│       │       └── validator.ts # Request validation
+│       │       ├── response.ts      # Response helpers
+│       │       ├── validator.ts     # AJV validation
+│       │       └── lambda-handler.ts # Common handler wrapper
+│       ├── cdk/               # AWS CDK infrastructure
+│       │   ├── app.ts         # CDK app entry point
+│       │   ├── static-stack.ts # CloudFront + API Gateway + S3
+│       │   ├── user-stack.ts  # Lambda functions (from lambdas.yml)
+│       │   ├── cdk.json       # CDK configuration
+│       │   └── README.md      # Infrastructure docs
 │       ├── tsconfig.json      # TypeScript config
 │       ├── project.json       # Nx project config
 │       └── README.md          # API documentation
 │
 ├── packages/
-│   └── common-types/          # Shared TypeScript types
+│   ├── common-types/          # Shared TypeScript types
+│   │   ├── src/
+│   │   │   └── index.ts       # Type definitions
+│   │   ├── tsconfig.json
+│   │   ├── project.json
+│   │   └── README.md
+│   └── api-client/            # Type-safe API client (Axios)
 │       ├── src/
-│       │   └── index.ts       # Type definitions
+│       │   ├── api-client.ts  # API client implementation
+│       │   └── index.ts       # Package exports
 │       ├── tsconfig.json
 │       ├── project.json
 │       └── README.md
 │
-├── template.yaml              # AWS SAM deployment template
+├── lambdas.yml                # Lambda function configurations (for CDK)
 ├── nx.json                    # Nx workspace configuration
 ├── tsconfig.base.json         # Base TypeScript configuration
 └── package.json               # Root package.json
@@ -61,7 +79,7 @@ aws-starter-kit/
 - Node.js (v18 or higher)
 - npm
 - AWS CLI (for deployment)
-- AWS SAM CLI (optional, for local Lambda testing)
+- AWS CDK CLI (installed globally or via npx)
 
 ### Installation
 
@@ -133,9 +151,11 @@ npm run lint
 npm run graph
 ```
 
-## 📦 Shared Types
+## 📦 Shared Packages
 
-The `@aws-starter-kit/common-types` package provides shared TypeScript types used across the monorepo:
+### Common Types (`@aws-starter-kit/common-types`)
+
+Shared TypeScript types used across the monorepo:
 
 ```typescript
 import { User, ApiResponse, HTTP_STATUS } from '@aws-starter-kit/common-types';
@@ -148,45 +168,128 @@ const user: User = {
 };
 ```
 
-### Available Types
-
+**Available Types:**
 - **User Types**: `User`, `CreateUserRequest`, `UpdateUserRequest`
 - **API Types**: `ApiResponse<T>`, `ApiError`
 - **Lambda Types**: `ApiGatewayProxyEvent`, `ApiGatewayProxyResult`, `LambdaContext`
 - **Constants**: `HTTP_STATUS`, `ERROR_CODES`
 
+### API Client (`@aws-starter-kit/api-client`)
+
+Type-safe API client using Axios for backend communication:
+
+```typescript
+import { createApiClient } from '@aws-starter-kit/api-client';
+
+// Create client
+const apiClient = createApiClient({
+  baseURL: 'https://api.example.com',
+  timeout: 30000,
+});
+
+// Fetch users
+const users = await apiClient.getUsers();
+
+// Create user
+const newUser = await apiClient.createUser({
+  email: 'new@example.com',
+  name: 'New User',
+});
+
+// Set auth token
+apiClient.setAuthToken('your-jwt-token');
+```
+
+**Available Methods:**
+- `getUsers()` - Fetch all users
+- `getUser(id)` - Fetch user by ID
+- `createUser(data)` - Create new user
+- `updateUser(id, data)` - Update existing user
+- `deleteUser(id)` - Delete user
+- `setAuthToken(token)` - Set authorization token
+- `clearAuthToken()` - Clear authorization token
+
+See [`packages/api-client/README.md`](packages/api-client/README.md) for detailed documentation.
+
 ## 🚀 Deployment
 
-### Deploy to AWS with SAM
+### Option 1: Deploy with AWS CDK (Recommended)
 
-1. Build the project:
+AWS CDK provides a complete infrastructure stack including CloudFront, API Gateway, S3, and Lambda functions.
+
+#### Lambda Configuration
+
+Lambda functions are defined in `lambdas.yml` at the project root:
+
+```yaml
+lambdas:
+  - name: GetUsers
+    handler: handlers/users/get-users.handler
+    method: GET
+    path: /users
+    description: Get all users
+    memorySize: 256
+    timeout: 30
+```
+
+The CDK will automatically create Lambda functions and API Gateway integrations based on this configuration.
+
+#### Deployment Steps
+
+1. **Bootstrap CDK** (first time only):
+```bash
+npm run cdk:bootstrap
+```
+
+2. **Build Lambda functions**:
 ```bash
 npm run build:api
 ```
 
-2. Deploy with SAM:
+3. **Deploy the infrastructure**:
 ```bash
-sam build
-sam deploy --guided
+npm run cdk:deploy
 ```
 
-3. Follow the prompts to configure your deployment:
-   - Stack Name: `aws-starter-kit`
-   - AWS Region: Your preferred region
-   - Confirm changes before deploy: Y
-   - Allow SAM CLI IAM role creation: Y
+This creates two stacks:
+- **StaticStack**: CloudFront distribution, S3 bucket, API Gateway
+- **UserStack**: Lambda functions and API integrations (from `lambdas.yml`)
 
-4. After deployment, note the API URL in the outputs.
-
-### Deploy Web Client
-
-You can deploy the web client to various platforms:
-
-**AWS S3 + CloudFront:**
+3. **Deploy the web app**:
 ```bash
-npm run build:web
-aws s3 sync dist/apps/web s3://your-bucket-name
+npm run deploy:web
 ```
+
+4. **Invalidate CloudFront cache** (if needed):
+```bash
+npm run invalidate:cdn
+```
+
+5. **Access your application**:
+The CDK outputs will provide URLs for:
+- `WebsiteUrl`: Your application (via CloudFront)
+- `ApiUrlViaCdn`: API endpoint (via CloudFront `/api`)
+
+**CDK Commands:**
+```bash
+# View infrastructure changes
+npm run cdk:diff
+
+# Deploy to production environment
+npm run cdk:deploy:prod
+
+# Destroy infrastructure (use with caution)
+npm run cdk:destroy
+
+# View synthesized CloudFormation template
+npm run cdk:synth
+```
+
+See [`apps/api/cdk/README.md`](apps/api/cdk/README.md) for detailed CDK documentation.
+
+### Alternative: Deploy Web Client to Other Platforms
+
+If you prefer not to use S3/CloudFront, you can deploy the web client to other platforms:
 
 **Vercel:**
 ```bash
@@ -240,9 +343,21 @@ npx nx g @nx/react:app my-app --directory=apps/my-app
 
 ### Add a New Lambda Handler
 
-1. Create a new file in `apps/api/src/handlers/`
-2. Add the handler configuration to `template.yaml`
-3. Update the build configuration in `apps/api/project.json`
+1. Create a new handler file in `apps/api/src/handlers/`
+2. Add the configuration to `lambdas.yml`:
+   ```yaml
+   - name: MyNewFunction
+     handler: handlers/my-new-function.handler
+     method: GET
+     path: /my-endpoint
+     memorySize: 256
+     timeout: 30
+   ```
+3. Build and deploy:
+   ```bash
+   npm run build:api
+   npm run cdk:deploy
+   ```
 
 ## 📚 Technology Stack
 
@@ -250,9 +365,11 @@ npx nx g @nx/react:app my-app --directory=apps/my-app
 - **Testing**: Jest, React Testing Library, @testing-library/jest-dom
 - **Backend**: AWS Lambda, Node.js 20, TypeScript
 - **Validation**: AJV (JSON Schema validator) with ajv-formats
+- **Infrastructure**: AWS CDK, CloudFormation
+- **CDN & Hosting**: CloudFront, API Gateway, S3
 - **Monorepo**: Nx
 - **Build Tools**: Vite (web), esbuild (Lambda)
-- **Deployment**: AWS SAM, CloudFormation
+- **Deployment**: AWS CDK (Infrastructure as Code)
 - **Type System**: TypeScript 5.9+
 
 ## 🤝 Contributing

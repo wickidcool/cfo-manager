@@ -18,10 +18,18 @@ import {
 import { CheckCircleIcon } from '@chakra-ui/icons';
 import { useUserStore } from './store/user-store';
 import type { User } from '@aws-starter-kit/common-types';
+import { apiClient } from './config/api';
+import { ApiError } from '@aws-starter-kit/api-client';
+import { useEffect } from 'react';
 
 function App() {
-  const { user, users, setUser, addUser } = useUserStore();
+  const { user, users, setUser, addUser, setUsers, isLoading, error } = useUserStore();
   const toast = useToast();
+
+  // Fetch users on mount
+  useEffect(() => {
+    handleFetchUsers();
+  }, []);
 
   const handleLoadDemoUser = () => {
     const demoUser: User = {
@@ -50,6 +58,55 @@ function App() {
       duration: 3000,
       isClosable: true,
     });
+  };
+
+  const handleFetchUsers = async () => {
+    try {
+      const fetchedUsers = await apiClient.getUsers();
+      setUsers(fetchedUsers);
+      toast({
+        title: 'Users fetched',
+        description: `Loaded ${fetchedUsers.length} users from API`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : 'Failed to fetch users';
+      toast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleCreateUser = async () => {
+    try {
+      const newUser = await apiClient.createUser({
+        email: `user${Date.now()}@example.com`,
+        name: `User ${Date.now()}`,
+      });
+      addUser(newUser);
+      toast({
+        title: 'User created',
+        description: `Created ${newUser.name}`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : 'Failed to create user';
+      toast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -125,9 +182,47 @@ function App() {
                   </ListItem>
                   <ListItem>
                     <ListIcon as={CheckCircleIcon} color="green.400" />
-                    Ready for AWS Lambda integration
+                    Type-safe API client with Axios
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    AWS CDK infrastructure deployment
                   </ListItem>
                 </List>
+              </Box>
+
+              {/* API Actions */}
+              <Box
+                bg="rgba(139, 92, 246, 0.1)"
+                p={6}
+                borderRadius="lg"
+                borderWidth="1px"
+                borderColor="purple.700"
+              >
+                <Heading size="md" mb={4} color="purple.400">
+                  API Actions:
+                </Heading>
+                <HStack spacing={4}>
+                  <Button
+                    colorScheme="purple"
+                    onClick={handleFetchUsers}
+                    isLoading={isLoading}
+                  >
+                    Fetch Users from API
+                  </Button>
+                  <Button
+                    colorScheme="green"
+                    onClick={handleCreateUser}
+                    isLoading={isLoading}
+                  >
+                    Create Test User
+                  </Button>
+                </HStack>
+                {error && (
+                  <Text color="red.400" mt={2} fontSize="sm">
+                    Error: {error}
+                  </Text>
+                )}
               </Box>
 
               {/* User Info or Load Button */}

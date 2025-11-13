@@ -3,7 +3,14 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
-    "types": ["jest", "node", "@testing-library/jest-dom"]
+    "types": ["jest", "node", "@testing-library/jest-dom"],
+    "baseUrl": "../../",
+    "paths": {
+      "@/config/*": ["apps/web/src/config/*"],
+      "@/config/api": ["apps/web/src/__mocks__/config/api.ts"],
+      "@aws-starter-kit/common-types": ["packages/common-types/src/index.ts"],
+      "@aws-starter-kit/api-client": ["packages/api-client/src/index.ts"]
+    }
   },
   "include": [
     "**/*.test.ts",
@@ -15,7 +22,8 @@
     "**/*.test.jsx",
     "**/*.spec.jsx",
     "**/*.d.ts",
-    "src/test-setup.ts"
+    "src/test-setup.ts",
+    "src/__mocks__/**/*.ts"
   ]
 }
 

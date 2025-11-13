@@ -4,10 +4,7 @@ import type {
 } from '@aws-starter-kit/common-types';
 import { HTTP_STATUS, ERROR_CODES } from '@aws-starter-kit/common-types';
 import { successResponse } from '../../utils/response';
-import {
-  validateCreateUserRequestWithErrors,
-  getValidationErrors,
-} from '../../utils/validator';
+import { validate, getValidationErrors } from '../../utils/validator';
 import { userService } from '../../services/user-service';
 import {
   createLambdaHandler,
@@ -15,6 +12,7 @@ import {
   validateBodyPresent,
   type ParsedRequest,
 } from '../../utils/lambda-handler';
+import { createUserSchema } from '../../schemas/user.schema';
 
 /**
  * POST /users - Create a new user
@@ -32,8 +30,8 @@ async function createUserHandler(
     );
   }
 
-  // Validate request data with AJV
-  const validation = validateCreateUserRequestWithErrors(request.body);
+  // Validate request data with AJV schema
+  const validation = validate(createUserSchema, request.body);
   if (!validation.valid) {
     throw createErrorResult(
       ERROR_CODES.VALIDATION_ERROR,

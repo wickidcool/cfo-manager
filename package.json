@@ -13,7 +13,15 @@
     "test:api": "nx test api",
     "test:watch": "nx test web --watch",
     "test:coverage": "nx run-many --target=test --all --coverage",
-    "graph": "nx graph"
+    "graph": "nx graph",
+    "cdk:synth": "cd apps/api/cdk && cdk synth",
+    "cdk:deploy": "cd apps/api/cdk && cdk deploy",
+    "cdk:deploy:prod": "cd apps/api/cdk && cdk deploy -c environment=prod",
+    "cdk:diff": "cd apps/api/cdk && cdk diff",
+    "cdk:destroy": "cd apps/api/cdk && cdk destroy",
+    "cdk:bootstrap": "cd apps/api/cdk && cdk bootstrap",
+    "deploy:web": "npm run build:web && aws s3 sync dist/apps/web s3://$(aws cloudformation describe-stacks --stack-name AwsStarterKit-dev --query 'Stacks[0].Outputs[?OutputKey==`BucketName`].OutputValue' --output text) --delete",
+    "invalidate:cdn": "aws cloudfront create-invalidation --distribution-id $(aws cloudformation describe-stacks --stack-name AwsStarterKit-dev --query 'Stacks[0].Outputs[?OutputKey==`DistributionId`].OutputValue' --output text) --paths '/*'"
   },
   "repository": {
     "type": "git",
@@ -45,17 +53,23 @@
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.4",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "aws-cdk-lib": "^2.224.0",
+    "constructs": "^10.4.3",
     "esbuild": "^0.27.0",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
+    "js-yaml": "^4.1.1",
     "nx": "^22.0.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "source-map-support": "^0.5.21",
     "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "vite": "^7.2.2"
   },
@@ -66,6 +80,7 @@
     "@emotion/styled": "^11.14.1",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
+    "axios": "^1.13.2",
     "framer-motion": "^10.18.0",
     "zustand": "^5.0.8"
   }

@@ -1,15 +1,9 @@
-import Ajv, { ValidateFunction } from 'ajv';
+import Ajv, { ValidateFunction, JSONSchemaType, ErrorObject } from 'ajv';
 import addFormats from 'ajv-formats';
-import type { CreateUserRequest, UpdateUserRequest } from '@aws-starter-kit/common-types';
-import { createUserSchema, updateUserSchema } from '../schemas/user.schema';
 
-// Initialize AJV with formats support
+// Initialize AJV with formats support (singleton)
 const ajv = new Ajv({ allErrors: true, removeAdditional: true });
 addFormats(ajv);
-
-// Compile schemas
-const validateCreateUserFn: ValidateFunction<CreateUserRequest> = ajv.compile(createUserSchema);
-const validateUpdateUserFn: ValidateFunction<UpdateUserRequest> = ajv.compile(updateUserSchema);
 
 /**
  * Validation result interface
@@ -20,55 +14,58 @@ export interface ValidationResult {
 }
 
 /**
- * Validate CreateUserRequest
+ * Format AJV error objects into readable error messages
  */
-export function validateCreateUserRequest(data: unknown): data is CreateUserRequest {
-  return validateCreateUserFn(data);
+function formatAjvErrors(errors: ErrorObject[]): string[] {
+  return errors.map(err => {
+    const field = err.instancePath.replace('/', '') || err.params['missingProperty'] || 'request';
+    return `${field}: ${err.message}`;
+  });
 }
 
 /**
- * Validate CreateUserRequest with detailed errors
+ * Generic validation function with detailed errors
+ *
+ * @param schema - JSONSchema to validate against
+ * @param data - Data to validate
+ * @returns ValidationResult with detailed error messages
  */
-export function validateCreateUserRequestWithErrors(data: unknown): ValidationResult {
-  const valid = validateCreateUserFn(data);
-  
-  if (!valid && validateCreateUserFn.errors) {
-    const errors = validateCreateUserFn.errors.map(err => {
-      const field = err.instancePath.replace('/', '') || err.params['missingProperty'] || 'request';
-      return `${field}: ${err.message}`;
-    });
+export function validate<T>(
+  schema: JSONSchemaType<T>,
+  data: unknown
+): ValidationResult {
+  // Compile schema (AJV caches compiled schemas internally)
+  const validateFn: ValidateFunction<T> = ajv.compile(schema);
+  const valid = validateFn(data);
+
+  if (!valid && validateFn.errors) {
+    const errors = formatAjvErrors(validateFn.errors);
     return { valid: false, errors };
   }
-  
+
   return { valid: true };
 }
 
 /**
- * Validate UpdateUserRequest
+ * Generic type guard validation function
+ *
+ * @param schema - JSONSchema to validate against
+ * @param data - Data to validate
+ * @returns Type guard boolean
  */
-export function validateUpdateUserRequest(data: unknown): data is UpdateUserRequest {
-  return validateUpdateUserFn(data);
-}
-
-/**
- * Validate UpdateUserRequest with detailed errors
- */
-export function validateUpdateUserRequestWithErrors(data: unknown): ValidationResult {
-  const valid = validateUpdateUserFn(data);
-  
-  if (!valid && validateUpdateUserFn.errors) {
-    const errors = validateUpdateUserFn.errors.map(err => {
-      const field = err.instancePath.replace('/', '') || err.params['missingProperty'] || 'request';
-      return `${field}: ${err.message}`;
-    });
-    return { valid: false, errors };
-  }
-  
-  return { valid: true };
+export function validateTypeGuard<T>(
+  schema: JSONSchemaType<T>,
+  data: unknown
+): data is T {
+  const validateFn: ValidateFunction<T> = ajv.compile(schema);
+  return validateFn(data);
 }
 
 /**
  * Get validation errors as a formatted string
+ *
+ * @param errors - Array of error messages
+ * @returns Formatted error string
  */
 export function getValidationErrors(errors?: string[]): string {
   if (!errors || errors.length === 0) {

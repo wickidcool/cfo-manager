@@ -66,8 +66,12 @@ The API follows a layered architecture:
   - Handles errors consistently across all handlers
   - Provides validation helpers for common cases
   - Logs requests and errors with handler names
-- **AJV Validation** (`validator.ts`):
-  - Schema-based validation with detailed error messages
+- **Generic AJV Validation** (`validator.ts`):
+  - Generic `validate()` function that accepts any JSON Schema
+  - Type-safe validation with `validateTypeGuard<T>()`
+  - Schema-agnostic design - handlers pass in their specific schemas
+  - Detailed error messages with field names
+  - AJV caching for compiled schemas (performance optimization)
 - **Response Formatting** (`response.ts`):
   - Consistent API response structure
   - CORS headers management
@@ -142,7 +146,7 @@ apps/api/src/__tests__/
 └── utils/
     ├── lambda-handler.spec.ts   # Lambda handler wrapper tests (15 tests)
     ├── response.spec.ts         # Response helper tests (17 tests)
-    └── validator.spec.ts        # AJV validator tests (25 tests)
+    └── validator.spec.ts        # Generic AJV validator tests (14 tests)
 ```
 
 ### Test Coverage
@@ -151,108 +155,139 @@ apps/api/src/__tests__/
 - **Schemas**: JSON Schema validation for create/update requests with AJV
 - **UserService**: Tests for all CRUD operations, edge cases, and error handling
 - **Lambda Handler**: Tests for request parsing, validation helpers, and error handling
-- **Validators**: AJV-based validation with detailed error reporting
+- **Generic Validators**: Tests for schema-agnostic validation functions
 - **Response Helpers**: Tests for success/error response formatting and CORS headers
 
-All 100 tests passing ✓
+All 89 tests passing ✓
 
 ## Deployment
 
-### Using AWS SAM
+### Using AWS CDK
 
-The API is configured for deployment using AWS SAM (Serverless Application Model).
+The API is deployed using AWS CDK with configuration-driven Lambda functions defined in `lambdas.yml`.
+
+#### Lambda Configuration
+
+Lambda functions are defined in `/lambdas.yml` at the project root:
+
+```yaml
+lambdas:
+  - name: GetUsers
+    handler: handlers/users/get-users.handler
+    method: GET
+    path: /users
+    description: Get all users
+    memorySize: 256
+    timeout: 30
+    environment:
+      LOG_LEVEL: info
+```
+
+The CDK `UserStack` automatically:
+- Creates Lambda functions from the YAML configuration
+- Sets up API Gateway integrations
+- Configures IAM roles and permissions
+- Enables CloudWatch Logs and X-Ray tracing
+
+#### Deployment Steps
 
 1. **Build the application:**
 ```bash
 npm run build:api
 ```
 
-2. **Deploy with SAM:**
+2. **Bootstrap CDK (first time only):**
 ```bash
-sam deploy --guided
+npm run cdk:bootstrap
 ```
 
-The SAM template (`template.yaml`) defines five separate Lambda functions:
-- `GetUsersFunction` - GET /users
-- `GetUserFunction` - GET /users/{id}
-- `CreateUserFunction` - POST /users
-- `UpdateUserFunction` - PUT /users/{id}
-- `DeleteUserFunction` - DELETE /users/{id}
-
-Each function is independently deployable and scalable, with dedicated handler files for better isolation and monitoring.
-
-Example from `template.yaml`:
-
-```yaml
-  GetUsersFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: dist/apps/api/
-      Handler: get-users.handler
-      Description: Get all users
-      Architectures:
-        - x86_64
-      Events:
-        GetUsers:
-          Type: Api
-          Properties:
-            Path: /users
-            Method: get
-        CreateUser:
-          Type: Api
-          Properties:
-            Path: /users
-            Method: post
-        GetUser:
-          Type: Api
-          Properties:
-            Path: /users/{id}
-            Method: get
-        UpdateUser:
-          Type: Api
-          Properties:
-            Path: /users/{id}
-            Method: put
-        DeleteUser:
-          Type: Api
-          Properties:
-            Path: /users/{id}
-            Method: delete
+3. **Deploy infrastructure:**
+```bash
+npm run cdk:deploy
 ```
 
-Deploy with:
+This deploys two CDK stacks:
+- **StaticStack**: CloudFront, S3, API Gateway
+- **UserStack**: Lambda functions and API integrations (from `lambdas.yml`)
+
+#### Adding New Lambda Functions
+
+1. Create a new handler in `apps/api/src/handlers/`
+2. Add configuration to `lambdas.yml`:
+   ```yaml
+   - name: MyNewFunction
+     handler: handlers/my-new-function.handler
+     method: POST
+     path: /my-endpoint
+     memorySize: 512
+     timeout: 60
+     environment:
+       MY_VAR: value
+   ```
+3. Build and deploy:
+   ```bash
+   npm run build:api
+   npm run cdk:deploy
+   ```
+
+The UserStack will automatically create the Lambda function and API Gateway integration.
+
+#### CDK Commands
 
 ```bash
-sam build
-sam deploy --guided
+# View infrastructure changes
+npm run cdk:diff
+
+# Deploy to production environment
+npm run cdk:deploy:prod
+
+# Destroy infrastructure
+npm run cdk:destroy
+
+# View synthesized CloudFormation template
+npm run cdk:synth
 ```
 
-### Using AWS CDK
-
-Install AWS CDK:
-
-```bash
-npm install --save-dev aws-cdk-lib constructs
-```
-
-Create a CDK stack to deploy the Lambda functions.
+See [`cdk/README.md`](cdk/README.md) for detailed CDK documentation.
 
 ## Local Testing
 
-Use AWS SAM CLI for local testing:
+### Unit Tests
+
+Run Jest tests for handlers, services, and utilities:
 
 ```bash
-sam local start-api
+npm run test:api
 ```
 
-Or use the AWS Lambda Test Toolkit.
+### Manual Testing
+
+For local Lambda testing, you can use:
+
+1. **Direct handler invocation** in tests
+2. **AWS Lambda Test Events** in the AWS Console
+3. **Postman/curl** against deployed API Gateway endpoints
 
 ## Environment Variables
 
-Add any required environment variables to your deployment configuration:
+Environment variables are configured per Lambda function in `lambdas.yml`:
 
-- `DYNAMODB_TABLE_NAME` - DynamoDB table for user data (if using DynamoDB)
-- `AWS_REGION` - AWS region
+```yaml
+lambdas:
+  - name: MyFunction
+    handler: handlers/my-function.handler
+    method: GET
+    path: /my-endpoint
+    environment:
+      LOG_LEVEL: info
+      TABLE_NAME: my-dynamodb-table
+```
+
+Common environment variables:
+- `NODE_ENV` - Environment (set automatically to environment name by CDK)
+- `LOG_LEVEL` - Logging level (info, debug, error)
+- `TABLE_NAME` - DynamoDB table name (if using DynamoDB)
+- `AWS_REGION` - AWS region (automatically available in Lambda)
 
 ## Lambda Handler Pattern
 
@@ -409,18 +444,58 @@ export class UserService {
 
 ## Validation
 
-The API uses **AJV (Another JSON Validator)** for robust request validation with JSON Schema.
+The API uses **AJV (Another JSON Validator)** with a **generic, schema-agnostic** validation approach.
 
-### Benefits of AJV
+### Generic Validation Design
 
-- **Industry Standard**: JSON Schema is a widely-adopted standard
-- **Comprehensive**: Supports complex validation rules (formats, patterns, ranges)
-- **Detailed Errors**: Returns specific error messages for each validation failure
+The validator utility provides generic functions that accept any JSON Schema:
+
+```typescript
+// Generic validation function
+export function validate<T>(
+  schema: JSONSchemaType<T>,
+  data: unknown
+): ValidationResult
+
+// Type guard function
+export function validateTypeGuard<T>(
+  schema: JSONSchemaType<T>,
+  data: unknown
+): data is T
+```
+
+### Usage in Handlers
+
+Handlers import the schema they need and pass it to the generic validator:
+
+```typescript
+import { validate, getValidationErrors } from '../../utils/validator';
+import { createUserSchema } from '../../schemas/user.schema';
+
+// In handler function
+const validation = validate(createUserSchema, request.body);
+if (!validation.valid) {
+  throw createErrorResult(
+    ERROR_CODES.VALIDATION_ERROR,
+    getValidationErrors(validation.errors),
+    HTTP_STATUS.BAD_REQUEST,
+    { errors: validation.errors }
+  );
+}
+```
+
+### Benefits of Generic Validation
+
+- **Reusable**: Same validation functions work with any schema
 - **Type Safe**: JSONSchemaType ensures schemas match TypeScript types
-- **Performance**: Compiled validators are extremely fast
-- **Maintainable**: Declarative schema definitions are easier to understand than imperative code
+- **Flexible**: Easy to add new schemas without changing validator code
+- **Maintainable**: Single source of truth for validation logic
+- **Performance**: AJV caches compiled schemas automatically
+- **Testable**: Generic functions are easier to test comprehensively
 
 ### Example Schema
+
+Schemas are defined in the `schemas/` directory:
 
 ```typescript
 export const createUserSchema: JSONSchemaType<CreateUserRequest> = {
