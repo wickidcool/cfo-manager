@@ -1,0 +1,358 @@
+{
+  "version": "6.0",
+  "nxVersion": "22.0.3",
+  "pathMappings": {
+    "@aws-starter-kit/common-types": [
+      "packages/common-types/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": "package.json",
+        "hash": "4798436582598382946"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "6478941013288907005"
+      },
+      {
+        "file": "QUICKSTART.md",
+        "hash": "13910298152250619511"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "14000083865653977756"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "17129306119304673999"
+      },
+      {
+        "file": "template.yaml",
+        "hash": "12392083561309883772"
+      },
+      {
+        "file": "README.md",
+        "hash": "13674113555215689011"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "807343443648437010"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9326083157899857896"
+      },
+      {
+        "file": "nx.json",
+        "hash": "309489943549514740"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "9130906877357932621"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "4737873168531426497"
+      }
+    ],
+    "projectFileMap": {
+      "api": [
+        {
+          "file": "apps/api/README.md",
+          "hash": "17438923761042469751"
+        },
+        {
+          "file": "apps/api/jest.config.ts",
+          "hash": "15310144641499917775"
+        },
+        {
+          "file": "apps/api/project.json",
+          "hash": "16494800442429672722"
+        },
+        {
+          "file": "apps/api/src/__tests__/handlers/users/create-user.spec.ts",
+          "hash": "1290056286634792476",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/__tests__/handlers/users/get-user.spec.ts",
+          "hash": "7999003746988678445",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/__tests__/handlers/users/get-users.spec.ts",
+          "hash": "9007756030108094566",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/__tests__/schemas/user.schema.spec.ts",
+          "hash": "6307919229207502082",
+          "deps": [
+            "npm:ajv",
+            "npm:ajv-formats"
+          ]
+        },
+        {
+          "file": "apps/api/src/__tests__/services/user-service.spec.ts",
+          "hash": "14754907717842214983",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/__tests__/utils/lambda-handler.spec.ts",
+          "hash": "7490140350150470837",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/__tests__/utils/response.spec.ts",
+          "hash": "11333585579716493893",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/__tests__/utils/validator.spec.ts",
+          "hash": "1669163809858922096"
+        },
+        {
+          "file": "apps/api/src/handlers/users/create-user.ts",
+          "hash": "3875893326296893728",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/handlers/users/delete-user.ts",
+          "hash": "12154652061543831505",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/handlers/users/get-user.ts",
+          "hash": "6291525148115818936",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/handlers/users/get-users.ts",
+          "hash": "8506039068376632917",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/handlers/users/index.ts",
+          "hash": "641963866354945140"
+        },
+        {
+          "file": "apps/api/src/handlers/users/update-user.ts",
+          "hash": "16426841918330169221",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/schemas/user.schema.ts",
+          "hash": "17872534741519619528",
+          "deps": [
+            "npm:ajv",
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/services/user-service.ts",
+          "hash": "4954028680998048568",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/utils/lambda-handler.ts",
+          "hash": "15356831093009119538",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/utils/response.ts",
+          "hash": "2898814040428645470",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/utils/validator.ts",
+          "hash": "13053236122369354785",
+          "deps": [
+            "npm:ajv",
+            "npm:ajv-formats",
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/tsconfig.app.json",
+          "hash": "9842098934524900734"
+        },
+        {
+          "file": "apps/api/tsconfig.json",
+          "hash": "15022043184089389893"
+        },
+        {
+          "file": "apps/api/tsconfig.spec.json",
+          "hash": "15023060527793205788"
+        }
+      ],
+      "web": [
+        {
+          "file": "apps/web/index.html",
+          "hash": "5155255240529196867"
+        },
+        {
+          "file": "apps/web/jest.config.ts",
+          "hash": "7331421582244091197"
+        },
+        {
+          "file": "apps/web/project.json",
+          "hash": "16397524066596810970"
+        },
+        {
+          "file": "apps/web/src/App.tsx",
+          "hash": "6760715398633849845",
+          "deps": [
+            "npm:@chakra-ui/react",
+            "npm:@chakra-ui/icons",
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/web/src/__tests__/App.spec.tsx",
+          "hash": "11608219713016529250",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:@chakra-ui/react"
+          ]
+        },
+        {
+          "file": "apps/web/src/__tests__/store/user-store.spec.ts",
+          "hash": "5527013561199947357",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/web/src/main.tsx",
+          "hash": "8241212865015875984",
+          "deps": [
+            "npm:react",
+            "npm:react-dom",
+            "npm:@chakra-ui/react"
+          ]
+        },
+        {
+          "file": "apps/web/src/store/user-store.ts",
+          "hash": "5878210348875582770",
+          "deps": [
+            "npm:zustand",
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/web/src/styles.css",
+          "hash": "7510966317337997951"
+        },
+        {
+          "file": "apps/web/src/test-setup.ts",
+          "hash": "9423944795081006454",
+          "deps": [
+            "npm:@testing-library/jest-dom"
+          ]
+        },
+        {
+          "file": "apps/web/src/theme/index.ts",
+          "hash": "9745931840416859178",
+          "deps": [
+            "npm:@chakra-ui/react"
+          ]
+        },
+        {
+          "file": "apps/web/tsconfig.app.json",
+          "hash": "13993197997820083603"
+        },
+        {
+          "file": "apps/web/tsconfig.json",
+          "hash": "11689584344073475679"
+        },
+        {
+          "file": "apps/web/tsconfig.spec.json",
+          "hash": "15472965568268748357"
+        },
+        {
+          "file": "apps/web/vite.config.ts",
+          "hash": "1165795416306377718",
+          "deps": [
+            "npm:vite",
+            "npm:@vitejs/plugin-react",
+            "npm:@nx/vite"
+          ]
+        }
+      ],
+      "common-types": [
+        {
+          "file": "packages/common-types/README.md",
+          "hash": "15006173812700895405"
+        },
+        {
+          "file": "packages/common-types/package.json",
+          "hash": "8965815133290168466"
+        },
+        {
+          "file": "packages/common-types/project.json",
+          "hash": "13027723795811731109"
+        },
+        {
+          "file": "packages/common-types/src/api.types.ts",
+          "hash": "8841576204018521387"
+        },
+        {
+          "file": "packages/common-types/src/common.types.ts",
+          "hash": "17363205306541189483"
+        },
+        {
+          "file": "packages/common-types/src/index.ts",
+          "hash": "15596980135655828469"
+        },
+        {
+          "file": "packages/common-types/src/lambda.types.ts",
+          "hash": "4260416675359158228"
+        },
+        {
+          "file": "packages/common-types/src/user.types.ts",
+          "hash": "11314823989377359803"
+        },
+        {
+          "file": "packages/common-types/tsconfig.json",
+          "hash": "5257909443336654404"
+        },
+        {
+          "file": "packages/common-types/tsconfig.lib.json",
+          "hash": "17032059854456733348"
+        }
+      ]
+    }
+  },
+  "externalNodesHash": "1408124646499866354"
+}

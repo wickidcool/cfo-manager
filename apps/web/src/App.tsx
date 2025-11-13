@@ -1,0 +1,208 @@
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  List,
+  ListItem,
+  ListIcon,
+  Badge,
+  useToast,
+} from '@chakra-ui/react';
+import { CheckCircleIcon } from '@chakra-ui/icons';
+import { useUserStore } from './store/user-store';
+import type { User } from '@aws-starter-kit/common-types';
+
+function App() {
+  const { user, users, setUser, addUser } = useUserStore();
+  const toast = useToast();
+
+  const handleLoadDemoUser = () => {
+    const demoUser: User = {
+      id: crypto.randomUUID(),
+      email: 'demo@example.com',
+      name: 'Demo User',
+      createdAt: new Date().toISOString(),
+    };
+    setUser(demoUser);
+    addUser(demoUser);
+    toast({
+      title: 'User loaded',
+      description: 'Demo user has been loaded successfully',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
+  const handleClearUser = () => {
+    setUser(null);
+    toast({
+      title: 'User cleared',
+      description: 'Current user has been cleared',
+      status: 'info',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
+  return (
+    <Box minH="100vh" display="flex" flexDirection="column">
+      {/* Header */}
+      <Box
+        bgGradient="linear(to-r, brand.500, purple.500)"
+        py={8}
+        boxShadow="lg"
+      >
+        <Container maxW="container.xl">
+          <VStack spacing={2}>
+            <Heading size="2xl">AWS Starter Kit</Heading>
+            <Text fontSize="lg" opacity={0.9}>
+              Nx Monorepo with React, AWS Lambda, and Shared Types
+            </Text>
+          </VStack>
+        </Container>
+      </Box>
+
+      {/* Main Content */}
+      <Container maxW="container.xl" flex="1" py={8}>
+        <Card>
+          <CardHeader>
+            <Heading size="lg">Welcome to the Web Client</Heading>
+          </CardHeader>
+          <CardBody>
+            <VStack spacing={6} align="stretch">
+              <Text color="gray.400">
+                This is a React application built with Vite and TypeScript,
+                managed by Nx in a monorepo structure.
+              </Text>
+
+              {/* Features */}
+              <Box
+                bg="rgba(59, 130, 246, 0.1)"
+                p={6}
+                borderRadius="lg"
+                borderWidth="1px"
+                borderColor="brand.700"
+              >
+                <Heading size="md" mb={4} color="brand.400">
+                  Features:
+                </Heading>
+                <List spacing={3}>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    React 18 with TypeScript
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    Vite for fast development
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    Chakra UI component library
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    Zustand for state management
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    Jest for testing
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    Shared types from common-types library
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    Nx for monorepo management
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={CheckCircleIcon} color="green.400" />
+                    Ready for AWS Lambda integration
+                  </ListItem>
+                </List>
+              </Box>
+
+              {/* User Info or Load Button */}
+              {user ? (
+                <Box
+                  bg="rgba(16, 185, 129, 0.1)"
+                  p={6}
+                  borderRadius="lg"
+                  borderWidth="1px"
+                  borderColor="green.700"
+                >
+                  <Heading size="md" mb={4} color="green.400">
+                    Current User:
+                  </Heading>
+                  <VStack align="start" spacing={2}>
+                    <HStack>
+                      <Badge colorScheme="green">ID</Badge>
+                      <Text>{user.id}</Text>
+                    </HStack>
+                    <HStack>
+                      <Badge colorScheme="blue">Email</Badge>
+                      <Text>{user.email}</Text>
+                    </HStack>
+                    <HStack>
+                      <Badge colorScheme="purple">Name</Badge>
+                      <Text>{user.name}</Text>
+                    </HStack>
+                    <HStack>
+                      <Badge colorScheme="orange">Created</Badge>
+                      <Text>{new Date(user.createdAt).toLocaleString()}</Text>
+                    </HStack>
+                  </VStack>
+                  <Button
+                    mt={4}
+                    colorScheme="red"
+                    onClick={handleClearUser}
+                    size="sm"
+                  >
+                    Clear User
+                  </Button>
+                </Box>
+              ) : (
+                <Button
+                  colorScheme="brand"
+                  size="lg"
+                  onClick={handleLoadDemoUser}
+                >
+                  Load Demo User
+                </Button>
+              )}
+
+              {/* Users Count */}
+              {users.length > 0 && (
+                <Box>
+                  <Text color="gray.400">
+                    Total users in store: <Badge ml={2}>{users.length}</Badge>
+                  </Text>
+                </Box>
+              )}
+            </VStack>
+          </CardBody>
+        </Card>
+      </Container>
+
+      {/* Footer */}
+      <Box bg="gray.800" py={6} borderTop="1px" borderColor="gray.700">
+        <Container maxW="container.xl">
+          <Text textAlign="center" color="gray.400">
+            Built with ❤️ using Nx, React, TypeScript, Chakra UI, and Zustand
+          </Text>
+        </Container>
+      </Box>
+    </Box>
+  );
+}
+
+export default App;
+

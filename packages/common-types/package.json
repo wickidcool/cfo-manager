@@ -1,0 +1,7 @@
+{
+  "name": "@aws-starter-kit/common-types",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "./src/index.ts"
+}
+
