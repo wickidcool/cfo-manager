@@ -15,13 +15,13 @@
     "test:coverage": "nx run-many --target=test --all --coverage",
     "graph": "nx graph",
     "cdk:synth": "cd apps/api/cdk && cdk synth",
-    "cdk:deploy": "cd apps/api/cdk && cdk deploy",
+    "cdk:deploy": "cd apps/api/cdk && cdk deploy --all",
     "cdk:deploy:prod": "cd apps/api/cdk && cdk deploy -c environment=prod",
     "cdk:diff": "cd apps/api/cdk && cdk diff",
     "cdk:destroy": "cd apps/api/cdk && cdk destroy",
     "cdk:bootstrap": "cd apps/api/cdk && cdk bootstrap",
-    "deploy:web": "npm run build:web && aws s3 sync dist/apps/web s3://$(aws cloudformation describe-stacks --stack-name AwsStarterKit-dev --query 'Stacks[0].Outputs[?OutputKey==`BucketName`].OutputValue' --output text) --delete",
-    "invalidate:cdn": "aws cloudfront create-invalidation --distribution-id $(aws cloudformation describe-stacks --stack-name AwsStarterKit-dev --query 'Stacks[0].Outputs[?OutputKey==`DistributionId`].OutputValue' --output text) --paths '/*'"
+    "deploy:web": "npm run build:web && aws s3 sync dist/apps/web s3://$(aws cloudformation describe-stacks --stack-name AwsStarterKit-Static-dev --query 'Stacks[0].Outputs[?OutputKey==`BucketName`].OutputValue' --output text) --delete",
+    "invalidate:cdn": "aws cloudfront create-invalidation --distribution-id $(aws cloudformation describe-stacks --stack-name AwsStarterKit-Static-dev --query 'Stacks[0].Outputs[?OutputKey==`DistributionId`].OutputValue' --output text) --paths '/*'"
   },
   "repository": {
     "type": "git",
