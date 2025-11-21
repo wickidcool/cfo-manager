@@ -1183,3 +1183,62 @@ Time for 'build typescript dependencies' 0.0886250000000075
 [NX v22.0.3 Daemon Server] - 2025-11-20T20:16:21.178Z - There are open file watchers or project graph listeners. Resetting inactivity timer.
 [NX v22.0.3 Daemon Server] - 2025-11-20T23:16:21.232Z - There are open file watchers or project graph listeners. Resetting inactivity timer.
 [NX v22.0.3 Daemon Server] - 2025-11-21T02:16:21.280Z - There are open file watchers or project graph listeners. Resetting inactivity timer.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.559Z - [WATCHER]: 0 file(s) created or restored, 4 file(s) modified, 0 file(s) deleted
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.560Z - [REQUEST]: Responding to the client. File watch changed
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.561Z - Done responding to the client File watch changed
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.561Z - Handled json message FILE-WATCH-CHANGED. Handling time: 0. Response time: 1.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.561Z - [WATCHER]: Processing file changes in outputs
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.561Z - Time taken for 'changed-projects' 0.147041916847229ms
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.662Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.662Z - [REQUEST]: apps/api/src/tools/db-export/QUICK_START.md,apps/api/src/tools/db-export/index.ts,apps/api/src/tools/db-export/example.ts,apps/api/src/tools/db-export/README.md
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.662Z - [REQUEST]: 
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.663Z - Time taken for 'hash changed files from watcher' 0.22795796394348145ms
+Time for 'nx/core/project-json:createNodes' 1.6385000944137573
+Time for 'nx/core/package-json:createNodes' 2.6099579334259033
+Time for 'nx/js/dependencies-and-lockfile:createNodes' 4.640749931335449
+Unable to find local plugin [] Map(0) {}
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.681Z - Time taken for 'build-project-configs' 13.14816701412201ms
+Time for 'build typescript dependencies' 143.3026660680771
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.837Z - [SYNC]: collect registered sync generators
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.837Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.837Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:29.837Z - Time taken for 'total execution time for createProjectGraph()' 159.43912506103516ms
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.570Z - Established a connection. Number of open connections: 3
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.571Z - [REQUEST]: Client Request for Project Graph Received
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.571Z - Reusing in-memory cached project graph because no files changed.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.574Z - Wrote project graph cache to /Users/alwick/development/projects/aws-starter-kit/.nx/workspace-data/project-graph.json
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.574Z - [REQUEST]: Responding to the client. project-graph
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.575Z - Time taken for 'total for creating and serializing project graph' 3.3732919692993164ms
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.575Z - Closed a connection. Number of open connections: 2
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.579Z - Done responding to the client project-graph
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.579Z - Handled json message REQUEST_PROJECT_GRAPH. Handling time: 3. Response time: 5.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.583Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.583Z - Done responding to the client handleContextFileData
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.583Z - Handled json message GET_CONTEXT_FILE_DATA. Handling time: 0. Response time: 0.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.583Z - Closed a connection. Number of open connections: 1
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.864Z - Closed a connection. Number of open connections: 0
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.865Z - Established a connection. Number of open connections: 1
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.865Z - Closed a connection. Number of open connections: 0
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.865Z - Established a connection. Number of open connections: 1
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.865Z - Closed a connection. Number of open connections: 0
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.865Z - Established a connection. Number of open connections: 1
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.866Z - [REQUEST]: Client Request for Project Graph Received
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.866Z - Reusing in-memory cached project graph because no files changed.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.869Z - Wrote project graph cache to /Users/alwick/development/projects/aws-starter-kit/.nx/workspace-data/project-graph.json
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.869Z - [REQUEST]: Responding to the client. project-graph
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.870Z - Time taken for 'total for creating and serializing project graph' 3.521541953086853ms
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.875Z - Done responding to the client project-graph
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.875Z - Handled json message REQUEST_PROJECT_GRAPH. Handling time: 3. Response time: 6.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.877Z - [REQUEST]: Client Request for Project Graph Received
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.877Z - Reusing in-memory cached project graph because no files changed.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.881Z - Wrote project graph cache to /Users/alwick/development/projects/aws-starter-kit/.nx/workspace-data/project-graph.json
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.881Z - [REQUEST]: Responding to the client. project-graph
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.881Z - Time taken for 'total for creating and serializing project graph' 3.811708092689514ms
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.886Z - Done responding to the client project-graph
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.886Z - Handled json message REQUEST_PROJECT_GRAPH. Handling time: 4. Response time: 5.
+[NX v22.0.3 Daemon Server] - 2025-11-21T03:42:40.888Z - Established a connection. Number of open connections: 2
+[NX v22.0.3 Daemon Server] - 2025-11-21T06:42:41.007Z - There are open file watchers or project graph listeners. Resetting inactivity timer.
+[NX v22.0.3 Daemon Server] - 2025-11-21T09:42:41.001Z - There are open file watchers or project graph listeners. Resetting inactivity timer.
+[NX v22.0.3 Daemon Server] - 2025-11-21T12:42:40.981Z - There are open file watchers or project graph listeners. Resetting inactivity timer.
+[NX v22.0.3 Daemon Server] - 2025-11-21T15:42:41.012Z - There are open file watchers or project graph listeners. Resetting inactivity timer.
+[NX v22.0.3 Daemon Server] - 2025-11-21T18:42:41.040Z - There are open file watchers or project graph listeners. Resetting inactivity timer.

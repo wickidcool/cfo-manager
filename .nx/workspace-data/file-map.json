@@ -17,60 +17,60 @@
         "hash": "9130906877357932621"
       },
       {
-        "file": ".gitignore",
-        "hash": "17352779314136462584"
-      },
-      {
-        "file": ".vscode/extensions.json",
-        "hash": "17129306119304673999"
-      },
-      {
-        "file": ".vscode/settings.json",
-        "hash": "4737873168531426497"
-      },
-      {
         "file": "DEPLOYMENT.md",
         "hash": "2212573393919577157"
-      },
-      {
-        "file": "FIX_APPLIED.md",
-        "hash": "2678690273316108182"
-      },
-      {
-        "file": "QUICKSTART.md",
-        "hash": "13910298152250619511"
-      },
-      {
-        "file": "QUICK_FIX.md",
-        "hash": "11259756751896929076"
-      },
-      {
-        "file": "README.md",
-        "hash": "3901216777520309158"
       },
       {
         "file": "jest.preset.js",
         "hash": "9326083157899857896"
       },
       {
-        "file": "nx.json",
-        "hash": "309489943549514740"
+        "file": "tsconfig.base.json",
+        "hash": "2222130378217785474"
+      },
+      {
+        "file": "QUICKSTART.md",
+        "hash": "13910298152250619511"
       },
       {
         "file": "package-lock.json",
         "hash": "1393916029769863530"
       },
       {
-        "file": "package.json",
-        "hash": "15210814805987131605"
+        "file": "FIX_APPLIED.md",
+        "hash": "2678690273316108182"
+      },
+      {
+        "file": "nx.json",
+        "hash": "309489943549514740"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "17129306119304673999"
+      },
+      {
+        "file": "README.md",
+        "hash": "3901216777520309158"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "4737873168531426497"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "17352779314136462584"
       },
       {
         "file": "test-api.sh",
         "hash": "10504599837611603991"
       },
       {
-        "file": "tsconfig.base.json",
-        "hash": "2222130378217785474"
+        "file": "package.json",
+        "hash": "15210814805987131605"
+      },
+      {
+        "file": "QUICK_FIX.md",
+        "hash": "11259756751896929076"
       }
     ],
     "projectFileMap": {
@@ -352,6 +352,22 @@
           "deps": [
             "common-types"
           ]
+        },
+        {
+          "file": "apps/api/src/tools/db-export/QUICK_START.md",
+          "hash": "13811096230927544001"
+        },
+        {
+          "file": "apps/api/src/tools/db-export/README.md",
+          "hash": "3361046875611713597"
+        },
+        {
+          "file": "apps/api/src/tools/db-export/example.ts",
+          "hash": "1025278078801042698"
+        },
+        {
+          "file": "apps/api/src/tools/db-export/index.ts",
+          "hash": "3504228743148881790"
         },
         {
           "file": "apps/api/src/utils/lambda-handler.ts",
