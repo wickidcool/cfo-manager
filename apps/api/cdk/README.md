@@ -26,7 +26,7 @@ Creates the foundational infrastructure:
   - CORS enabled
   - Request validation and throttling
   - CloudWatch logging enabled
-  - Health check endpoint at `/health`
+  - Health check endpoint at `/api/health`
 
 - **CloudFront Behaviors**
   - Default (`/`): Routes to S3 bucket for static content
@@ -54,42 +54,56 @@ Creates Lambda functions and API Gateway integrations based on `lambdas.yml`:
 
 ### lambdas.yml
 
-Define your Lambda functions in `lambdas.yml` at the project root:
+Define your Lambda functions in `lambdas.yml` in the `apps/api` directory:
 
 ```yaml
 lambdas:
-  - name: GetUsers
-    handler: handlers/users/get-users.handler
-    method: GET
-    path: /users
-    description: Get all users
-    memorySize: 256
-    timeout: 30
-    environment:
-      LOG_LEVEL: info
+  user-lambdas:
+    - name: GetUsers
+      source: src/handlers/users/get-users.ts
+      handler: handler
+      method: GET
+      path: /api/users
+      description: Get all users
+      memorySize: 256
+      timeout: 30
+      environment:
+        LOG_LEVEL: info
 
-  - name: CreateUser
-    handler: handlers/users/create-user.handler
-    method: POST
-    path: /users
-    description: Create a new user
-    memorySize: 512
-    timeout: 60
-    environment:
-      LOG_LEVEL: debug
-      TABLE_NAME: users-table
+    - name: CreateUser
+      source: src/handlers/users/create-user.ts
+      handler: handler
+      method: POST
+      path: /api/users
+      description: Create a new user
+      memorySize: 512
+      timeout: 60
+      environment:
+        LOG_LEVEL: debug
+        TABLE_NAME: users-table
 ```
+
+The `user-lambdas` key groups all user-related Lambda functions. The `UserStack` specifically deploys only the lambdas under `user-lambdas`. Each Lambda is built and bundled independently from its source file using esbuild.
 
 #### Configuration Options
 
+**Structure:**
+- **lambdas** (required): Root object containing lambda groups
+  - **user-lambdas** (required): Array of user-related Lambda configurations
+  - You can add additional groups like `product-lambdas`, `order-lambdas`, etc.
+
+**Lambda Configuration:**
 - **name** (required): Unique name for the Lambda function
-- **handler** (required): Path to handler file and export (e.g., `handlers/users/get-users.handler`)
+- **source** (required): Path to the TypeScript source file relative to `apps/api` (e.g., `src/handlers/users/get-users.ts`)
+- **handler** (required): Export name from the source file (e.g., `handler`)
 - **method** (required): HTTP method (GET, POST, PUT, DELETE, PATCH)
-- **path** (required): API Gateway path (e.g., `/users`, `/users/{id}`)
+- **path** (required): API Gateway path (e.g., `/api/users`, `/api/users/{id}`) - must include `/api` prefix
 - **description** (optional): Function description
 - **memorySize** (optional): Memory in MB (default: 256)
 - **timeout** (optional): Timeout in seconds (default: 30)
 - **environment** (optional): Environment variables as key-value pairs
+
+**Important:** All Lambda paths must include the `/api` prefix to work with CloudFront routing.
 
 ## Prerequisites
 
@@ -253,17 +267,20 @@ npm run build:all && npm run cdk:deploy && npm run deploy:web && npm run invalid
 ## Adding New Lambda Functions
 
 1. **Create handler file** in `apps/api/src/handlers/`
-2. **Add to lambdas.yml**:
+2. **Add to `apps/api/lambdas.yml`** under `user-lambdas`:
    ```yaml
-   - name: MyNewFunction
-     handler: handlers/my-new-function.handler
-     method: GET
-     path: /my-endpoint
-     description: My new Lambda function
+   lambdas:
+     user-lambdas:
+       # ... existing lambdas ...
+       - name: MyNewFunction
+         source: src/handlers/my-new-function.ts
+         handler: handler
+         method: GET
+         path: /my-endpoint
+         description: My new Lambda function
    ```
-3. **Build and deploy**:
+3. **Deploy** (CDK handles bundling automatically):
    ```bash
-   npm run build:api
    npm run cdk:deploy
    ```
 

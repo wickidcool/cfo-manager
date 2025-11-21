@@ -29,12 +29,37 @@ import { createApiClient } from '@aws-starter-kit/api-client';
 // Create client with base configuration
 const apiClient = createApiClient({
   baseURL: 'https://api.example.com',
-  timeout: 30000,
+  timeout: 30000, // Optional: default is 30000 (30 seconds)
   headers: {
-    'X-Custom-Header': 'value',
+    'X-Custom-Header': 'value', // Optional: custom headers
   },
 });
 ```
+
+### Auto-Configuration in Web App
+
+In the web application (`apps/web/src/config/api.ts`), the API URL is automatically determined from the current web URL:
+
+```typescript
+// Base URL is automatically set to:
+// - Local dev (localhost): http://localhost:3000
+// - Production: https://your-domain.com
+// 
+// API client methods include /api prefix:
+// - getUsers() → https://your-domain.com/api/users
+
+export const apiClient = createApiClient({
+  baseURL: getApiBaseUrl(), // Automatically derived from current URL
+  timeout: 30000,
+});
+```
+
+**How it works:**
+1. For localhost (127.0.0.1), base URL is `http://localhost:3000`, web app uses port 5173
+2. For production, base URL is the web app domain (e.g., `https://your-domain.com`)
+3. API client methods include `/api` prefix, so `getUsers()` calls `https://your-domain.com/api/users`
+4. CloudFront routes `/api/*` requests to API Gateway
+5. No environment variables needed - fully automatic
 
 ### Configuration Options
 

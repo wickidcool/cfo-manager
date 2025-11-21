@@ -75,8 +75,9 @@ export class StaticStack extends cdk.Stack {
       cloudWatchRole: true,
     });
 
-    // Create a simple health check endpoint
-    const health = this.api.root.addResource('health');
+    // Create a simple health check endpoint at /api/health
+    const api = this.api.root.addResource('api');
+    const health = api.addResource('health');
     health.addMethod('GET', new apigateway.MockIntegration({
       integrationResponses: [
         {
@@ -152,9 +153,7 @@ export class StaticStack extends cdk.Stack {
       // Additional behavior: Route /api/* to API Gateway
       additionalBehaviors: {
         '/api/*': {
-          origin: new origins.RestApiOrigin(this.api, {
-            originPath: `/${environmentName}`, // API Gateway stage name
-          }),
+          origin: new origins.RestApiOrigin(this.api),
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.HTTPS_ONLY,
           allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
           cachedMethods: cloudfront.CachedMethods.CACHE_GET_HEAD_OPTIONS,

@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
@@ -12,6 +13,7 @@ import * as yaml from 'js-yaml';
  */
 export interface LambdaConfig {
   name: string;
+  source: string;
   handler: string;
   method: string;
   path: string;
@@ -25,7 +27,10 @@ export interface LambdaConfig {
  * YAML configuration structure
  */
 interface LambdasYaml {
-  lambdas: LambdaConfig[];
+  lambdas: {
+    'user-lambdas'?: LambdaConfig[];
+    [key: string]: LambdaConfig[] | undefined;
+  };
 }
 
 export interface UserStackProps extends cdk.StackProps {
@@ -48,7 +53,7 @@ export interface UserStackProps extends cdk.StackProps {
 
 /**
  * User Stack for AWS Starter Kit
- * 
+ *
  * Creates Lambda functions and API Gateway integrations based on
  * configuration defined in lambdas.yml
  */
@@ -65,7 +70,7 @@ export class UserStack extends cdk.Stack {
     this.functions = new Map();
 
     // Read Lambda configurations from YAML file
-    const configPath = props.configPath || path.join(__dirname, '../../../lambdas.yml');
+    const configPath = props.configPath || path.join(__dirname, '../lambdas.yml');
     const lambdaConfigs = this.loadLambdaConfigs(configPath);
 
     // Create Lambda functions and API Gateway integrations
@@ -91,12 +96,19 @@ export class UserStack extends cdk.Stack {
       const fileContents = fs.readFileSync(configPath, 'utf8');
       const config = yaml.load(fileContents) as LambdasYaml;
 
-      if (!config || !config.lambdas || !Array.isArray(config.lambdas)) {
-        throw new Error('Invalid YAML structure: expected "lambdas" array');
+      if (!config || !config.lambdas) {
+        throw new Error('Invalid YAML structure: expected "lambdas" object');
       }
 
-      console.log(`Loaded ${config.lambdas.length} Lambda configurations from ${configPath}`);
-      return config.lambdas;
+      // Load user-lambdas specifically for this stack
+      const userLambdas = config.lambdas['user-lambdas'];
+
+      if (!userLambdas || !Array.isArray(userLambdas)) {
+        throw new Error('Invalid YAML structure: expected "lambdas.user-lambdas" array');
+      }
+
+      console.log(`Loaded ${userLambdas.length} user Lambda configurations from ${configPath}`);
+      return userLambdas;
     } catch (error) {
       throw new Error(`Failed to load Lambda configurations from ${configPath}: ${error}`);
     }
@@ -106,11 +118,20 @@ export class UserStack extends cdk.Stack {
    * Create a Lambda function and API Gateway integration from configuration
    */
   private createLambdaFunction(config: LambdaConfig): void {
-    const { name, handler, method, path: apiPath, description, memorySize, timeout, environment } = config;
+    const { name, source, handler, method, path: apiPath, description, memorySize, timeout, environment } = config;
 
     // Validate configuration
-    if (!name || !handler || !method || !apiPath) {
+    if (!name || !source || !handler || !method || !apiPath) {
       throw new Error(`Invalid Lambda configuration: missing required fields for ${name}`);
+    }
+
+    // Resolve the source file path relative to the API app directory
+    // __dirname is apps/api/cdk, so ../ gets us to apps/api
+    const sourcePath = path.join(__dirname, '../', source);
+
+    // Verify source file exists
+    if (!fs.existsSync(sourcePath)) {
+      throw new Error(`Source file not found: ${sourcePath} for Lambda ${name}`);
     }
 
     // Create Lambda execution role with CloudWatch Logs permissions
@@ -122,14 +143,12 @@ export class UserStack extends cdk.Stack {
       ],
     });
 
-    // Create Lambda function
-    const lambdaFunction = new lambda.Function(this, `${name}Function`, {
+    // Create Lambda function using NodejsFunction for automatic TypeScript bundling
+    const lambdaFunction = new lambdaNodejs.NodejsFunction(this, `${name}Function`, {
       functionName: `${this.environmentName}-${name}`,
+      entry: sourcePath,
+      handler: handler,
       runtime: lambda.Runtime.NODEJS_20_X,
-      handler,
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../../dist/apps/api'), {
-        exclude: ['*.ts', '*.map'],
-      }),
       role,
       memorySize: memorySize || 256,
       timeout: cdk.Duration.seconds(timeout || 30),
@@ -139,6 +158,14 @@ export class UserStack extends cdk.Stack {
       },
       description: description || `${name} Lambda function`,
       tracing: lambda.Tracing.ACTIVE, // Enable X-Ray tracing
+      bundling: {
+        minify: true,
+        sourceMap: true,
+        target: 'es2020',
+        externalModules: [],
+        format: lambdaNodejs.OutputFormat.CJS,
+        tsconfig: path.join(__dirname, '../tsconfig.app.json'),
+      },
     });
 
     // Store function reference
@@ -147,7 +174,7 @@ export class UserStack extends cdk.Stack {
     // Create API Gateway integration
     this.createApiIntegration(lambdaFunction, method, apiPath, name);
 
-    console.log(`Created Lambda function: ${name} (${method} ${apiPath})`);
+    console.log(`Created Lambda function: ${name} from ${source} (${method} ${apiPath})`);
   }
 
   /**

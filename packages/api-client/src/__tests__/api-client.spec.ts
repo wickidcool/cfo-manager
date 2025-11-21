@@ -112,7 +112,7 @@ describe('ApiClient', () => {
 
       const users = await apiClient.getUsers();
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/users', undefined);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/api/users', undefined);
       expect(users).toEqual(mockUsers);
     });
 
@@ -145,7 +145,7 @@ describe('ApiClient', () => {
 
       const user = await apiClient.getUser('1');
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/users/1', undefined);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/api/users/1', undefined);
       expect(user).toEqual(mockUser);
     });
   });
@@ -172,7 +172,7 @@ describe('ApiClient', () => {
 
       const user = await apiClient.createUser(newUser);
 
-      expect(mockAxiosInstance.post).toHaveBeenCalledWith('/users', newUser, undefined);
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith('/api/users', newUser, undefined);
       expect(user).toEqual(createdUser);
     });
   });
@@ -199,7 +199,7 @@ describe('ApiClient', () => {
 
       const user = await apiClient.updateUser('1', updates);
 
-      expect(mockAxiosInstance.put).toHaveBeenCalledWith('/users/1', updates, undefined);
+      expect(mockAxiosInstance.put).toHaveBeenCalledWith('/api/users/1', updates, undefined);
       expect(user).toEqual(updatedUser);
     });
   });
@@ -214,7 +214,7 @@ describe('ApiClient', () => {
 
       await apiClient.deleteUser('1');
 
-      expect(mockAxiosInstance.delete).toHaveBeenCalledWith('/users/1', undefined);
+      expect(mockAxiosInstance.delete).toHaveBeenCalledWith('/api/users/1', undefined);
     });
   });
 

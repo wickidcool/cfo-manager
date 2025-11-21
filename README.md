@@ -47,6 +47,7 @@ aws-starter-kit/
 │       │   ├── user-stack.ts  # Lambda functions (from lambdas.yml)
 │       │   ├── cdk.json       # CDK configuration
 │       │   └── README.md      # Infrastructure docs
+│       ├── lambdas.yml        # Lambda function configurations
 │       ├── tsconfig.json      # TypeScript config
 │       ├── project.json       # Nx project config
 │       └── README.md          # API documentation
@@ -66,7 +67,6 @@ aws-starter-kit/
 │       ├── project.json
 │       └── README.md
 │
-├── lambdas.yml                # Lambda function configurations (for CDK)
 ├── nx.json                    # Nx workspace configuration
 ├── tsconfig.base.json         # Base TypeScript configuration
 └── package.json               # Root package.json
@@ -80,6 +80,20 @@ aws-starter-kit/
 - npm
 - AWS CLI (for deployment)
 - AWS CDK CLI (installed globally or via npx)
+
+### API URL Configuration
+
+The web application automatically determines the API URL from the current web URL:
+
+**Local Development:**
+- Web runs on `http://localhost:5173` (Vite default)
+- API calls go to `http://localhost:3000`
+
+**Production (CloudFront):**
+- Web is served from `https://your-cloudfront-domain.com`
+- API base URL is `https://your-cloudfront-domain.com`
+- API client methods include `/api` prefix (e.g., `getUsers()` calls `/api/users`)
+- CloudFront routes `/api/*` to API Gateway, all other paths to S3
 
 ### Installation
 
@@ -219,18 +233,22 @@ AWS CDK provides a complete infrastructure stack including CloudFront, API Gatew
 
 #### Lambda Configuration
 
-Lambda functions are defined in `lambdas.yml` at the project root:
+Lambda functions are defined in `apps/api/lambdas.yml`:
 
 ```yaml
 lambdas:
-  - name: GetUsers
-    handler: handlers/users/get-users.handler
-    method: GET
-    path: /users
-    description: Get all users
-    memorySize: 256
-    timeout: 30
+  user-lambdas:
+    - name: GetUsers
+      source: src/handlers/users/get-users.ts
+      handler: handler
+      method: GET
+      path: /users
+      description: Get all users
+      memorySize: 256
+      timeout: 30
 ```
+
+The `user-lambdas` key groups user-related Lambda functions together. Each Lambda specifies its source file location, which CDK uses to build and bundle the function independently. You can add additional groups (e.g., `product-lambdas`, `order-lambdas`) as your application grows.
 
 The CDK will automatically create Lambda functions and API Gateway integrations based on this configuration.
 
@@ -241,19 +259,14 @@ The CDK will automatically create Lambda functions and API Gateway integrations 
 npm run cdk:bootstrap
 ```
 
-2. **Build Lambda functions**:
-```bash
-npm run build:api
-```
-
-3. **Deploy the infrastructure**:
+2. **Deploy the infrastructure** (CDK automatically builds and bundles Lambda functions):
 ```bash
 npm run cdk:deploy
 ```
 
 This creates two stacks:
 - **StaticStack**: CloudFront distribution, S3 bucket, API Gateway
-- **UserStack**: Lambda functions and API integrations (from `lambdas.yml`)
+- **UserStack**: Lambda functions (built from source) and API integrations (from `lambdas.yml`)
 
 3. **Deploy the web app**:
 ```bash
@@ -344,18 +357,21 @@ npx nx g @nx/react:app my-app --directory=apps/my-app
 ### Add a New Lambda Handler
 
 1. Create a new handler file in `apps/api/src/handlers/`
-2. Add the configuration to `lambdas.yml`:
+2. Add the configuration to `apps/api/lambdas.yml` under `user-lambdas`:
    ```yaml
-   - name: MyNewFunction
-     handler: handlers/my-new-function.handler
-     method: GET
-     path: /my-endpoint
-     memorySize: 256
-     timeout: 30
+   lambdas:
+     user-lambdas:
+       # ... existing lambdas ...
+       - name: MyNewFunction
+         source: src/handlers/my-new-function.ts
+         handler: handler
+         method: GET
+         path: /my-endpoint
+         memorySize: 256
+         timeout: 30
    ```
-3. Build and deploy:
+3. Deploy (CDK handles bundling automatically):
    ```bash
-   npm run build:api
    npm run cdk:deploy
    ```
 

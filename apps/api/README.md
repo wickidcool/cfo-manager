@@ -168,22 +168,27 @@ The API is deployed using AWS CDK with configuration-driven Lambda functions def
 
 #### Lambda Configuration
 
-Lambda functions are defined in `/lambdas.yml` at the project root:
+Lambda functions are defined in `lambdas.yml` in the api directory (`apps/api/lambdas.yml`).
+
+The structure uses nested groups to organize related Lambda functions:
 
 ```yaml
 lambdas:
-  - name: GetUsers
-    handler: handlers/users/get-users.handler
-    method: GET
-    path: /users
-    description: Get all users
-    memorySize: 256
-    timeout: 30
-    environment:
-      LOG_LEVEL: info
+  user-lambdas:
+    - name: GetUsers
+      source: src/handlers/users/get-users.ts
+      handler: handler
+      method: GET
+      path: /users
+      description: Get all users
+      memorySize: 256
+      timeout: 30
+      environment:
+        LOG_LEVEL: info
 ```
 
 The CDK `UserStack` automatically:
+- Builds and bundles each Lambda function from its source file using esbuild
 - Creates Lambda functions from the YAML configuration
 - Sets up API Gateway integrations
 - Configures IAM roles and permissions
@@ -213,20 +218,23 @@ This deploys two CDK stacks:
 #### Adding New Lambda Functions
 
 1. Create a new handler in `apps/api/src/handlers/`
-2. Add configuration to `lambdas.yml`:
+2. Add configuration to `apps/api/lambdas.yml` under `user-lambdas`:
    ```yaml
-   - name: MyNewFunction
-     handler: handlers/my-new-function.handler
-     method: POST
-     path: /my-endpoint
-     memorySize: 512
-     timeout: 60
-     environment:
-       MY_VAR: value
+   lambdas:
+     user-lambdas:
+       # ... existing lambdas ...
+       - name: MyNewFunction
+         source: src/handlers/my-new-function.ts
+         handler: handler
+         method: POST
+         path: /my-endpoint
+         memorySize: 512
+         timeout: 60
+         environment:
+           MY_VAR: value
    ```
-3. Build and deploy:
+3. Deploy (no pre-build needed - CDK handles bundling):
    ```bash
-   npm run build:api
    npm run cdk:deploy
    ```
 
