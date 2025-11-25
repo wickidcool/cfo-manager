@@ -1,0 +1,18 @@
+# Assets Directory
+
+This directory should contain the following image assets for the mobile app:
+
+- `icon.png` - App icon (1024x1024px)
+- `splash.png` - Splash screen (1284x2778px)
+- `adaptive-icon.png` - Android adaptive icon (1024x1024px)
+- `favicon.png` - Web favicon (48x48px)
+
+Please add these images to properly configure the Expo app.
+
+You can use online tools like:
+- https://www.figma.com/
+- https://www.canva.com/
+- Or any image editor to create these assets
+
+Until these are added, the app will still work but may show warnings about missing assets.
+

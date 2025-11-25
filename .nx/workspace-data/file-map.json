@@ -17,173 +17,75 @@
         "hash": "9130906877357932621"
       },
       {
-        "file": "DEPLOYMENT.md",
-        "hash": "2212573393919577157"
+        "file": ".gitignore",
+        "hash": "4238983560878787787"
       },
       {
-        "file": "jest.preset.js",
-        "hash": "9326083157899857896"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "2222130378217785474"
-      },
-      {
-        "file": "QUICKSTART.md",
-        "hash": "13910298152250619511"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "1393916029769863530"
-      },
-      {
-        "file": "FIX_APPLIED.md",
-        "hash": "2678690273316108182"
-      },
-      {
-        "file": "nx.json",
-        "hash": "309489943549514740"
+        "file": ".npmrc",
+        "hash": "14617011830635357027"
       },
       {
         "file": ".vscode/extensions.json",
         "hash": "17129306119304673999"
       },
       {
-        "file": "README.md",
-        "hash": "3901216777520309158"
-      },
-      {
         "file": ".vscode/settings.json",
         "hash": "4737873168531426497"
       },
       {
-        "file": ".gitignore",
-        "hash": "17352779314136462584"
+        "file": "AGENTS.md",
+        "hash": "7853241679760809325"
+      },
+      {
+        "file": "DEPLOYMENT.md",
+        "hash": "2212573393919577157"
+      },
+      {
+        "file": "FIX_APPLIED.md",
+        "hash": "2678690273316108182"
+      },
+      {
+        "file": "MOBILE_APP_IMPLEMENTATION.md",
+        "hash": "16487779922648885155"
+      },
+      {
+        "file": "QUICKSTART.md",
+        "hash": "13910298152250619511"
+      },
+      {
+        "file": "QUICK_FIX.md",
+        "hash": "11259756751896929076"
+      },
+      {
+        "file": "README.md",
+        "hash": "6193742756494764317"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9326083157899857896"
+      },
+      {
+        "file": "nx.json",
+        "hash": "309489943549514740"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "17188058271039186145"
+      },
+      {
+        "file": "package.json",
+        "hash": "8088411305648138931"
       },
       {
         "file": "test-api.sh",
         "hash": "10504599837611603991"
       },
       {
-        "file": "package.json",
-        "hash": "15210814805987131605"
-      },
-      {
-        "file": "QUICK_FIX.md",
-        "hash": "11259756751896929076"
+        "file": "tsconfig.base.json",
+        "hash": "2222130378217785474"
       }
     ],
     "projectFileMap": {
-      "web": [
-        {
-          "file": "apps/web/index.html",
-          "hash": "5155255240529196867"
-        },
-        {
-          "file": "apps/web/jest.config.ts",
-          "hash": "4516927698207849769"
-        },
-        {
-          "file": "apps/web/project.json",
-          "hash": "16397524066596810970"
-        },
-        {
-          "file": "apps/web/src/App.tsx",
-          "hash": "776129656021825988",
-          "deps": [
-            "npm:@chakra-ui/react",
-            "npm:@chakra-ui/icons",
-            "common-types",
-            "api-client",
-            "npm:react"
-          ]
-        },
-        {
-          "file": "apps/web/src/__mocks__/config/api.ts",
-          "hash": "8985382179663753726",
-          "deps": [
-            "common-types"
-          ]
-        },
-        {
-          "file": "apps/web/src/__tests__/App.spec.tsx",
-          "hash": "11608219713016529250",
-          "deps": [
-            "npm:@testing-library/react",
-            "npm:@chakra-ui/react"
-          ]
-        },
-        {
-          "file": "apps/web/src/__tests__/store/user-store.spec.ts",
-          "hash": "5527013561199947357",
-          "deps": [
-            "common-types"
-          ]
-        },
-        {
-          "file": "apps/web/src/config/api.ts",
-          "hash": "11099668724043088289",
-          "deps": [
-            "api-client"
-          ]
-        },
-        {
-          "file": "apps/web/src/main.tsx",
-          "hash": "8241212865015875984",
-          "deps": [
-            "npm:react",
-            "npm:react-dom",
-            "npm:@chakra-ui/react"
-          ]
-        },
-        {
-          "file": "apps/web/src/store/user-store.ts",
-          "hash": "5878210348875582770",
-          "deps": [
-            "npm:zustand",
-            "common-types"
-          ]
-        },
-        {
-          "file": "apps/web/src/styles.css",
-          "hash": "7510966317337997951"
-        },
-        {
-          "file": "apps/web/src/test-setup.ts",
-          "hash": "9423944795081006454",
-          "deps": [
-            "npm:@testing-library/jest-dom"
-          ]
-        },
-        {
-          "file": "apps/web/src/theme/index.ts",
-          "hash": "9745931840416859178",
-          "deps": [
-            "npm:@chakra-ui/react"
-          ]
-        },
-        {
-          "file": "apps/web/tsconfig.app.json",
-          "hash": "12574715974616225135"
-        },
-        {
-          "file": "apps/web/tsconfig.json",
-          "hash": "11689584344073475679"
-        },
-        {
-          "file": "apps/web/tsconfig.spec.json",
-          "hash": "1139188243365318832"
-        },
-        {
-          "file": "apps/web/vite.config.ts",
-          "hash": "5584249209574612438",
-          "deps": [
-            "npm:vite",
-            "npm:@vitejs/plugin-react",
-            "npm:@nx/vite"
-          ]
-        }
-      ],
       "api": [
         {
           "file": "apps/api/README.md",
@@ -404,6 +306,254 @@
           "hash": "15023060527793205788"
         }
       ],
+      "mobile": [
+        {
+          "file": "apps/mobile/.gitignore",
+          "hash": "1363415123981238123"
+        },
+        {
+          "file": "apps/mobile/CHANGELOG.md",
+          "hash": "2960644374363045492"
+        },
+        {
+          "file": "apps/mobile/README.md",
+          "hash": "2718526085207195962"
+        },
+        {
+          "file": "apps/mobile/SETUP.md",
+          "hash": "7162484585260293628"
+        },
+        {
+          "file": "apps/mobile/app.json",
+          "hash": "16170295442445504344"
+        },
+        {
+          "file": "apps/mobile/assets/.gitkeep",
+          "hash": "14062673734083079946"
+        },
+        {
+          "file": "apps/mobile/assets/README.md",
+          "hash": "14637574869435374225"
+        },
+        {
+          "file": "apps/mobile/babel.config.js",
+          "hash": "7470032806005097894"
+        },
+        {
+          "file": "apps/mobile/index.js",
+          "hash": "2337547167593138260",
+          "deps": [
+            "npm:expo"
+          ]
+        },
+        {
+          "file": "apps/mobile/jest.config.ts",
+          "hash": "9955418009800423393",
+          "deps": [
+            [
+              "npm:jest-expo",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/mobile/package.json",
+          "hash": "11469875299242060717"
+        },
+        {
+          "file": "apps/mobile/project.json",
+          "hash": "18414292884698099418"
+        },
+        {
+          "file": "apps/mobile/src/App.tsx",
+          "hash": "13116009016105401996",
+          "deps": [
+            "npm:expo-status-bar",
+            "npm:react-native",
+            "npm:react",
+            "common-types",
+            "api-client"
+          ]
+        },
+        {
+          "file": "apps/mobile/src/config/api.ts",
+          "hash": "12872567090805827522",
+          "deps": [
+            "api-client"
+          ]
+        },
+        {
+          "file": "apps/mobile/src/store/user-store.ts",
+          "hash": "5878210348875582770",
+          "deps": [
+            "npm:zustand",
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/mobile/src/test-setup.ts",
+          "hash": "4370473786583827850",
+          "deps": [
+            "npm:@testing-library/jest-native"
+          ]
+        },
+        {
+          "file": "apps/mobile/tsconfig.json",
+          "hash": "751963533468378413"
+        }
+      ],
+      "web": [
+        {
+          "file": "apps/web/index.html",
+          "hash": "5155255240529196867"
+        },
+        {
+          "file": "apps/web/jest.config.ts",
+          "hash": "4516927698207849769"
+        },
+        {
+          "file": "apps/web/project.json",
+          "hash": "16397524066596810970"
+        },
+        {
+          "file": "apps/web/src/App.tsx",
+          "hash": "776129656021825988",
+          "deps": [
+            "npm:@chakra-ui/react",
+            "npm:@chakra-ui/icons",
+            "common-types",
+            "api-client",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/__mocks__/config/api.ts",
+          "hash": "8985382179663753726",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/web/src/__tests__/App.spec.tsx",
+          "hash": "11608219713016529250",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:@chakra-ui/react"
+          ]
+        },
+        {
+          "file": "apps/web/src/__tests__/store/user-store.spec.ts",
+          "hash": "5527013561199947357",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/web/src/config/api.ts",
+          "hash": "11099668724043088289",
+          "deps": [
+            "api-client"
+          ]
+        },
+        {
+          "file": "apps/web/src/main.tsx",
+          "hash": "8241212865015875984",
+          "deps": [
+            "npm:react",
+            "npm:react-dom",
+            "npm:@chakra-ui/react"
+          ]
+        },
+        {
+          "file": "apps/web/src/store/user-store.ts",
+          "hash": "5878210348875582770",
+          "deps": [
+            "npm:zustand",
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/web/src/styles.css",
+          "hash": "7510966317337997951"
+        },
+        {
+          "file": "apps/web/src/test-setup.ts",
+          "hash": "9423944795081006454",
+          "deps": [
+            "npm:@testing-library/jest-dom"
+          ]
+        },
+        {
+          "file": "apps/web/src/theme/index.ts",
+          "hash": "9745931840416859178",
+          "deps": [
+            "npm:@chakra-ui/react"
+          ]
+        },
+        {
+          "file": "apps/web/tsconfig.app.json",
+          "hash": "12574715974616225135"
+        },
+        {
+          "file": "apps/web/tsconfig.json",
+          "hash": "11689584344073475679"
+        },
+        {
+          "file": "apps/web/tsconfig.spec.json",
+          "hash": "1139188243365318832"
+        },
+        {
+          "file": "apps/web/vite.config.ts",
+          "hash": "5584249209574612438",
+          "deps": [
+            "npm:vite",
+            "npm:@vitejs/plugin-react",
+            "npm:@nx/vite"
+          ]
+        }
+      ],
+      "common-types": [
+        {
+          "file": "packages/common-types/README.md",
+          "hash": "15006173812700895405"
+        },
+        {
+          "file": "packages/common-types/package.json",
+          "hash": "8965815133290168466"
+        },
+        {
+          "file": "packages/common-types/project.json",
+          "hash": "13027723795811731109"
+        },
+        {
+          "file": "packages/common-types/src/api.types.ts",
+          "hash": "8841576204018521387"
+        },
+        {
+          "file": "packages/common-types/src/common.types.ts",
+          "hash": "17363205306541189483"
+        },
+        {
+          "file": "packages/common-types/src/index.ts",
+          "hash": "15596980135655828469"
+        },
+        {
+          "file": "packages/common-types/src/lambda.types.ts",
+          "hash": "4260416675359158228"
+        },
+        {
+          "file": "packages/common-types/src/user.types.ts",
+          "hash": "11314823989377359803"
+        },
+        {
+          "file": "packages/common-types/tsconfig.json",
+          "hash": "5257909443336654404"
+        },
+        {
+          "file": "packages/common-types/tsconfig.lib.json",
+          "hash": "17032059854456733348"
+        }
+      ],
       "api-client": [
         {
           "file": "packages/api-client/README.md",
@@ -453,50 +603,8 @@
           "file": "packages/api-client/tsconfig.spec.json",
           "hash": "4228410639530418711"
         }
-      ],
-      "common-types": [
-        {
-          "file": "packages/common-types/README.md",
-          "hash": "15006173812700895405"
-        },
-        {
-          "file": "packages/common-types/package.json",
-          "hash": "8965815133290168466"
-        },
-        {
-          "file": "packages/common-types/project.json",
-          "hash": "13027723795811731109"
-        },
-        {
-          "file": "packages/common-types/src/api.types.ts",
-          "hash": "8841576204018521387"
-        },
-        {
-          "file": "packages/common-types/src/common.types.ts",
-          "hash": "17363205306541189483"
-        },
-        {
-          "file": "packages/common-types/src/index.ts",
-          "hash": "15596980135655828469"
-        },
-        {
-          "file": "packages/common-types/src/lambda.types.ts",
-          "hash": "4260416675359158228"
-        },
-        {
-          "file": "packages/common-types/src/user.types.ts",
-          "hash": "11314823989377359803"
-        },
-        {
-          "file": "packages/common-types/tsconfig.json",
-          "hash": "5257909443336654404"
-        },
-        {
-          "file": "packages/common-types/tsconfig.lib.json",
-          "hash": "17032059854456733348"
-        }
       ]
     }
   },
-  "externalNodesHash": "7651100613779613168"
+  "externalNodesHash": "8807140686926104675"
 }

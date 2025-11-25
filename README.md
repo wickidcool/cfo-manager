@@ -1,18 +1,19 @@
 # AWS Starter Kit
 
-A production-ready Nx monorepo with React web client, AWS Lambda API, and shared TypeScript types.
+A production-ready Nx monorepo with React web client, React Native mobile app, AWS Lambda API, and shared TypeScript types.
 
 ## 🚀 Features
 
 - **Nx Monorepo** - Efficient workspace management with caching and task orchestration
-- **React Web Client** - Modern React 18 app with Vite for fast development
-- **Chakra UI** - Beautiful, accessible component library with dark mode
-- **Zustand** - Lightweight state management solution
+- **React Web Client** - Modern React 19 app with Vite for fast development
+- **React Native Mobile App** - Cross-platform mobile app with Expo and shared packages
+- **Chakra UI** - Beautiful, accessible component library with dark mode (web)
+- **Zustand** - Lightweight state management solution (shared across web and mobile)
 - **Jest Testing** - Comprehensive testing setup with React Testing Library
 - **AWS Lambda API** - Serverless backend with TypeScript Lambda handlers
 - **AWS CDK Infrastructure** - Infrastructure as Code for CloudFront, API Gateway, and S3
-- **Shared Types** - Common TypeScript types shared across frontend and backend
-- **Type Safety** - End-to-end type safety from API to UI
+- **Shared Packages** - Common TypeScript types and API client shared across web, mobile, and backend
+- **Type Safety** - End-to-end type safety from API to UI and mobile
 - **Ready for Production** - Complete CDK infrastructure with configuration-driven Lambda deployment
 
 ## 📁 Project Structure
@@ -30,6 +31,20 @@ aws-starter-kit/
 │   │   ├── vite.config.ts     # Vite configuration
 │   │   ├── tsconfig.json      # TypeScript config
 │   │   └── project.json       # Nx project config
+│   │
+│   ├── mobile/                 # React Native mobile app
+│   │   ├── src/
+│   │   │   ├── App.tsx        # Main mobile component
+│   │   │   ├── store/         # Zustand state management
+│   │   │   └── config/        # API configuration
+│   │   ├── assets/            # App icons and splash screens
+│   │   ├── app.json           # Expo configuration
+│   │   ├── index.js           # App entry point
+│   │   ├── babel.config.js    # Babel configuration
+│   │   ├── tsconfig.json      # TypeScript config
+│   │   ├── project.json       # Nx project config
+│   │   ├── SETUP.md           # Mobile setup guide
+│   │   └── README.md          # Mobile documentation
 │   │
 │   └── api/                    # AWS Lambda API
 │       ├── src/
@@ -116,7 +131,22 @@ npm install
 npm run web
 ```
 
-The web app will be available at `http://localhost:3000`
+The web app will be available at `http://localhost:5173`
+
+### Run the Mobile App
+
+```bash
+# Start Expo dev server
+npm run mobile
+
+# Run on iOS simulator
+npm run mobile:ios
+
+# Run on Android emulator
+npm run mobile:android
+```
+
+See `apps/mobile/SETUP.md` for detailed mobile setup instructions.
 
 ### Build All Projects
 
@@ -145,6 +175,9 @@ npm run test:web
 
 # Run API tests only
 npm run test:api
+
+# Run mobile app tests only
+npm run test:mobile
 
 # Run tests with coverage
 npm run test:coverage
