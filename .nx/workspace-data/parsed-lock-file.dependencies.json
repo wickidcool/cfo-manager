@@ -9485,6 +9485,56 @@
     "type": "static"
   },
   {
+    "source": "npm:babel-plugin-module-resolver",
+    "target": "npm:find-babel-config",
+    "type": "static"
+  },
+  {
+    "source": "npm:babel-plugin-module-resolver",
+    "target": "npm:glob@9.3.5",
+    "type": "static"
+  },
+  {
+    "source": "npm:babel-plugin-module-resolver",
+    "target": "npm:pkg-up",
+    "type": "static"
+  },
+  {
+    "source": "npm:babel-plugin-module-resolver",
+    "target": "npm:reselect",
+    "type": "static"
+  },
+  {
+    "source": "npm:babel-plugin-module-resolver",
+    "target": "npm:resolve",
+    "type": "static"
+  },
+  {
+    "source": "npm:glob@9.3.5",
+    "target": "npm:fs.realpath",
+    "type": "static"
+  },
+  {
+    "source": "npm:glob@9.3.5",
+    "target": "npm:minimatch@8.0.4",
+    "type": "static"
+  },
+  {
+    "source": "npm:glob@9.3.5",
+    "target": "npm:minipass@4.2.8",
+    "type": "static"
+  },
+  {
+    "source": "npm:glob@9.3.5",
+    "target": "npm:path-scurry",
+    "type": "static"
+  },
+  {
+    "source": "npm:minimatch@8.0.4",
+    "target": "npm:brace-expansion",
+    "type": "static"
+  },
+  {
     "source": "npm:babel-plugin-polyfill-corejs2",
     "target": "npm:@babel/core",
     "type": "static"
@@ -12357,6 +12407,11 @@
   {
     "source": "npm:debug@2.6.9",
     "target": "npm:ms@2.0.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:find-babel-config",
+    "target": "npm:json5",
     "type": "static"
   },
   {
@@ -17941,6 +17996,36 @@
   },
   {
     "source": "npm:p-locate@4.1.0",
+    "target": "npm:p-limit@2.3.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:pkg-up",
+    "target": "npm:find-up@3.0.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:find-up@3.0.0",
+    "target": "npm:locate-path@3.0.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:locate-path@3.0.0",
+    "target": "npm:p-locate@3.0.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:locate-path@3.0.0",
+    "target": "npm:path-exists@3.0.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:p-limit@2.3.0",
+    "target": "npm:p-try",
+    "type": "static"
+  },
+  {
+    "source": "npm:p-locate@3.0.0",
     "target": "npm:p-limit@2.3.0",
     "type": "static"
   },

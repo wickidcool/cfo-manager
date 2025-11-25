@@ -1,15 +1,17 @@
-import { createApiClient } from '@aws-starter-kit/api-client';
+import { createApiClient, createConfigFromEnv } from '@aws-starter-kit/api-client';
 
-// TODO: Update this URL to match your deployed API Gateway endpoint
-// For local development, you might use: 'http://localhost:3000'
-// For production, use your AWS API Gateway URL
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://your-api-gateway-url.amazonaws.com';
-
-export const apiClient = createApiClient({
-  baseURL: API_BASE_URL,
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+/**
+ * Configured API client instance
+ *
+ * Configuration is loaded from environment variables:
+ * - EXPO_PUBLIC_API_BASE_URL: API base URL (default: http://localhost:3000)
+ * - EXPO_PUBLIC_API_TIMEOUT: Request timeout in milliseconds
+ * - EXPO_PUBLIC_API_KEY: API key for authentication
+ * - EXPO_PUBLIC_API_WITH_CREDENTIALS: Whether to send credentials
+ * - EXPO_PUBLIC_API_DEBUG: Enable debug logging
+ *
+ * Create a .env file in the mobile app directory with these variables.
+ * See ENV_EXAMPLE.md in the api-client package for more details.
+ */
+export const apiClient = createApiClient(createConfigFromEnv());
 

@@ -34,9 +34,26 @@ npm install --legacy-peer-deps
 
 **Note**: The `--legacy-peer-deps` flag is required because the web app uses React 19 while React Native currently requires React 18. This is handled automatically via the `.npmrc` file.
 
+### Important: Metro Bundler Configuration
+
+The mobile app includes special Metro and Babel configuration to resolve workspace packages (`@aws-starter-kit/common-types` and `@aws-starter-kit/api-client`). These configurations are in:
+- `metro.config.js` - Metro bundler configuration
+- `babel.config.js` - Babel module resolver configuration
+
+**If you encounter module resolution errors**, see `TROUBLESHOOTING.md` for solutions.
+
 ### 2. Start Development Server
 
-From the workspace root:
+**Important**: Always start with a clean cache the first time:
+
+```bash
+cd apps/mobile
+npx expo start -c
+```
+
+The `-c` flag clears the Metro cache, which is important for resolving workspace packages.
+
+From the workspace root (subsequent starts):
 
 ```bash
 npm run mobile
@@ -52,6 +69,8 @@ This will start the Expo development server. You can then:
 - Press `i` to open iOS Simulator
 - Press `a` to open Android Emulator
 - Scan the QR code with Expo Go app on your physical device
+- Press `r` to reload the app
+- Press `c` to clear Metro cache
 
 ### 3. Run on Specific Platform
 
@@ -200,6 +219,22 @@ nx build:android mobile
 
 ## Troubleshooting
 
+### Module Resolution Errors
+
+If you see errors like "Unable to resolve module @aws-starter-kit/...":
+
+1. **Clear Metro cache:**
+   ```bash
+   cd apps/mobile
+   npx expo start -c
+   ```
+
+2. **Verify configurations exist:**
+   - `metro.config.js` - Metro bundler configuration
+   - `babel.config.js` - Should include module-resolver plugin
+
+3. **See detailed troubleshooting:** Check `TROUBLESHOOTING.md` for comprehensive solutions
+
 ### Port Already in Use
 If port 8081 is already in use, kill the process:
 ```bash
@@ -231,6 +266,10 @@ Ensure TypeScript paths are correctly configured in `tsconfig.base.json`:
   }
 }
 ```
+
+### Still Having Issues?
+
+See `TROUBLESHOOTING.md` for detailed solutions to common problems.
 
 ## Next Steps
 

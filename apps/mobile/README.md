@@ -20,11 +20,30 @@ React Native mobile application built with Expo, using shared packages from the 
 
 ### Start Development Server
 
-```bash
-# From workspace root
-nx start mobile
+**First time or after configuration changes:**
 
-# Or directly
+```bash
+cd apps/mobile
+./clear-and-start.sh
+```
+
+**Or manually:**
+
+```bash
+cd apps/mobile
+rm -rf .expo
+npx expo start -c
+```
+
+**Subsequent starts (from workspace root):**
+
+```bash
+nx start mobile
+```
+
+**Or directly:**
+
+```bash
 cd apps/mobile
 npm start
 ```

@@ -1,391 +1,253 @@
 # @aws-starter-kit/api-client
 
-Type-safe API client for AWS Starter Kit backend using Axios.
+Type-safe API client for the AWS Starter Kit. Provides a consistent interface for making API requests across web and mobile applications.
 
 ## Features
 
-- 🔒 **Type-Safe**: Full TypeScript support with types from `@aws-starter-kit/common-types`
-- 🚀 **Easy to Use**: Simple, intuitive API for all backend operations
-- 🛡️ **Error Handling**: Structured error handling with `ApiError` class
-- 🔑 **Authentication**: Built-in support for bearer token authentication
-- ⚙️ **Configurable**: Flexible configuration options for different environments
-- 📦 **Lightweight**: Minimal dependencies, built on Axios
+- **Type-Safe**: Full TypeScript support with type inference
+- **Environment-Aware**: Automatic configuration from environment variables
+- **Cross-Platform**: Works in web (Vite), mobile (Expo), and Node.js
+- **Error Handling**: Consistent error handling with custom error types
+- **Interceptors**: Request/response interceptors for auth and logging
+- **Configurable**: Flexible configuration with sensible defaults
 
 ## Installation
 
-The package is part of the monorepo and automatically available via path mapping:
-
-```typescript
-import { createApiClient } from '@aws-starter-kit/api-client';
-```
+This package is part of the monorepo and doesn't need separate installation.
 
 ## Usage
 
-### Creating a Client Instance
+### Web App (Vite)
+
+```typescript
+// apps/web/src/config/api.ts
+import { createApiClient, createConfig } from '@aws-starter-kit/api-client';
+
+export const apiClient = createApiClient(createConfig());
+```
+
+### Mobile App (Expo)
+
+```typescript
+// apps/mobile/src/config/api.ts
+import { createApiClient, createConfigFromEnv } from '@aws-starter-kit/api-client';
+
+export const apiClient = createApiClient(createConfigFromEnv());
+```
+
+### Custom Configuration
 
 ```typescript
 import { createApiClient } from '@aws-starter-kit/api-client';
 
-// Create client with base configuration
 const apiClient = createApiClient({
   baseURL: 'https://api.example.com',
-  timeout: 30000, // Optional: default is 30000 (30 seconds)
-  headers: {
-    'X-Custom-Header': 'value', // Optional: custom headers
-  },
-});
-```
-
-### Auto-Configuration in Web App
-
-In the web application (`apps/web/src/config/api.ts`), the API URL is automatically determined from the current web URL:
-
-```typescript
-// Base URL is automatically set to:
-// - Local dev (localhost): http://localhost:3000
-// - Production: https://your-domain.com
-// 
-// API client methods include /api prefix:
-// - getUsers() → https://your-domain.com/api/users
-
-export const apiClient = createApiClient({
-  baseURL: getApiBaseUrl(), // Automatically derived from current URL
   timeout: 30000,
+  headers: {
+    'X-Custom-Header': 'value',
+  },
+  withCredentials: true,
 });
 ```
 
-**How it works:**
-1. For localhost (127.0.0.1), base URL is `http://localhost:3000`, web app uses port 5173
-2. For production, base URL is the web app domain (e.g., `https://your-domain.com`)
-3. API client methods include `/api` prefix, so `getUsers()` calls `https://your-domain.com/api/users`
-4. CloudFront routes `/api/*` requests to API Gateway
-5. No environment variables needed - fully automatic
+## Environment Variables
 
-### Configuration Options
+The API client supports environment-based configuration. Variable names depend on your environment:
 
-```typescript
-interface ApiClientConfig {
-  baseURL: string;           // Required: API base URL
-  timeout?: number;          // Optional: Request timeout (default: 30000ms)
-  headers?: Record<string, string>;  // Optional: Custom headers
-  withCredentials?: boolean; // Optional: Include credentials (default: false)
-}
+### Vite (Web App)
+
+Create `apps/web/.env.local`:
+
+```bash
+VITE_API_BASE_URL=http://localhost:3000
+VITE_API_TIMEOUT=30000
+VITE_API_KEY=your-api-key-here
+VITE_API_WITH_CREDENTIALS=false
+VITE_API_DEBUG=true
 ```
 
-### User Operations
+### Expo (Mobile App)
 
-#### Get All Users
+Create `apps/mobile/.env`:
 
-```typescript
-try {
-  const users = await apiClient.getUsers();
-  console.log('Users:', users);
-} catch (error) {
-  if (error instanceof ApiError) {
-    console.error('API Error:', error.message, error.statusCode);
-  }
-}
+```bash
+EXPO_PUBLIC_API_BASE_URL=http://localhost:3000
+EXPO_PUBLIC_API_TIMEOUT=30000
+EXPO_PUBLIC_API_KEY=your-api-key-here
+EXPO_PUBLIC_API_WITH_CREDENTIALS=false
+EXPO_PUBLIC_API_DEBUG=true
 ```
 
-#### Get User by ID
+### Node.js
 
-```typescript
-try {
-  const user = await apiClient.getUser('user-123');
-  console.log('User:', user);
-} catch (error) {
-  if (error instanceof ApiError) {
-    console.error('Error:', error.message);
-  }
-}
+```bash
+API_BASE_URL=http://localhost:3000
+API_TIMEOUT=30000
+API_KEY=your-api-key-here
+API_WITH_CREDENTIALS=false
+API_DEBUG=true
 ```
 
-#### Create User
+See `ENV_EXAMPLE.md` for detailed examples.
+
+## API Methods
+
+### User Management
 
 ```typescript
-import type { CreateUserRequest } from '@aws-starter-kit/common-types';
+// Get all users
+const users = await apiClient.getUsers();
 
-const newUser: CreateUserRequest = {
+// Get user by ID
+const user = await apiClient.getUser('user-id');
+
+// Create user
+const newUser = await apiClient.createUser({
   email: 'user@example.com',
   name: 'John Doe',
-};
+});
 
-try {
-  const createdUser = await apiClient.createUser(newUser);
-  console.log('Created:', createdUser);
-} catch (error) {
-  if (error instanceof ApiError) {
-    console.error('Failed to create user:', error.message);
-    console.error('Validation errors:', error.details);
-  }
-}
-```
-
-#### Update User
-
-```typescript
-import type { UpdateUserRequest } from '@aws-starter-kit/common-types';
-
-const updates: UpdateUserRequest = {
+// Update user
+const updatedUser = await apiClient.updateUser('user-id', {
   name: 'Jane Doe',
-};
+});
 
-try {
-  const updatedUser = await apiClient.updateUser('user-123', updates);
-  console.log('Updated:', updatedUser);
-} catch (error) {
-  if (error instanceof ApiError) {
-    console.error('Failed to update user:', error.message);
-  }
-}
-```
-
-#### Delete User
-
-```typescript
-try {
-  await apiClient.deleteUser('user-123');
-  console.log('User deleted successfully');
-} catch (error) {
-  if (error instanceof ApiError) {
-    console.error('Failed to delete user:', error.message);
-  }
-}
+// Delete user
+await apiClient.deleteUser('user-id');
 ```
 
 ### Authentication
 
-#### Set Authorization Token
-
 ```typescript
-// Set bearer token for authenticated requests
-apiClient.setAuthToken('your-jwt-token-here');
+// Set authentication token
+apiClient.setAuthToken('your-jwt-token');
 
-// All subsequent requests will include the token
-const users = await apiClient.getUsers();
-```
-
-#### Clear Authorization Token
-
-```typescript
-// Remove authentication token
+// Clear authentication token
 apiClient.clearAuthToken();
+
+// Update base URL
+apiClient.setBaseURL('https://new-api-url.com');
 ```
 
-### Environment-Specific Configuration
+## Configuration Utilities
+
+### `createConfig(overrides?)`
+
+Creates configuration with smart defaults. Auto-detects API URL in browser environments.
 
 ```typescript
-// Development
-const devClient = createApiClient({
-  baseURL: 'http://localhost:3000',
-});
+import { createConfig } from '@aws-starter-kit/api-client';
 
-// Production (via CloudFront)
-const prodClient = createApiClient({
-  baseURL: 'https://d123456.cloudfront.net/api',
-});
+const config = createConfig();
+// Uses window.location.origin in production
+// Uses localhost:3000 in development
+```
 
-// Using environment variables
-const apiClient = createApiClient({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+### `createConfigFromEnv(overrides?)`
+
+Creates configuration from environment variables with optional overrides.
+
+```typescript
+import { createConfigFromEnv } from '@aws-starter-kit/api-client';
+
+const config = createConfigFromEnv({
+  timeout: 60000, // Override timeout
 });
 ```
 
-### Error Handling
+### `getDefaultBaseURL()`
 
-The client provides a structured `ApiError` class:
+Gets the default base URL for the current environment.
+
+```typescript
+import { getDefaultBaseURL } from '@aws-starter-kit/api-client';
+
+const baseURL = getDefaultBaseURL();
+console.log(baseURL); // http://localhost:3000 or current origin
+```
+
+## Error Handling
+
+The API client throws `ApiError` instances with detailed error information:
 
 ```typescript
 import { ApiError } from '@aws-starter-kit/api-client';
 
 try {
-  await apiClient.createUser(userData);
+  const user = await apiClient.getUser('invalid-id');
 } catch (error) {
   if (error instanceof ApiError) {
-    console.error('Status Code:', error.statusCode);    // HTTP status code
-    console.error('Error Code:', error.code);           // API error code
-    console.error('Message:', error.message);           // Error message
-    console.error('Details:', error.details);           // Additional details
+    console.error('Status:', error.statusCode);
+    console.error('Code:', error.code);
+    console.error('Message:', error.message);
+    console.error('Details:', error.details);
   }
 }
 ```
 
-### React Integration
+Error codes:
+- `API_ERROR` - Server returned error response
+- `NETWORK_ERROR` - No response received from server
+- `REQUEST_ERROR` - Error setting up request
+- `VALIDATION_ERROR` - Response validation failed
 
-#### Using with useState/useEffect
+## Advanced Usage
 
-```typescript
-import { useEffect, useState } from 'react';
-import { createApiClient } from '@aws-starter-kit/api-client';
-import type { User } from '@aws-starter-kit/common-types';
-
-const apiClient = createApiClient({
-  baseURL: import.meta.env.VITE_API_URL,
-});
-
-function UserList() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const data = await apiClient.getUsers();
-        setUsers(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.id}>{user.name}</li>
-      ))}
-    </ul>
-  );
-}
-```
-
-#### Using with Zustand
+### Custom Axios Instance
 
 ```typescript
-import { create } from 'zustand';
-import { createApiClient, ApiError } from '@aws-starter-kit/api-client';
-import type { User } from '@aws-starter-kit/common-types';
-
-const apiClient = createApiClient({
-  baseURL: import.meta.env.VITE_API_URL,
-});
-
-interface UserStore {
-  users: User[];
-  loading: boolean;
-  error: string | null;
-  fetchUsers: () => Promise<void>;
-  deleteUser: (id: string) => Promise<void>;
-}
-
-export const useUserStore = create<UserStore>((set) => ({
-  users: [],
-  loading: false,
-  error: null,
-
-  fetchUsers: async () => {
-    set({ loading: true, error: null });
-    try {
-      const users = await apiClient.getUsers();
-      set({ users, loading: false });
-    } catch (error) {
-      const message = error instanceof ApiError ? error.message : 'Failed to fetch users';
-      set({ error: message, loading: false });
-    }
-  },
-
-  deleteUser: async (id: string) => {
-    try {
-      await apiClient.deleteUser(id);
-      set((state) => ({
-        users: state.users.filter((user) => user.id !== id),
-      }));
-    } catch (error) {
-      const message = error instanceof ApiError ? error.message : 'Failed to delete user';
-      set({ error: message });
-    }
-  },
-}));
-```
-
-### Advanced Usage
-
-#### Access Underlying Axios Instance
-
-```typescript
-// Get axios instance for advanced configuration
-const axiosInstance = apiClient.getAxiosInstance();
+const instance = apiClient.getAxiosInstance();
 
 // Add custom interceptors
-axiosInstance.interceptors.request.use((config) => {
-  // Add custom request logic
+instance.interceptors.request.use((config) => {
+  // Modify request config
   return config;
 });
 ```
 
-#### Request Configuration
-
-All methods accept optional Axios request config:
+### Request-Level Configuration
 
 ```typescript
-// With custom headers
+// Pass config to individual requests
 const users = await apiClient.getUsers({
-  headers: { 'X-Request-ID': '123' },
-});
-
-// With timeout override
-const user = await apiClient.getUser('user-123', {
   timeout: 5000,
+  headers: {
+    'X-Request-ID': 'unique-id',
+  },
 });
-
-// With signal for cancellation
-const controller = new AbortController();
-const users = await apiClient.getUsers({
-  signal: controller.signal,
-});
-
-// Cancel request
-controller.abort();
 ```
 
-#### Update Base URL Dynamically
+## TypeScript
 
-```typescript
-// Change API endpoint at runtime
-apiClient.setBaseURL('https://staging-api.example.com');
-```
-
-## Type Safety
-
-All methods use TypeScript types from `@aws-starter-kit/common-types`:
+All types are exported for use in your application:
 
 ```typescript
 import type {
-  User,
-  CreateUserRequest,
-  UpdateUserRequest,
-  ApiResponse,
-} from '@aws-starter-kit/common-types';
+  ApiClientConfig,
+  EnvironmentConfig,
+} from '@aws-starter-kit/api-client';
 ```
 
-This ensures type safety across your entire application stack.
+## Development
 
-## Error Codes
+### Building
 
-Common error codes returned by the API:
+```bash
+nx build api-client
+```
 
-- `VALIDATION_ERROR` - Request validation failed
-- `NOT_FOUND` - Resource not found
-- `INTERNAL_ERROR` - Server error
-- `NETWORK_ERROR` - No response from server (client-side)
-- `REQUEST_ERROR` - Request setup error (client-side)
-
-## Testing
-
-The package includes Jest tests. Run tests with:
+### Testing
 
 ```bash
 nx test api-client
 ```
 
+### Linting
+
+```bash
+nx lint api-client
+```
+
 ## License
 
 ISC
-

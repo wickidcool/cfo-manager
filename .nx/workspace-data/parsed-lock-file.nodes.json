@@ -3077,6 +3077,15 @@
       "hash": "sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q=="
     }
   },
+  "npm:glob@9.3.5": {
+    "type": "npm",
+    "name": "npm:glob@9.3.5",
+    "data": {
+      "version": "9.3.5",
+      "packageName": "glob",
+      "hash": "sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q=="
+    }
+  },
   "npm:glob": {
     "type": "npm",
     "name": "npm:glob",
@@ -3102,6 +3111,15 @@
       "version": "3.1.2",
       "packageName": "minimatch",
       "hash": "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw=="
+    }
+  },
+  "npm:minimatch@8.0.4": {
+    "type": "npm",
+    "name": "npm:minimatch@8.0.4",
+    "data": {
+      "version": "8.0.4",
+      "packageName": "minimatch",
+      "hash": "sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA=="
     }
   },
   "npm:minimatch@5.1.6": {
@@ -7289,6 +7307,51 @@
       "hash": "sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA=="
     }
   },
+  "npm:babel-plugin-module-resolver": {
+    "type": "npm",
+    "name": "npm:babel-plugin-module-resolver",
+    "data": {
+      "version": "5.0.2",
+      "packageName": "babel-plugin-module-resolver",
+      "hash": "sha512-9KtaCazHee2xc0ibfqsDeamwDps6FZNo5S0Q81dUqEuFzVwPhcT4J5jOqIVvgCA3Q/wO9hKYxN/Ds3tIsp5ygg=="
+    }
+  },
+  "npm:minipass@4.2.8": {
+    "type": "npm",
+    "name": "npm:minipass@4.2.8",
+    "data": {
+      "version": "4.2.8",
+      "packageName": "minipass",
+      "hash": "sha512-fNzuVyifolSLFL4NzpF+wEF4qrgqaaKX0haXPQEdQ7NKAN+WecoKMHV09YcuL/DHxrUsYQOK3MiuDf7Ip2OXfQ=="
+    }
+  },
+  "npm:minipass": {
+    "type": "npm",
+    "name": "npm:minipass",
+    "data": {
+      "version": "7.1.2",
+      "packageName": "minipass",
+      "hash": "sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw=="
+    }
+  },
+  "npm:minipass@3.3.6": {
+    "type": "npm",
+    "name": "npm:minipass@3.3.6",
+    "data": {
+      "version": "3.3.6",
+      "packageName": "minipass",
+      "hash": "sha512-DxiNidxSEK+tHG6zOIklvNOwm3hvCrbUrdtzY74U6HKTJxvIDfOUL5W5P2Ghd3DTkhhKPYGqeNUIh5qcM4YBfw=="
+    }
+  },
+  "npm:minipass@5.0.0": {
+    "type": "npm",
+    "name": "npm:minipass@5.0.0",
+    "data": {
+      "version": "5.0.0",
+      "packageName": "minipass",
+      "hash": "sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ=="
+    }
+  },
   "npm:babel-plugin-polyfill-corejs2": {
     "type": "npm",
     "name": "npm:babel-plugin-polyfill-corejs2",
@@ -9717,6 +9780,15 @@
       "version": "7.1.1",
       "packageName": "fill-range",
       "hash": "sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg=="
+    }
+  },
+  "npm:find-babel-config": {
+    "type": "npm",
+    "name": "npm:find-babel-config",
+    "data": {
+      "version": "2.1.2",
+      "packageName": "find-babel-config",
+      "hash": "sha512-ZfZp1rQyp4gyuxqt1ZqjFGVeVBvmpURMqdIWXbPRfB97Bf6BzdK/xSIbylEINzQ0kB5tlDQfn9HkNXXWsqTqLg=="
     }
   },
   "npm:find-file-up": {
@@ -12167,33 +12239,6 @@
       "hash": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA=="
     }
   },
-  "npm:minipass": {
-    "type": "npm",
-    "name": "npm:minipass",
-    "data": {
-      "version": "7.1.2",
-      "packageName": "minipass",
-      "hash": "sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw=="
-    }
-  },
-  "npm:minipass@3.3.6": {
-    "type": "npm",
-    "name": "npm:minipass@3.3.6",
-    "data": {
-      "version": "3.3.6",
-      "packageName": "minipass",
-      "hash": "sha512-DxiNidxSEK+tHG6zOIklvNOwm3hvCrbUrdtzY74U6HKTJxvIDfOUL5W5P2Ghd3DTkhhKPYGqeNUIh5qcM4YBfw=="
-    }
-  },
-  "npm:minipass@5.0.0": {
-    "type": "npm",
-    "name": "npm:minipass@5.0.0",
-    "data": {
-      "version": "5.0.0",
-      "packageName": "minipass",
-      "hash": "sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ=="
-    }
-  },
   "npm:minipass-collect": {
     "type": "npm",
     "name": "npm:minipass-collect",
@@ -12696,6 +12741,15 @@
       "version": "4.0.7",
       "packageName": "pirates",
       "hash": "sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA=="
+    }
+  },
+  "npm:pkg-up": {
+    "type": "npm",
+    "name": "npm:pkg-up",
+    "data": {
+      "version": "3.1.0",
+      "packageName": "pkg-up",
+      "hash": "sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA=="
     }
   },
   "npm:plist": {
@@ -13605,6 +13659,15 @@
       "version": "1.0.0",
       "packageName": "requires-port",
       "hash": "sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ=="
+    }
+  },
+  "npm:reselect": {
+    "type": "npm",
+    "name": "npm:reselect",
+    "data": {
+      "version": "4.1.8",
+      "packageName": "reselect",
+      "hash": "sha512-ab9EmR80F/zQTMNeneUr4cv+jSwPJgIlvEmVwLerwrWVbpLlBuls9XHzIeTFy4cegU2NHBp3va0LKOzU5qFEYQ=="
     }
   },
   "npm:resolve-cwd": {

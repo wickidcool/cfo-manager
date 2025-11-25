@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
@@ -7,25 +7,25 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
-} from 'react-native';
-import { useEffect } from 'react';
-import { useUserStore } from './store/user-store';
-import type { User } from '@aws-starter-kit/common-types';
-import { apiClient } from './config/api';
-import { ApiError } from '@aws-starter-kit/api-client';
+} from "react-native";
+import { useEffect } from "react";
+import { useUserStore } from "./store/user-store";
+import type { User } from "@aws-starter-kit/common-types";
+import { apiClient } from "./config/api";
+import { ApiError } from "@aws-starter-kit/api-client";
 
 export default function App() {
-  const { 
-    user, 
-    users, 
-    setUser, 
-    addUser, 
-    setUsers, 
-    isLoading, 
+  const {
+    user,
+    users,
+    setUser,
+    addUser,
+    setUsers,
+    isLoading,
     error,
     setLoading,
     setError,
-    clearError
+    clearError,
   } = useUserStore();
 
   // Fetch users on mount
@@ -36,18 +36,18 @@ export default function App() {
   const handleLoadDemoUser = () => {
     const demoUser: User = {
       id: crypto.randomUUID(),
-      email: 'demo@example.com',
-      name: 'Demo User',
+      email: "demo@example.com",
+      name: "Demo User",
       createdAt: new Date().toISOString(),
     };
     setUser(demoUser);
     addUser(demoUser);
-    Alert.alert('User loaded', 'Demo user has been loaded successfully');
+    Alert.alert("User loaded", "Demo user has been loaded successfully");
   };
 
   const handleClearUser = () => {
     setUser(null);
-    Alert.alert('User cleared', 'Current user has been cleared');
+    Alert.alert("User cleared", "Current user has been cleared");
   };
 
   const handleFetchUsers = async () => {
@@ -56,11 +56,15 @@ export default function App() {
     try {
       const fetchedUsers = await apiClient.getUsers();
       setUsers(fetchedUsers);
-      Alert.alert('Users fetched', `Loaded ${fetchedUsers.length} users from API`);
+      Alert.alert(
+        "Users fetched",
+        `Loaded ${fetchedUsers.length} users from API`
+      );
     } catch (err) {
-      const message = err instanceof ApiError ? err.message : 'Failed to fetch users';
+      const message =
+        err instanceof ApiError ? err.message : "Failed to fetch users";
       setError(message);
-      Alert.alert('Error', message);
+      Alert.alert("Error", message);
     } finally {
       setLoading(false);
     }
@@ -75,11 +79,12 @@ export default function App() {
         name: `User ${Date.now()}`,
       });
       addUser(newUser);
-      Alert.alert('User created', `Created ${newUser.name}`);
+      Alert.alert("User created", `Created ${newUser.name}`);
     } catch (err) {
-      const message = err instanceof ApiError ? err.message : 'Failed to create user';
+      const message =
+        err instanceof ApiError ? err.message : "Failed to create user";
       setError(message);
-      Alert.alert('Error', message);
+      Alert.alert("Error", message);
     } finally {
       setLoading(false);
     }
@@ -88,7 +93,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>AWS Starter Kit</Text>
@@ -98,7 +103,10 @@ export default function App() {
       </View>
 
       {/* Main Content */}
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+      >
         {/* Welcome Card */}
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Welcome to Mobile Client</Text>
@@ -114,13 +122,23 @@ export default function App() {
           <View style={styles.featureList}>
             <Text style={styles.featureItem}>✓ React Native with Expo</Text>
             <Text style={styles.featureItem}>✓ TypeScript Support</Text>
-            <Text style={styles.featureItem}>✓ Cross-platform (iOS & Android)</Text>
-            <Text style={styles.featureItem}>✓ Zustand for state management</Text>
+            <Text style={styles.featureItem}>
+              ✓ Cross-platform (iOS & Android)
+            </Text>
+            <Text style={styles.featureItem}>
+              ✓ Zustand for state management
+            </Text>
             <Text style={styles.featureItem}>✓ Jest for testing</Text>
-            <Text style={styles.featureItem}>✓ Shared types from common-types library</Text>
+            <Text style={styles.featureItem}>
+              ✓ Shared types from common-types library
+            </Text>
             <Text style={styles.featureItem}>✓ Nx for monorepo management</Text>
-            <Text style={styles.featureItem}>✓ Type-safe API client with Axios</Text>
-            <Text style={styles.featureItem}>✓ AWS CDK infrastructure deployment</Text>
+            <Text style={styles.featureItem}>
+              ✓ Type-safe API client with Axios
+            </Text>
+            <Text style={styles.featureItem}>
+              ✓ AWS CDK infrastructure deployment
+            </Text>
           </View>
         </View>
 
@@ -139,7 +157,7 @@ export default function App() {
                 <Text style={styles.buttonText}>Fetch Users</Text>
               )}
             </TouchableOpacity>
-            
+
             <TouchableOpacity
               style={[styles.button, styles.buttonSuccess]}
               onPress={handleCreateUser}
@@ -152,9 +170,7 @@ export default function App() {
               )}
             </TouchableOpacity>
           </View>
-          {error && (
-            <Text style={styles.errorText}>Error: {error}</Text>
-          )}
+          {error && <Text style={styles.errorText}>Error: {error}</Text>}
         </View>
 
         {/* Current User Card */}
@@ -223,24 +239,24 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0f172a',
+    backgroundColor: "#0f172a",
   },
   header: {
-    backgroundColor: '#3B82F6',
+    backgroundColor: "#3B82F6",
     paddingTop: 60,
     paddingBottom: 30,
     paddingHorizontal: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#e0e7ff',
+    color: "#e0e7ff",
   },
   content: {
     flex: 1,
@@ -249,22 +265,22 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   card: {
-    backgroundColor: '#1e293b',
+    backgroundColor: "#1e293b",
     borderRadius: 12,
     padding: 20,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: "#334155",
   },
   cardTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
     marginBottom: 12,
   },
   cardText: {
     fontSize: 14,
-    color: '#94a3b8',
+    color: "#94a3b8",
     lineHeight: 20,
   },
   featureList: {
@@ -272,7 +288,7 @@ const styles = StyleSheet.create({
   },
   featureItem: {
     fontSize: 14,
-    color: '#94a3b8',
+    color: "#94a3b8",
     lineHeight: 20,
   },
   buttonGroup: {
@@ -282,27 +298,27 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 20,
     borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     minHeight: 50,
   },
   buttonPrimary: {
-    backgroundColor: '#8b5cf6',
+    backgroundColor: "#8b5cf6",
   },
   buttonSuccess: {
-    backgroundColor: '#10b981',
+    backgroundColor: "#10b981",
   },
   buttonDanger: {
-    backgroundColor: '#ef4444',
+    backgroundColor: "#ef4444",
     marginTop: 12,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   errorText: {
-    color: '#f87171',
+    color: "#f87171",
     fontSize: 14,
     marginTop: 8,
   },
@@ -311,42 +327,41 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   userInfoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   userInfoLabel: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#94a3b8',
+    fontWeight: "600",
+    color: "#94a3b8",
     width: 80,
   },
   userInfoValue: {
     fontSize: 14,
-    color: '#e2e8f0',
+    color: "#e2e8f0",
     flex: 1,
   },
   statsCard: {
-    backgroundColor: '#1e293b',
+    backgroundColor: "#1e293b",
     borderRadius: 8,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: "#334155",
   },
   statsText: {
-    color: '#94a3b8',
+    color: "#94a3b8",
     fontSize: 14,
   },
   footer: {
-    backgroundColor: '#1e293b',
+    backgroundColor: "#1e293b",
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderTopWidth: 1,
-    borderTopColor: '#374151',
+    borderTopColor: "#374151",
   },
   footerText: {
-    textAlign: 'center',
-    color: '#94a3b8',
+    textAlign: "center",
+    color: "#94a3b8",
     fontSize: 12,
   },
 });
-
