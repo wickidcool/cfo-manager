@@ -4,10 +4,13 @@
   "description": "Nx monorepo with React web client, AWS Lambda API, and shared types",
   "scripts": {
     "web": "nx serve web",
+    "web:dev": "nx serve web --configuration=development",
+    "web:prod": "nx serve web --configuration=production",
     "mobile": "nx start mobile",
     "mobile:ios": "nx start:ios mobile",
     "mobile:android": "nx start:android mobile",
     "build:web": "nx build web",
+    "build:web:dev": "nx build web --configuration=development",
     "build:api": "nx build api",
     "build:all": "nx run-many --target=build --all",
     "lint": "nx run-many --target=lint --all",

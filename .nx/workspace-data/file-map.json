@@ -13,28 +13,64 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".editorconfig",
-        "hash": "9130906877357932621"
+        "file": "jest.preset.js",
+        "hash": "9326083157899857896"
       },
       {
-        "file": ".gitignore",
-        "hash": "15979060536209301860"
+        "file": "tsconfig.base.json",
+        "hash": "2222130378217785474"
       },
       {
-        "file": ".npmrc",
-        "hash": "14617011830635357027"
+        "file": "QUICK_FIX.md",
+        "hash": "11259756751896929076"
+      },
+      {
+        "file": "package.json",
+        "hash": "5381474743677032446"
       },
       {
         "file": ".vscode/extensions.json",
         "hash": "17129306119304673999"
       },
       {
-        "file": ".vscode/settings.json",
-        "hash": "4737873168531426497"
+        "file": "package-lock.json",
+        "hash": "1287082392596991494"
+      },
+      {
+        "file": "test-api.sh",
+        "hash": "10504599837611603991"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "9604802654662872858"
       },
       {
         "file": "AGENTS.md",
         "hash": "7853241679760809325"
+      },
+      {
+        "file": "QUICKSTART.md",
+        "hash": "13910298152250619511"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "4737873168531426497"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "9130906877357932621"
+      },
+      {
+        "file": "nx.json",
+        "hash": "309489943549514740"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "14617011830635357027"
+      },
+      {
+        "file": "README.md",
+        "hash": "4513619327828107174"
       },
       {
         "file": "DEPLOYMENT.md",
@@ -47,45 +83,215 @@
       {
         "file": "MOBILE_APP_IMPLEMENTATION.md",
         "hash": "16487779922648885155"
-      },
-      {
-        "file": "QUICKSTART.md",
-        "hash": "13910298152250619511"
-      },
-      {
-        "file": "QUICK_FIX.md",
-        "hash": "11259756751896929076"
-      },
-      {
-        "file": "README.md",
-        "hash": "6193742756494764317"
-      },
-      {
-        "file": "jest.preset.js",
-        "hash": "9326083157899857896"
-      },
-      {
-        "file": "nx.json",
-        "hash": "309489943549514740"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "1287082392596991494"
-      },
-      {
-        "file": "package.json",
-        "hash": "5815179981141399294"
-      },
-      {
-        "file": "test-api.sh",
-        "hash": "10504599837611603991"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "2222130378217785474"
       }
     ],
     "projectFileMap": {
+      "mobile": [
+        {
+          "file": "apps/mobile/.env",
+          "hash": "2451062157480384203"
+        },
+        {
+          "file": "apps/mobile/.gitignore",
+          "hash": "1363415123981238123"
+        },
+        {
+          "file": "apps/mobile/CHANGELOG.md",
+          "hash": "2960644374363045492"
+        },
+        {
+          "file": "apps/mobile/ENV_SETUP.md",
+          "hash": "14156716355640017103"
+        },
+        {
+          "file": "apps/mobile/MODULE_RESOLUTION_FIX.md",
+          "hash": "10362784359195597787"
+        },
+        {
+          "file": "apps/mobile/REACT_ERROR_FIX.md",
+          "hash": "17429001989976476777"
+        },
+        {
+          "file": "apps/mobile/README.md",
+          "hash": "10398020732607075591"
+        },
+        {
+          "file": "apps/mobile/SETUP.md",
+          "hash": "18376465421247463337"
+        },
+        {
+          "file": "apps/mobile/START_HERE.md",
+          "hash": "656953932512402610"
+        },
+        {
+          "file": "apps/mobile/TROUBLESHOOTING.md",
+          "hash": "724124823286685429"
+        },
+        {
+          "file": "apps/mobile/app.json",
+          "hash": "16712081745490216294"
+        },
+        {
+          "file": "apps/mobile/assets/.gitkeep",
+          "hash": "14062673734083079946"
+        },
+        {
+          "file": "apps/mobile/assets/README.md",
+          "hash": "14637574869435374225"
+        },
+        {
+          "file": "apps/mobile/babel.config.js",
+          "hash": "14630227675498619443"
+        },
+        {
+          "file": "apps/mobile/clear-and-start.sh",
+          "hash": "13725330453084276170"
+        },
+        {
+          "file": "apps/mobile/index.js",
+          "hash": "2337547167593138260",
+          "deps": [
+            "npm:expo"
+          ]
+        },
+        {
+          "file": "apps/mobile/jest.config.ts",
+          "hash": "9955418009800423393",
+          "deps": [
+            [
+              "npm:jest-expo",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/mobile/metro.config.js",
+          "hash": "6758739515677222588",
+          "deps": [
+            "npm:expo"
+          ]
+        },
+        {
+          "file": "apps/mobile/package-lock.json",
+          "hash": "16148639956249961185"
+        },
+        {
+          "file": "apps/mobile/package.json",
+          "hash": "6655598434641711408",
+          "deps": [
+            "npm:@types/react",
+            "npm:react",
+            "npm:react-native",
+            "npm:expo",
+            "npm:expo-status-bar",
+            "npm:axios",
+            "npm:zustand"
+          ]
+        },
+        {
+          "file": "apps/mobile/project.json",
+          "hash": "18414292884698099418"
+        },
+        {
+          "file": "apps/mobile/src/App.tsx",
+          "hash": "12134483746684671418",
+          "deps": [
+            "npm:expo-status-bar",
+            "npm:react-native",
+            "npm:react",
+            "common-types",
+            "api-client"
+          ]
+        },
+        {
+          "file": "apps/mobile/src/config/api.ts",
+          "hash": "5831866595372371560",
+          "deps": [
+            "api-client"
+          ]
+        },
+        {
+          "file": "apps/mobile/src/store/user-store.ts",
+          "hash": "5878210348875582770",
+          "deps": [
+            "npm:zustand",
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/mobile/src/test-setup.ts",
+          "hash": "4370473786583827850",
+          "deps": [
+            "npm:@testing-library/jest-native"
+          ]
+        },
+        {
+          "file": "apps/mobile/tsconfig.json",
+          "hash": "751963533468378413"
+        }
+      ],
+      "api-client": [
+        {
+          "file": "packages/api-client/DOTENV_CONFIGURATION.md",
+          "hash": "755007772848852666"
+        },
+        {
+          "file": "packages/api-client/ENV_EXAMPLE.md",
+          "hash": "79208939033667647"
+        },
+        {
+          "file": "packages/api-client/README.md",
+          "hash": "8973412881696909078"
+        },
+        {
+          "file": "packages/api-client/jest.config.ts",
+          "hash": "1524681538027761546"
+        },
+        {
+          "file": "packages/api-client/package.json",
+          "hash": "10308238074069665891"
+        },
+        {
+          "file": "packages/api-client/project.json",
+          "hash": "8592020204636736055"
+        },
+        {
+          "file": "packages/api-client/src/__tests__/api-client.spec.ts",
+          "hash": "13080201245896779945",
+          "deps": [
+            "npm:axios",
+            "common-types"
+          ]
+        },
+        {
+          "file": "packages/api-client/src/api-client.ts",
+          "hash": "2290597979088750835",
+          "deps": [
+            "npm:axios",
+            "common-types"
+          ]
+        },
+        {
+          "file": "packages/api-client/src/config.ts",
+          "hash": "1767955155795933605"
+        },
+        {
+          "file": "packages/api-client/src/index.ts",
+          "hash": "13757235700485156115"
+        },
+        {
+          "file": "packages/api-client/tsconfig.json",
+          "hash": "3881946269546638605"
+        },
+        {
+          "file": "packages/api-client/tsconfig.lib.json",
+          "hash": "15357337917634527619"
+        },
+        {
+          "file": "packages/api-client/tsconfig.spec.json",
+          "hash": "4228410639530418711"
+        }
+      ],
       "api": [
         {
           "file": "apps/api/README.md",
@@ -308,8 +514,24 @@
       ],
       "web": [
         {
+          "file": "apps/web/.env",
+          "hash": "15899883024521665855"
+        },
+        {
+          "file": "apps/web/DEV_MODE.md",
+          "hash": "11393967117993077553"
+        },
+        {
+          "file": "apps/web/DEV_MODE_IMPLEMENTATION.md",
+          "hash": "744616164512702985"
+        },
+        {
           "file": "apps/web/ENV_SETUP.md",
-          "hash": "18320103595866046565"
+          "hash": "17801002342862463840"
+        },
+        {
+          "file": "apps/web/QUICK_START.md",
+          "hash": "6306252901756219964"
         },
         {
           "file": "apps/web/index.html",
@@ -399,6 +621,10 @@
           ]
         },
         {
+          "file": "apps/web/src/vite-env.d.ts",
+          "hash": "6240174789175939897"
+        },
+        {
           "file": "apps/web/tsconfig.app.json",
           "hash": "12574715974616225135"
         },
@@ -412,152 +638,12 @@
         },
         {
           "file": "apps/web/vite.config.ts",
-          "hash": "5584249209574612438",
+          "hash": "7674465117509254486",
           "deps": [
             "npm:vite",
             "npm:@vitejs/plugin-react",
             "npm:@nx/vite"
           ]
-        }
-      ],
-      "mobile": [
-        {
-          "file": "apps/mobile/.gitignore",
-          "hash": "1363415123981238123"
-        },
-        {
-          "file": "apps/mobile/CHANGELOG.md",
-          "hash": "2960644374363045492"
-        },
-        {
-          "file": "apps/mobile/ENV_SETUP.md",
-          "hash": "14156716355640017103"
-        },
-        {
-          "file": "apps/mobile/MODULE_RESOLUTION_FIX.md",
-          "hash": "10362784359195597787"
-        },
-        {
-          "file": "apps/mobile/REACT_ERROR_FIX.md",
-          "hash": "17429001989976476777"
-        },
-        {
-          "file": "apps/mobile/README.md",
-          "hash": "10398020732607075591"
-        },
-        {
-          "file": "apps/mobile/SETUP.md",
-          "hash": "18376465421247463337"
-        },
-        {
-          "file": "apps/mobile/START_HERE.md",
-          "hash": "656953932512402610"
-        },
-        {
-          "file": "apps/mobile/TROUBLESHOOTING.md",
-          "hash": "724124823286685429"
-        },
-        {
-          "file": "apps/mobile/app.json",
-          "hash": "16712081745490216294"
-        },
-        {
-          "file": "apps/mobile/assets/.gitkeep",
-          "hash": "14062673734083079946"
-        },
-        {
-          "file": "apps/mobile/assets/README.md",
-          "hash": "14637574869435374225"
-        },
-        {
-          "file": "apps/mobile/babel.config.js",
-          "hash": "14630227675498619443"
-        },
-        {
-          "file": "apps/mobile/clear-and-start.sh",
-          "hash": "13725330453084276170"
-        },
-        {
-          "file": "apps/mobile/index.js",
-          "hash": "2337547167593138260",
-          "deps": [
-            "npm:expo"
-          ]
-        },
-        {
-          "file": "apps/mobile/jest.config.ts",
-          "hash": "9955418009800423393",
-          "deps": [
-            [
-              "npm:jest-expo",
-              "dynamic"
-            ]
-          ]
-        },
-        {
-          "file": "apps/mobile/metro.config.js",
-          "hash": "6758739515677222588",
-          "deps": [
-            "npm:expo"
-          ]
-        },
-        {
-          "file": "apps/mobile/package-lock.json",
-          "hash": "16148639956249961185"
-        },
-        {
-          "file": "apps/mobile/package.json",
-          "hash": "6655598434641711408",
-          "deps": [
-            "npm:@types/react",
-            "npm:react",
-            "npm:react-native",
-            "npm:expo",
-            "npm:expo-status-bar",
-            "npm:axios",
-            "npm:zustand"
-          ]
-        },
-        {
-          "file": "apps/mobile/project.json",
-          "hash": "18414292884698099418"
-        },
-        {
-          "file": "apps/mobile/src/App.tsx",
-          "hash": "12134483746684671418",
-          "deps": [
-            "npm:expo-status-bar",
-            "npm:react-native",
-            "npm:react",
-            "common-types",
-            "api-client"
-          ]
-        },
-        {
-          "file": "apps/mobile/src/config/api.ts",
-          "hash": "5831866595372371560",
-          "deps": [
-            "api-client"
-          ]
-        },
-        {
-          "file": "apps/mobile/src/store/user-store.ts",
-          "hash": "5878210348875582770",
-          "deps": [
-            "npm:zustand",
-            "common-types"
-          ]
-        },
-        {
-          "file": "apps/mobile/src/test-setup.ts",
-          "hash": "4370473786583827850",
-          "deps": [
-            "npm:@testing-library/jest-native"
-          ]
-        },
-        {
-          "file": "apps/mobile/tsconfig.json",
-          "hash": "751963533468378413"
         }
       ],
       "common-types": [
@@ -600,72 +686,6 @@
         {
           "file": "packages/common-types/tsconfig.lib.json",
           "hash": "17032059854456733348"
-        }
-      ],
-      "api-client": [
-        {
-          "file": "packages/api-client/.env",
-          "hash": "17820365831645906338"
-        },
-        {
-          "file": "packages/api-client/DOTENV_CONFIGURATION.md",
-          "hash": "755007772848852666"
-        },
-        {
-          "file": "packages/api-client/ENV_EXAMPLE.md",
-          "hash": "79208939033667647"
-        },
-        {
-          "file": "packages/api-client/README.md",
-          "hash": "8973412881696909078"
-        },
-        {
-          "file": "packages/api-client/jest.config.ts",
-          "hash": "1524681538027761546"
-        },
-        {
-          "file": "packages/api-client/package.json",
-          "hash": "10308238074069665891"
-        },
-        {
-          "file": "packages/api-client/project.json",
-          "hash": "8592020204636736055"
-        },
-        {
-          "file": "packages/api-client/src/__tests__/api-client.spec.ts",
-          "hash": "13080201245896779945",
-          "deps": [
-            "npm:axios",
-            "common-types"
-          ]
-        },
-        {
-          "file": "packages/api-client/src/api-client.ts",
-          "hash": "2290597979088750835",
-          "deps": [
-            "npm:axios",
-            "common-types"
-          ]
-        },
-        {
-          "file": "packages/api-client/src/config.ts",
-          "hash": "1767955155795933605"
-        },
-        {
-          "file": "packages/api-client/src/index.ts",
-          "hash": "13757235700485156115"
-        },
-        {
-          "file": "packages/api-client/tsconfig.json",
-          "hash": "3881946269546638605"
-        },
-        {
-          "file": "packages/api-client/tsconfig.lib.json",
-          "hash": "15357337917634527619"
-        },
-        {
-          "file": "packages/api-client/tsconfig.spec.json",
-          "hash": "4228410639530418711"
         }
       ]
     }

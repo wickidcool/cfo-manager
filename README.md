@@ -131,7 +131,15 @@ npm install
 npm run web
 ```
 
-The web app will be available at `http://localhost:5173`
+The web app will be available at `http://localhost:3000`
+
+**Features:**
+- 🔥 Hot Module Replacement (instant updates)
+- ⚡ Fast Refresh (preserves component state)
+- 🐛 Source maps for debugging
+- 🔧 Environment variable support
+
+See `apps/web/QUICK_START.md` and `apps/web/DEV_MODE.md` for details.
 
 ### Run the Mobile App
 

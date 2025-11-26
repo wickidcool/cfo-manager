@@ -2,12 +2,19 @@
 
 ## Creating Your Environment File
 
-Create a `.env.local` file in the `apps/web` directory:
+The app now includes environment file examples. Create your local configuration:
 
 ```bash
 cd apps/web
-cp ENV_SETUP.md .env.local  # Then edit .env.local
+
+# Option 1: Copy from example (recommended)
+cp .env.development.example .env.local
+
+# Option 2: Create new .env.local
+touch .env.local
 ```
+
+**Note:** `.env.local` overrides all other env files and is git-ignored.
 
 ## Environment Variables
 
