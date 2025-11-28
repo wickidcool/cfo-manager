@@ -1,5 +1,6 @@
 import { UserService } from '../../services/user-service';
 import { UserDynamoModel, UserModel } from '../../models/UserModel';
+import type { CreateUserRequest, UpdateUserRequest, User } from '@aws-starter-kit/common-types';
 
 // Mock the UserDynamoModel
 jest.mock('../../models/UserModel');
@@ -14,7 +15,7 @@ describe('UserService', () => {
     email: data.email || 'test@example.com',
     name: data.name || 'Test User',
     createdAt: data.createdAt || '2024-01-01T00:00:00Z',
-    updatedAt: data.updatedAt,
+    updatedAt: data.updatedAt || undefined,
     pk1: 'USER',
     sk1: `EMAIL#${data.email || 'test@example.com'}`,
     pk2: 'USER',

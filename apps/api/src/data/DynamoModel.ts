@@ -15,7 +15,7 @@ import { Logger } from '@aws-lambda-powertools/logger'
 export interface BaseModel {
   id: string
   createdAt: string
-  updatedAt: string
+  updatedAt?: string
   // GSI keys for flexible querying - common pattern across all models
   pk1?: string
   sk1?: string
