@@ -13,8 +13,20 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": "jest.preset.js",
-        "hash": "9326083157899857896"
+        "file": "API_LINT_FIXES.md",
+        "hash": "9215546913266056533"
+      },
+      {
+        "file": "FIX_APPLIED.md",
+        "hash": "2678690273316108182"
+      },
+      {
+        "file": "NODE_VERSION.md",
+        "hash": "9665994141034736040"
+      },
+      {
+        "file": "package.json",
+        "hash": "13259127634029350343"
       },
       {
         "file": "tsconfig.base.json",
@@ -25,72 +37,80 @@
         "hash": "11259756751896929076"
       },
       {
-        "file": "package.json",
-        "hash": "5381474743677032446"
+        "file": "DEPLOYMENT.md",
+        "hash": "2212573393919577157"
       },
       {
-        "file": ".vscode/extensions.json",
-        "hash": "17129306119304673999"
+        "file": "MOBILE_APP_IMPLEMENTATION.md",
+        "hash": "16487779922648885155"
       },
       {
-        "file": "package-lock.json",
-        "hash": "1287082392596991494"
+        "file": "README.md",
+        "hash": "16458676130745202747"
       },
       {
         "file": "test-api.sh",
         "hash": "10504599837611603991"
       },
       {
-        "file": ".gitignore",
-        "hash": "9604802654662872858"
-      },
-      {
         "file": "AGENTS.md",
         "hash": "7853241679760809325"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "17129306119304673999"
       },
       {
         "file": "QUICKSTART.md",
         "hash": "13910298152250619511"
       },
       {
-        "file": ".vscode/settings.json",
-        "hash": "4737873168531426497"
+        "file": ".npmrc",
+        "hash": "14617011830635357027"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9326083157899857896"
       },
       {
         "file": ".editorconfig",
         "hash": "9130906877357932621"
       },
       {
+        "file": ".nvmrc",
+        "hash": "16349344539663471950"
+      },
+      {
+        "file": "IMPORT_ORDERING_FIX.md",
+        "hash": "9878459985179889754"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "9085931749883113452"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "4737873168531426497"
+      },
+      {
+        "file": "NODE_22_UPDATE.md",
+        "hash": "16228758146959570145"
+      },
+      {
+        "file": "JEST_NODE25_ISSUE.md",
+        "hash": "12811028369139916016"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "18287923855075811161"
+      },
+      {
         "file": "nx.json",
         "hash": "309489943549514740"
-      },
-      {
-        "file": ".npmrc",
-        "hash": "14617011830635357027"
-      },
-      {
-        "file": "README.md",
-        "hash": "4513619327828107174"
-      },
-      {
-        "file": "DEPLOYMENT.md",
-        "hash": "2212573393919577157"
-      },
-      {
-        "file": "FIX_APPLIED.md",
-        "hash": "2678690273316108182"
-      },
-      {
-        "file": "MOBILE_APP_IMPLEMENTATION.md",
-        "hash": "16487779922648885155"
       }
     ],
     "projectFileMap": {
       "mobile": [
-        {
-          "file": "apps/mobile/.env",
-          "hash": "2451062157480384203"
-        },
         {
           "file": "apps/mobile/.gitignore",
           "hash": "1363415123981238123"
@@ -292,7 +312,57 @@
           "hash": "4228410639530418711"
         }
       ],
+      "common-types": [
+        {
+          "file": "packages/common-types/README.md",
+          "hash": "15006173812700895405"
+        },
+        {
+          "file": "packages/common-types/package.json",
+          "hash": "8965815133290168466"
+        },
+        {
+          "file": "packages/common-types/project.json",
+          "hash": "13027723795811731109"
+        },
+        {
+          "file": "packages/common-types/src/api.types.ts",
+          "hash": "8841576204018521387"
+        },
+        {
+          "file": "packages/common-types/src/common.types.ts",
+          "hash": "17363205306541189483"
+        },
+        {
+          "file": "packages/common-types/src/index.ts",
+          "hash": "15596980135655828469"
+        },
+        {
+          "file": "packages/common-types/src/lambda.types.ts",
+          "hash": "4260416675359158228"
+        },
+        {
+          "file": "packages/common-types/src/user.types.ts",
+          "hash": "11314823989377359803"
+        },
+        {
+          "file": "packages/common-types/tsconfig.json",
+          "hash": "5257909443336654404"
+        },
+        {
+          "file": "packages/common-types/tsconfig.lib.json",
+          "hash": "17032059854456733348"
+        }
+      ],
       "api": [
+        {
+          "file": "apps/api/DYNAMODB_IMPLEMENTATION.md",
+          "hash": "7852424075467941025"
+        },
+        {
+          "file": "apps/api/DYNAMODB_INTEGRATION.md",
+          "hash": "8272284257778387990"
+        },
         {
           "file": "apps/api/README.md",
           "hash": "17099635866888296784"
@@ -339,8 +409,15 @@
           ]
         },
         {
+          "file": "apps/api/jest-environment.js",
+          "hash": "329808552200791443",
+          "deps": [
+            "npm:jest-environment-node"
+          ]
+        },
+        {
           "file": "apps/api/jest.config.ts",
-          "hash": "15310144641499917775"
+          "hash": "9424056346253806846"
         },
         {
           "file": "apps/api/lambdas.yml",
@@ -351,22 +428,42 @@
           "hash": "16494800442429672722"
         },
         {
+          "file": "apps/api/run-tests.sh",
+          "hash": "9627830167420076232"
+        },
+        {
+          "file": "apps/api/src/__mocks__/@aws-lambda-powertools/logger.js",
+          "hash": "614591835382361331"
+        },
+        {
+          "file": "apps/api/src/__mocks__/@aws-sdk/client-dynamodb.js",
+          "hash": "11544995933414540094"
+        },
+        {
+          "file": "apps/api/src/__mocks__/@aws-sdk/lib-dynamodb.js",
+          "hash": "14433600243034759969"
+        },
+        {
+          "file": "apps/api/src/__mocks__/@aws-sdk/util-dynamodb.js",
+          "hash": "4404332398585249100"
+        },
+        {
           "file": "apps/api/src/__tests__/handlers/users/create-user.spec.ts",
-          "hash": "1290056286634792476",
+          "hash": "5073945471897309080",
           "deps": [
             "common-types"
           ]
         },
         {
           "file": "apps/api/src/__tests__/handlers/users/get-user.spec.ts",
-          "hash": "7999003746988678445",
+          "hash": "10017022759892285232",
           "deps": [
             "common-types"
           ]
         },
         {
           "file": "apps/api/src/__tests__/handlers/users/get-users.spec.ts",
-          "hash": "9007756030108094566",
+          "hash": "7758905363300301901",
           "deps": [
             "common-types"
           ]
@@ -381,10 +478,11 @@
         },
         {
           "file": "apps/api/src/__tests__/services/user-service.spec.ts",
-          "hash": "14754907717842214983",
-          "deps": [
-            "common-types"
-          ]
+          "hash": "3112228355976696586"
+        },
+        {
+          "file": "apps/api/src/__tests__/setup.ts",
+          "hash": "5689579575459163940"
         },
         {
           "file": "apps/api/src/__tests__/utils/lambda-handler.spec.ts",
@@ -405,6 +503,15 @@
           "hash": "15254378903536006538",
           "deps": [
             "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/data/DynamoModel.ts",
+          "hash": "16871275507174799296",
+          "deps": [
+            "npm:@aws-sdk/client-dynamodb",
+            "npm:@aws-sdk/util-dynamodb",
+            "npm:@aws-lambda-powertools/logger"
           ]
         },
         {
@@ -447,6 +554,17 @@
           ]
         },
         {
+          "file": "apps/api/src/models/UserModel.ts",
+          "hash": "9150025480504115806",
+          "deps": [
+            "common-types"
+          ]
+        },
+        {
+          "file": "apps/api/src/models/__mocks__/UserModel.ts",
+          "hash": "8752484569247215908"
+        },
+        {
           "file": "apps/api/src/schemas/user.schema.ts",
           "hash": "17872534741519619528",
           "deps": [
@@ -456,7 +574,7 @@
         },
         {
           "file": "apps/api/src/services/user-service.ts",
-          "hash": "4954028680998048568",
+          "hash": "11825405430992879622",
           "deps": [
             "common-types"
           ]
@@ -475,7 +593,15 @@
         },
         {
           "file": "apps/api/src/tools/db-export/index.ts",
-          "hash": "3504228743148881790"
+          "hash": "338099204073040595",
+          "deps": [
+            "npm:@aws-sdk/client-dynamodb",
+            "npm:@aws-sdk/lib-dynamodb"
+          ]
+        },
+        {
+          "file": "apps/api/src/utils/common/helpers.ts",
+          "hash": "7868433880781742847"
         },
         {
           "file": "apps/api/src/utils/lambda-handler.ts",
@@ -513,10 +639,6 @@
         }
       ],
       "web": [
-        {
-          "file": "apps/web/.env",
-          "hash": "15899883024521665855"
-        },
         {
           "file": "apps/web/DEV_MODE.md",
           "hash": "11393967117993077553"
@@ -645,50 +767,8 @@
             "npm:@nx/vite"
           ]
         }
-      ],
-      "common-types": [
-        {
-          "file": "packages/common-types/README.md",
-          "hash": "15006173812700895405"
-        },
-        {
-          "file": "packages/common-types/package.json",
-          "hash": "8965815133290168466"
-        },
-        {
-          "file": "packages/common-types/project.json",
-          "hash": "13027723795811731109"
-        },
-        {
-          "file": "packages/common-types/src/api.types.ts",
-          "hash": "8841576204018521387"
-        },
-        {
-          "file": "packages/common-types/src/common.types.ts",
-          "hash": "17363205306541189483"
-        },
-        {
-          "file": "packages/common-types/src/index.ts",
-          "hash": "15596980135655828469"
-        },
-        {
-          "file": "packages/common-types/src/lambda.types.ts",
-          "hash": "4260416675359158228"
-        },
-        {
-          "file": "packages/common-types/src/user.types.ts",
-          "hash": "11314823989377359803"
-        },
-        {
-          "file": "packages/common-types/tsconfig.json",
-          "hash": "5257909443336654404"
-        },
-        {
-          "file": "packages/common-types/tsconfig.lib.json",
-          "hash": "17032059854456733348"
-        }
       ]
     }
   },
-  "externalNodesHash": "3702458812404855820"
+  "externalNodesHash": "8750106863683573786"
 }

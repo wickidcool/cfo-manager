@@ -58,7 +58,7 @@ export class DynamoDBExporter {
 
   constructor(options: ExportOptions) {
     this.options = {
-      region: options.region || process.env.AWS_REGION || "us-east-2",
+      region: options.region || process.env['AWS_REGION'] || "us-east-2",
       outputDir: options.outputDir || process.cwd(),
       pretty: options.pretty !== false, // Default to pretty-print
       includeMetadata: options.includeMetadata !== false, // Default to include metadata
@@ -691,11 +691,11 @@ async function main() {
   // Get table name
   const tableName =
     args.table ||
-    process.env.TABLE_NAME ||
-    process.env.OLD_TABLE_NAME ||
+    process.env['TABLE_NAME'] ||
+    process.env['OLD_TABLE_NAME'] ||
     "construction-app-dev-construction-table";
 
-  const region = args.region || process.env.AWS_REGION;
+  const region = args.region || process.env['AWS_REGION'];
 
   // Handle different commands
   switch (args.command) {
@@ -703,15 +703,15 @@ async function main() {
       const exporter = new DynamoDBExporter({
         tableName,
         region,
-        outputFile: args.output || process.env.OUTPUT_FILE,
-        outputDir: args.outputDir || process.env.OUTPUT_DIR || process.cwd(),
-        filterExpression: args.filter || process.env.FILTER_EXPRESSION,
+        outputFile: args.output || process.env['OUTPUT_FILE'],
+        outputDir: args.outputDir || process.env['OUTPUT_DIR'] || process.cwd(),
+        filterExpression: args.filter || process.env['FILTER_EXPRESSION'],
         pretty: args.pretty !== false,
         includeMetadata: !args.noMetadata,
       });
 
       try {
-        if (args.grouped || process.env.GROUP_BY_TYPE === "true") {
+        if (args.grouped || process.env['GROUP_BY_TYPE'] === "true") {
           await exporter.exportByEntityType();
         } else {
           await exporter.export();

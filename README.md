@@ -91,10 +91,16 @@ aws-starter-kit/
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- npm
-- AWS CLI (for deployment)
-- AWS CDK CLI (installed globally or via npx)
+- **Node.js 22** (LTS) - [Installation guide](./NODE_VERSION.md)
+  ```bash
+  node --version  # Should be v22.16.0 or higher
+  ```
+- **npm 10+** (comes with Node.js 22)
+- **AWS CLI** configured with credentials (for deployment)
+- **AWS CDK CLI** (installed globally or via npx)
+- **Expo CLI** (for mobile development): `npm install -g expo-cli` or `npx expo`
+
+> ⚠️ **Important**: This project requires Node.js 22. Node.js 25+ has compatibility issues with Jest. See [NODE_VERSION.md](./NODE_VERSION.md) for details.
 
 ### API URL Configuration
 

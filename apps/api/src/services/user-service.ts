@@ -1,97 +1,106 @@
 import type { User, CreateUserRequest, UpdateUserRequest } from '@aws-starter-kit/common-types';
+import { UserDynamoModel } from '../models/UserModel';
 
 /**
  * User Service
- * Handles all business logic for user management
+ * Handles all business logic for user management with DynamoDB backend
  */
 export class UserService {
-  // In-memory store for demo purposes
-  // In production, use DynamoDB or another database
-  private users: Map<string, User>;
+  private userModel: UserDynamoModel;
 
   constructor() {
-    this.users = new Map();
+    this.userModel = new UserDynamoModel();
   }
 
   /**
    * Get all users
    */
   async getAllUsers(): Promise<User[]> {
-    return Array.from(this.users.values());
+    const users = await this.userModel.scanAll();
+    return users.map(user => this.userModel.toUserType(user));
   }
 
   /**
    * Get user by ID
    */
   async getUserById(id: string): Promise<User | null> {
-    const user = this.users.get(id);
-    return user || null;
+    const user = await this.userModel.getById(id);
+    return user ? this.userModel.toUserType(user) : null;
+  }
+
+  /**
+   * Get user by email
+   */
+  async getUserByEmail(email: string): Promise<User | null> {
+    const user = await this.userModel.getByEmail(email);
+    return user ? this.userModel.toUserType(user) : null;
   }
 
   /**
    * Create a new user
    */
   async createUser(request: CreateUserRequest): Promise<User> {
-    const userId = crypto.randomUUID();
-    const now = new Date().toISOString();
+    // Check if user with email already exists
+    const existingUser = await this.userModel.getByEmail(request.email);
+    if (existingUser) {
+      throw new Error(`User with email ${request.email} already exists`);
+    }
 
-    const user: User = {
-      id: userId,
+    const user = await this.userModel.create({
       email: request.email,
       name: request.name,
-      createdAt: now,
-    };
+    });
 
-    this.users.set(userId, user);
-    return user;
+    return this.userModel.toUserType(user);
   }
 
   /**
    * Update an existing user
    */
   async updateUser(id: string, request: UpdateUserRequest): Promise<User | null> {
-    const existingUser = this.users.get(id);
+    const updatedUser = await this.userModel.update(id, {
+      ...(request.name && { name: request.name }),
+    });
 
-    if (!existingUser) {
-      return null;
-    }
-
-    const updatedUser: User = {
-      ...existingUser,
-      name: request.name ?? existingUser.name,
-      updatedAt: new Date().toISOString(),
-    };
-
-    this.users.set(id, updatedUser);
-    return updatedUser;
+    return updatedUser ? this.userModel.toUserType(updatedUser) : null;
   }
 
   /**
    * Delete a user
    */
   async deleteUser(id: string): Promise<boolean> {
-    const user = this.users.get(id);
+    return await this.userModel.delete(id);
+  }
 
-    if (!user) {
-      return false;
-    }
-
-    this.users.delete(id);
-    return true;
+  /**
+   * Delete multiple users
+   */
+  async batchDeleteUsers(ids: string[]): Promise<{ success: string[]; failed: Array<{ id: string; error: string }> }> {
+    return await this.userModel.batchDelete(ids);
   }
 
   /**
    * Check if user exists
    */
   async userExists(id: string): Promise<boolean> {
-    return this.users.has(id);
+    const user = await this.userModel.getById(id);
+    return user !== null;
   }
 
   /**
    * Get user count
    */
   async getUserCount(): Promise<number> {
-    return this.users.size;
+    const users = await this.userModel.scanAll();
+    return users.length;
+  }
+
+  /**
+   * Get users created after a specific date
+   */
+  async getUsersCreatedAfter(date: string): Promise<User[]> {
+    const users = await this.userModel.getByCreatedAfter(date);
+    return users.map(user => this.userModel.toUserType(user));
   }
 }
 

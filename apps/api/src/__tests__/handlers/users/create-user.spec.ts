@@ -1,7 +1,7 @@
 import { handler } from '../../../handlers/users/create-user';
 import { userService } from '../../../services/user-service';
-import type { ApiGatewayProxyEvent } from '@aws-starter-kit/common-types';
 import { HTTP_STATUS, ERROR_CODES } from '@aws-starter-kit/common-types';
+import type { ApiGatewayProxyEvent } from '@aws-starter-kit/common-types';
 
 // Mock the userService
 jest.mock('../../../services/user-service');
