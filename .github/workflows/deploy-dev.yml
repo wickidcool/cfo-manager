@@ -7,64 +7,65 @@ on:
   workflow_dispatch:
     inputs:
       target_branch:
-        description: 'The release branch to run the script against'
+        description: "The release branch to run the script against"
         required: true
-        default: 'main'
+        default: "main"
 
 jobs:
   validate:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4 # Use the latest stable version
-      with:
-        lfs: true
+      - name: Checkout code
+        uses: actions/checkout@v4 # Use the latest stable version
+        with:
+          lfs: true
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22' # Specify the Node.js version your project uses
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22" # Specify the Node.js version your project uses
 
-    - name: Install dependencies
-      run: npm ci # Use npm ci for clean installs in CI environments
+      - name: Install dependencies
+        run: npm ci # Use npm ci for clean installs in CI environments
 
-    - name: Run ESLint
-      uses: wearerequired/lint-action@v2
-      with:
-        eslint: true
+      - name: Run ESLint
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
 
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4 # Use the latest stable version
-      with:
-        lfs: true
+      - name: Checkout code
+        uses: actions/checkout@v4 # Use the latest stable version
+        with:
+          lfs: true
 
-    - name: Checkout LFS objects
-      run: git lfs checkout
+      - name: Checkout LFS objects
+        run: git lfs checkout
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: build
-      run: npm run build
+      - name: build
+        run: npm run build:all
 
-    - name: Make sure the unit tests pass
-      run: npm run test:unit
+      - name: Make sure the unit tests pass
+        run: npm run test:unit
 
   deploy-dev:
     needs: [validate, test]
     runs-on: ubuntu-latest
     name: Deploy to DEV
     environment: development
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -74,7 +75,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install dependencies
         run: npm install
