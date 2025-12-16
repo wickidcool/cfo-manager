@@ -12,6 +12,6 @@ module.exports = {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageReporters: ['html', 'text'],
+  coverageReporters: ['html', 'text', 'json', 'json-summary'],
 };
 

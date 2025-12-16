@@ -34,10 +34,19 @@ jobs:
         with:
           use-lfs: "true"
 
-      - name: Build and test
-        uses: ./.github/actions/build-and-test
+      - name: Build project
+        run: npm run build
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Coverage Report
+        uses: ArtiomTr/jest-coverage-report-action@v2
         with:
-          build-command: "npm run build"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          coverage-file: ./coverage/coverage-final.json
+          base-coverage-file: ./coverage/coverage-final.json
+          skip-step: all
 
   build:
     runs-on: ubuntu-latest
