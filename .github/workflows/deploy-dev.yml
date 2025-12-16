@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Setup environment
-        uses: ./.github/actions/setup
+        uses: ../.github/actions/setup
 
       - name: Run ESLint
         uses: wearerequired/lint-action@v2
