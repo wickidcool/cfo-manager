@@ -14,10 +14,9 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup
 
-      - name: Run ESLint
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
+      - name: Run lint
+        shell: bash
+        run: npm run lint
 
   test:
     runs-on: ubuntu-latest
