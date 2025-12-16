@@ -1,4 +1,5 @@
 import type { User, CreateUserRequest, UpdateUserRequest } from '@aws-starter-kit/common-types';
+import { Axios } from 'axios';
 
 /**
  * Mock API Client for tests
@@ -25,10 +26,10 @@ export const apiClient = {
     createdAt: new Date().toISOString(),
   }),
   deleteUser: (_id: string): Promise<void> => Promise.resolve(),
-  setAuthToken: (_token: string) => {},
-  clearAuthToken: () => {},
-  setBaseURL: (_url: string) => {},
-  getAxiosInstance: () => ({}) as any,
+  setAuthToken: (_token: string) => { console.log('setAuthToken', _token); },
+  clearAuthToken: () => { console.log('clearAuthToken'); },
+  setBaseURL: (_url: string) => { console.log('setBaseURL', _url); },
+  getAxiosInstance: () => ({}) as Axios,
 };
 
 export function setAuthToken(_token: string): void {
