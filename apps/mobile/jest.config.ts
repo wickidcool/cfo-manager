@@ -11,12 +11,11 @@ export default {
     '^.+.(js|ts|tsx)$': [
       'babel-jest',
       {
-        configFile: __dirname + '/babel.config.js',
+        configFile: '<rootDir>/babel.config.js',
       },
     ],
-    '^.+.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$': require.resolve(
-      'jest-expo/src/preset/assetFileTransformer.js'
-    ),
+    '^.+.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$':
+      'jest-expo/src/preset/assetFileTransformer.js',
   },
   coverageDirectory: '../../coverage/apps/mobile',
 };

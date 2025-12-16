@@ -1,14 +1,9 @@
-import * as os from 'os';
-import * as path from 'path';
-
 export default {
   displayName: 'api',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   testEnvironmentOptions: {
     customExportConditions: ['node', 'node-addons'],
-    // Provide localStorage file path for Node.js 25+ compatibility
-    localStorageFile: path.join(os.tmpdir(), 'jest-localstorage'),
   },
   // Workaround for Node.js 25+ localStorage security error
   workerIdleMemoryLimit: '512MB',

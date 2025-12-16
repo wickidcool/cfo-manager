@@ -21,5 +21,5 @@ runs:
     - name: Run unit tests
       if: inputs.skip-tests != 'true'
       shell: bash
-      run: npm run test:unit
+      run: npm run test:all
 
