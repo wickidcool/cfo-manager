@@ -5,6 +5,13 @@
   "projectType": "library",
   "tags": ["type:library"],
   "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/api-client/**/*.ts"]
+      }
+    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
@@ -13,12 +20,6 @@
         "main": "packages/api-client/src/index.ts",
         "tsConfig": "packages/api-client/tsconfig.lib.json",
         "assets": ["packages/api-client/*.md"]
-      }
-    },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["packages/api-client/**/*.ts"]
       }
     },
     "test": {

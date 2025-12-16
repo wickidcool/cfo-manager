@@ -6,54 +6,34 @@ on:
   workflow_dispatch:
     inputs:
       target_branch:
-        description: 'The release branch to run the script against'
+        description: "The release branch to run the script against"
         required: true
-        default: 'main'
+        default: "main"
 
 jobs:
   validate:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.target_branch }}
-        lfs: true
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22' # Specify the Node.js version your project uses
-
-    - name: Install dependencies
-      run: npm ci # Use npm ci for clean installs in CI environments
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          ref: ${{ inputs.target_branch }}
+          use-lfs: "true"
 
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4 # Use the latest stable version
-      with:
-        lfs: true
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          use-lfs: "true"
 
-    - name: Checkout LFS objects
-      run: git lfs checkout
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: build app
-      run: npm run build
-
-    - name: Make sure the unit tests pass
-      run: npm run test:unit
+      - name: Build and test
+        uses: ./.github/actions/build-and-test
+        with:
+          build-command: "npm run build"
 
   deploy-qa:
     needs: [validate, test]
@@ -62,53 +42,19 @@ jobs:
     environment: qa
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: npm ci
+      - name: Setup environment
+        uses: ./.github/actions/setup
 
       - name: Build project
-        run: npm run build
+        uses: ./.github/actions/build-and-test
+        with:
+          build-command: "npm run build"
+          skip-tests: "true"
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Deploy to AWS
+        uses: ./.github/actions/deploy-cdk
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
-      - name: Clean old CDK assets
-        run: |
-          CDK_ASSETS_BUCKET=$(aws s3api list-buckets --query 'Buckets[?contains(Name, `cdk-`) && contains(Name, `-assets-`)].Name' --output text | head -1)
-          if [ -n "$CDK_ASSETS_BUCKET" ]; then
-            echo "Cleaning CDK assets bucket: $CDK_ASSETS_BUCKET"
-            aws s3 rm s3://$CDK_ASSETS_BUCKET/ --recursive
-          else
-            echo "No CDK assets bucket found"
-          fi
-
-      - name: Get CloudFront Key Pair ID
-        run: |
-          export CLOUDFRONT_KEY_PAIR_ID=$(aws ssm get-parameter \
-            --name "/construction-app-qa/cloudfront-key-pair-id" \
-            --query "Parameter.Value" \
-            --output text)
-          echo "CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID" >> $GITHUB_ENV
-
-      - name: Deploy CloudFront Stack
-        run: |
-          export NODE_ENV=qa
-          export CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID
-          npx cdk deploy CloudFrontStack --require-approval never
-
-      - name: Deploy to QA
-        run: |
-          export NODE_ENV=qa
-          export CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID
-          npx cdk deploy MainStack --require-approval never
+          environment: qa
+          ssm-parameter-prefix: /construction-app-qa
