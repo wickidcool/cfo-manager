@@ -15,10 +15,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_branch }}
+          lfs: true
+
       - name: Setup environment
         uses: ./.github/actions/setup
         with:
-          ref: ${{ inputs.target_branch }}
           use-lfs: "true"
 
       - name: Build and test
@@ -33,10 +38,15 @@ jobs:
     environment: prod
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_branch }}
+          lfs: true
+
       - name: Setup environment
         uses: ./.github/actions/setup
         with:
-          ref: ${{ inputs.target_branch }}
           use-lfs: "true"
 
       - name: Build project

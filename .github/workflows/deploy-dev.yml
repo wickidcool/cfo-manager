@@ -16,8 +16,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
-        uses: ./../.github/actions/setup
+        uses: ./.github/actions/setup
 
       - name: Run ESLint
         uses: wearerequired/lint-action@v2
@@ -28,6 +31,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
       - name: Setup environment
         uses: ./.github/actions/setup
         with:
@@ -43,6 +51,11 @@ jobs:
     environment: development
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
       - name: Setup environment
         uses: ./.github/actions/setup
         with:
