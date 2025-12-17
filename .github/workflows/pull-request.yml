@@ -43,12 +43,16 @@ jobs:
           NODE_OPTIONS: "--localstorage-file=/tmp/jest-localstorage"
 
       - name: Coverage Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
+        uses: MishaKav/jest-coverage-comment@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: ./coverage/apps/api/coverage-final.json
-          base-coverage-file: ./coverage/apps/api/coverage-final.json
-          skip-step: all
+          coverage-summary-path: ./coverage/apps/web/coverage-summary.json
+          title: "Test Coverage Report"
+          summary-title: "Coverage Summary"
+          multiple-files: |
+            Web App, ./coverage/apps/web/coverage-summary.json
+            API, ./coverage/apps/api/coverage-summary.json
+            API Client, ./coverage/packages/api-client/coverage-summary.json
 
   build:
     needs: [lint, test]
