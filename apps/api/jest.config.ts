@@ -18,6 +18,12 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js'],
   coverageDirectory: '../../coverage/apps/api',
+  // Exclude infrastructure code from coverage - tested via integration tests
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/data/DynamoModel.ts',
+    '/models/UserModel.ts',
+  ],
   // Clear mocks between tests
   clearMocks: true,
   resetMocks: true,

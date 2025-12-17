@@ -3,6 +3,18 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { useUserStore } from '../store/user-store';
 import App from '../App';
 import theme from '../theme';
+import { apiClient } from '../config/api';
+import { ApiError } from '@aws-starter-kit/api-client';
+
+// Mock the apiClient
+jest.mock('../config/api', () => ({
+  apiClient: {
+    getUsers: jest.fn(),
+    createUser: jest.fn(),
+  },
+}));
+
+const mockApiClient = apiClient as jest.Mocked<typeof apiClient>;
 
 const renderWithChakra = async (component: React.ReactElement) => {
   let result;
@@ -25,6 +37,10 @@ describe('App', () => {
       isLoading: false,
       error: null,
     });
+    // Reset mocks
+    jest.clearAllMocks();
+    // Default mock implementations
+    mockApiClient.getUsers.mockResolvedValue([]);
   });
 
   afterEach(async () => {
@@ -99,5 +115,126 @@ describe('App', () => {
     expect(screen.getByText(/Chakra UI component library/)).toBeInTheDocument();
     expect(screen.getByText(/Zustand for state management/)).toBeInTheDocument();
     expect(screen.getByText(/Jest for testing/)).toBeInTheDocument();
+  });
+
+  it('should handle API error when fetching users', async () => {
+    const apiError = new ApiError('Network error', 500, 'SERVER_ERROR');
+    mockApiClient.getUsers.mockRejectedValue(apiError);
+
+    await renderWithChakra(<App />);
+
+    // Click fetch users button to trigger error
+    await act(async () => {
+      const fetchButton = screen.getByText('Fetch Users from API');
+      fireEvent.click(fetchButton);
+    });
+
+    // Wait for error toast to appear (the App shows toast on error)
+    await waitFor(() => {
+      expect(mockApiClient.getUsers).toHaveBeenCalled();
+    });
+  });
+
+  it('should handle generic error when fetching users', async () => {
+    mockApiClient.getUsers.mockRejectedValue(new Error('Generic error'));
+
+    await renderWithChakra(<App />);
+
+    await act(async () => {
+      const fetchButton = screen.getByText('Fetch Users from API');
+      fireEvent.click(fetchButton);
+    });
+
+    await waitFor(() => {
+      expect(mockApiClient.getUsers).toHaveBeenCalled();
+    });
+  });
+
+  it('should create user successfully', async () => {
+    const newUser = {
+      id: 'new-id',
+      email: 'new@example.com',
+      name: 'New User',
+      createdAt: new Date().toISOString(),
+    };
+    mockApiClient.createUser.mockResolvedValue(newUser);
+
+    await renderWithChakra(<App />);
+
+    await act(async () => {
+      const createButton = screen.getByText('Create Test User');
+      fireEvent.click(createButton);
+    });
+
+    await waitFor(() => {
+      expect(mockApiClient.createUser).toHaveBeenCalled();
+    });
+
+    // Verify user was added to store
+    expect(useUserStore.getState().users).toContainEqual(newUser);
+  });
+
+  it('should handle API error when creating user', async () => {
+    const apiError = new ApiError('Validation error', 400, 'VALIDATION_ERROR');
+    mockApiClient.createUser.mockRejectedValue(apiError);
+
+    await renderWithChakra(<App />);
+
+    await act(async () => {
+      const createButton = screen.getByText('Create Test User');
+      fireEvent.click(createButton);
+    });
+
+    await waitFor(() => {
+      expect(mockApiClient.createUser).toHaveBeenCalled();
+    });
+  });
+
+  it('should handle generic error when creating user', async () => {
+    mockApiClient.createUser.mockRejectedValue(new Error('Generic error'));
+
+    await renderWithChakra(<App />);
+
+    await act(async () => {
+      const createButton = screen.getByText('Create Test User');
+      fireEvent.click(createButton);
+    });
+
+    await waitFor(() => {
+      expect(mockApiClient.createUser).toHaveBeenCalled();
+    });
+  });
+
+  it('should fetch users on mount and display count', async () => {
+    const mockUsers = [
+      { id: '1', email: 'user1@example.com', name: 'User 1', createdAt: '2024-01-01' },
+      { id: '2', email: 'user2@example.com', name: 'User 2', createdAt: '2024-01-02' },
+    ];
+    mockApiClient.getUsers.mockResolvedValue(mockUsers);
+
+    await renderWithChakra(<App />);
+
+    await waitFor(() => {
+      expect(mockApiClient.getUsers).toHaveBeenCalled();
+    });
+
+    // Verify users were loaded into store
+    await waitFor(() => {
+      expect(useUserStore.getState().users).toEqual(mockUsers);
+    });
+  });
+
+  it('should display error message when error state is set', async () => {
+    // Set error state before rendering
+    useUserStore.setState({
+      user: null,
+      users: [],
+      isLoading: false,
+      error: 'Test error message',
+    });
+
+    await renderWithChakra(<App />);
+
+    expect(screen.getByText(/Error: Test error message/)).toBeInTheDocument();
   });
 });

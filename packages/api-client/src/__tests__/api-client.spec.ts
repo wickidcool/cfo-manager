@@ -148,6 +148,16 @@ describe('ApiClient', () => {
       expect(mockAxiosInstance.get).toHaveBeenCalledWith('/api/users/1', undefined);
       expect(user).toEqual(mockUser);
     });
+
+    it('should throw error for invalid response format', async () => {
+      mockAxiosInstance.get.mockResolvedValue({
+        data: {
+          success: false,
+        },
+      });
+
+      await expect(apiClient.getUser('1')).rejects.toThrow('Invalid response format');
+    });
   });
 
   describe('createUser', () => {
@@ -174,6 +184,18 @@ describe('ApiClient', () => {
 
       expect(mockAxiosInstance.post).toHaveBeenCalledWith('/api/users', newUser, undefined);
       expect(user).toEqual(createdUser);
+    });
+
+    it('should throw error for invalid response format', async () => {
+      mockAxiosInstance.post.mockResolvedValue({
+        data: {
+          success: false,
+        },
+      });
+
+      await expect(
+        apiClient.createUser({ email: 'test@example.com', name: 'Test' })
+      ).rejects.toThrow('Invalid response format');
     });
   });
 
@@ -202,6 +224,18 @@ describe('ApiClient', () => {
       expect(mockAxiosInstance.put).toHaveBeenCalledWith('/api/users/1', updates, undefined);
       expect(user).toEqual(updatedUser);
     });
+
+    it('should throw error for invalid response format', async () => {
+      mockAxiosInstance.put.mockResolvedValue({
+        data: {
+          success: false,
+        },
+      });
+
+      await expect(apiClient.updateUser('1', { name: 'Test' })).rejects.toThrow(
+        'Invalid response format'
+      );
+    });
   });
 
   describe('deleteUser', () => {
@@ -223,6 +257,127 @@ describe('ApiClient', () => {
       const instance = apiClient.getAxiosInstance();
       expect(instance).toBe(mockAxiosInstance);
     });
+  });
+});
+
+describe('Response Interceptor Error Handling', () => {
+  let apiClient: ApiClient;
+  let successHandler: (response: any) => any;
+  let errorHandler: (error: any) => never;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    // Capture the handlers when interceptors.response.use is called
+    const mockAxiosInstance = {
+      get: jest.fn(),
+      post: jest.fn(),
+      put: jest.fn(),
+      delete: jest.fn(),
+      defaults: {
+        headers: {
+          common: {} as Record<string, string>,
+        },
+        baseURL: '',
+      },
+      interceptors: {
+        response: {
+          use: jest.fn((sucHandler, errHandler) => {
+            successHandler = sucHandler;
+            errorHandler = errHandler;
+          }),
+        },
+      },
+    };
+
+    (axios as jest.Mocked<typeof axios>).create.mockReturnValue(mockAxiosInstance as any);
+    apiClient = new ApiClient({ baseURL: 'https://api.example.com' });
+  });
+
+  it('should pass through successful responses', () => {
+    const mockResponse = { data: { success: true }, status: 200 };
+    const result = successHandler(mockResponse);
+    expect(result).toBe(mockResponse);
+  });
+
+  it('should handle server error with API error format', () => {
+    const axiosError = {
+      response: {
+        status: 400,
+        data: {
+          error: {
+            message: 'Validation failed',
+            code: 'VALIDATION_ERROR',
+            details: { field: 'email' },
+          },
+        },
+      },
+      message: 'Request failed',
+    };
+
+    expect(() => errorHandler(axiosError)).toThrow(ApiError);
+    try {
+      errorHandler(axiosError);
+    } catch (e) {
+      const error = e as ApiError;
+      expect(error.message).toBe('Validation failed');
+      expect(error.statusCode).toBe(400);
+      expect(error.code).toBe('VALIDATION_ERROR');
+      expect(error.details).toEqual({ field: 'email' });
+    }
+  });
+
+  it('should handle server error without API error format', () => {
+    const axiosError = {
+      response: {
+        status: 500,
+        data: { message: 'Internal server error' },
+      },
+      message: 'Server error',
+    };
+
+    expect(() => errorHandler(axiosError)).toThrow(ApiError);
+    try {
+      errorHandler(axiosError);
+    } catch (e) {
+      const error = e as ApiError;
+      expect(error.message).toBe('Server error');
+      expect(error.statusCode).toBe(500);
+      expect(error.code).toBe('API_ERROR');
+    }
+  });
+
+  it('should handle network error (no response)', () => {
+    const axiosError = {
+      request: {},
+      message: 'Network Error',
+    };
+
+    expect(() => errorHandler(axiosError)).toThrow(ApiError);
+    try {
+      errorHandler(axiosError);
+    } catch (e) {
+      const error = e as ApiError;
+      expect(error.message).toBe('No response from server');
+      expect(error.statusCode).toBeUndefined();
+      expect(error.code).toBe('NETWORK_ERROR');
+    }
+  });
+
+  it('should handle request setup error', () => {
+    const axiosError = {
+      message: 'Invalid URL',
+    };
+
+    expect(() => errorHandler(axiosError)).toThrow(ApiError);
+    try {
+      errorHandler(axiosError);
+    } catch (e) {
+      const error = e as ApiError;
+      expect(error.message).toBe('Invalid URL');
+      expect(error.statusCode).toBeUndefined();
+      expect(error.code).toBe('REQUEST_ERROR');
+    }
   });
 });
 

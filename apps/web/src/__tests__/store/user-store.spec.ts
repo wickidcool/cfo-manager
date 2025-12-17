@@ -105,5 +105,82 @@ describe('UserStore', () => {
 
     expect(useUserStore.getState().user?.name).toBe('Updated User');
   });
+
+  it('should not update users that do not match the id', () => {
+    const user1: User = {
+      id: '1',
+      email: 'user1@example.com',
+      name: 'User One',
+      createdAt: new Date().toISOString(),
+    };
+    const user2: User = {
+      id: '2',
+      email: 'user2@example.com',
+      name: 'User Two',
+      createdAt: new Date().toISOString(),
+    };
+
+    useUserStore.getState().addUser(user1);
+    useUserStore.getState().addUser(user2);
+    useUserStore.getState().updateUser('2', { name: 'Updated User Two' });
+
+    const users = useUserStore.getState().users;
+    expect(users[0].name).toBe('User One'); // Not updated
+    expect(users[1].name).toBe('Updated User Two'); // Updated
+  });
+
+  it('should not clear current user when removing a different user', () => {
+    const currentUser: User = {
+      id: '1',
+      email: 'current@example.com',
+      name: 'Current User',
+      createdAt: new Date().toISOString(),
+    };
+    const otherUser: User = {
+      id: '2',
+      email: 'other@example.com',
+      name: 'Other User',
+      createdAt: new Date().toISOString(),
+    };
+
+    useUserStore.getState().setUser(currentUser);
+    useUserStore.getState().addUser(currentUser);
+    useUserStore.getState().addUser(otherUser);
+
+    // Remove the other user, not the current user
+    useUserStore.getState().removeUser('2');
+
+    // Current user should still be set
+    expect(useUserStore.getState().user).toEqual(currentUser);
+    expect(useUserStore.getState().users).toHaveLength(1);
+    expect(useUserStore.getState().users[0].id).toBe('1');
+  });
+
+  it('should clear current user when removing the current user', () => {
+    const user: User = {
+      id: '1',
+      email: 'test@example.com',
+      name: 'Test User',
+      createdAt: new Date().toISOString(),
+    };
+
+    useUserStore.getState().setUser(user);
+    useUserStore.getState().addUser(user);
+    useUserStore.getState().removeUser('1');
+
+    expect(useUserStore.getState().user).toBeNull();
+    expect(useUserStore.getState().users).toHaveLength(0);
+  });
+
+  it('should set users array', () => {
+    const users: User[] = [
+      { id: '1', email: 'user1@example.com', name: 'User 1', createdAt: new Date().toISOString() },
+      { id: '2', email: 'user2@example.com', name: 'User 2', createdAt: new Date().toISOString() },
+    ];
+
+    useUserStore.getState().setUsers(users);
+    expect(useUserStore.getState().users).toHaveLength(2);
+    expect(useUserStore.getState().users).toEqual(users);
+  });
 });
 
