@@ -42,8 +42,6 @@ jobs:
 
       - name: Build and test
         uses: ./.github/actions/build-and-test
-        with:
-          build-command: "npm run build"
 
   deploy-qa:
     needs: [validate, test]

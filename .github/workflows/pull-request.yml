@@ -39,16 +39,23 @@ jobs:
 
       - name: Run tests with coverage
         run: npm run test:coverage
+        env:
+          NODE_OPTIONS: "--localstorage-file=/tmp/jest-localstorage"
 
       - name: Coverage Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
+        uses: MishaKav/jest-coverage-comment@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: ./coverage/coverage-final.json
-          base-coverage-file: ./coverage/coverage-final.json
-          skip-step: all
+          coverage-summary-path: ./coverage/apps/web/coverage-summary.json
+          title: "Test Coverage Report"
+          summary-title: "Coverage Summary"
+          multiple-files: |
+            Web App, ./coverage/apps/web/coverage-summary.json
+            API, ./coverage/apps/api/coverage-summary.json
+            API Client, ./coverage/packages/api-client/coverage-summary.json
 
   build:
+    needs: [lint, test]
     runs-on: ubuntu-latest
 
     steps:
@@ -61,5 +68,4 @@ jobs:
       - name: Build project
         uses: ./.github/actions/build-and-test
         with:
-          build-command: "npm run build"
           skip-tests: "true"

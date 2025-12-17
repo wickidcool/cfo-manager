@@ -28,8 +28,6 @@ jobs:
 
       - name: Build and test
         uses: ./.github/actions/build-and-test
-        with:
-          build-command: "npm run build"
 
   deploy-prod:
     needs: [test]
@@ -52,7 +50,6 @@ jobs:
       - name: Build project
         uses: ./.github/actions/build-and-test
         with:
-          build-command: "npm run build"
           skip-tests: "true"
 
       - name: Deploy to AWS
