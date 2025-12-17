@@ -8,15 +8,16 @@ export default {
     '\\.svg$': '@nx/expo/plugins/jest/svg-mock',
   },
   transform: {
-    '^.+.(js|ts|tsx)$': [
+    '^.+\\.(js|ts|tsx)$': [
       'babel-jest',
       {
-        configFile: '<rootDir>/babel.config.js',
+        configFile: './apps/mobile/babel.config.js',
       },
     ],
-    '^.+.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$':
+    '^.+\\.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$':
       'jest-expo/src/preset/assetFileTransformer.js',
   },
   coverageDirectory: '../../coverage/apps/mobile',
+  coverageReporters: ['html', 'text', 'json', 'json-summary'],
 };
 

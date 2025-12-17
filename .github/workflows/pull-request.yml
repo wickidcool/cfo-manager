@@ -53,6 +53,7 @@ jobs:
             Web App, ./coverage/apps/web/coverage-summary.json
             API, ./coverage/apps/api/coverage-summary.json
             API Client, ./coverage/packages/api-client/coverage-summary.json
+            Mobile, ./coverage/apps/mobile/coverage-summary.json
 
   build:
     needs: [lint, test]
