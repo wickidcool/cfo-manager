@@ -25,7 +25,7 @@
     "test:mobile": "nx test mobile",
     "test:watch": "nx test web --watch",
     "test:coverage": "NODE_OPTIONS='--localstorage-file=/tmp/jest-localstorage' nx run-many --target=test --all --coverage && npm run coverage:merge",
-    "coverage:merge": "npx nyc merge coverage coverage/coverage-final.json",
+    "coverage:merge": "node -e \"const fs=require('fs'),path=require('path');const merged={};const walk=(dir)=>{fs.readdirSync(dir).forEach(f=>{const fp=path.join(dir,f);if(fs.statSync(fp).isDirectory())walk(fp);else if(f==='coverage-final.json'&&!fp.includes('.nyc_output')){Object.assign(merged,JSON.parse(fs.readFileSync(fp)))}});};walk('coverage');fs.writeFileSync('coverage/coverage-final.json',JSON.stringify(merged))\"",
     "test:unit": "NODE_OPTIONS='--localstorage-file=/tmp/jest-localstorage' nx run-many --target=test --all",
     "graph": "nx graph",
     "cdk:synth": "cd apps/api/cdk && cdk synth",

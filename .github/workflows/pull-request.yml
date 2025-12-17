@@ -51,6 +51,7 @@ jobs:
           skip-step: all
 
   build:
+    needs: [lint, test]
     runs-on: ubuntu-latest
 
     steps:
