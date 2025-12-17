@@ -64,5 +64,4 @@ jobs:
       - name: Build project
         uses: ./.github/actions/build-and-test
         with:
-          build-command: "npm run build"
           skip-tests: "true"
