@@ -40,21 +40,21 @@ runs:
           echo "No CDK assets bucket found"
         fi
 
-    - name: Get CloudFront Key Pair ID
-      shell: bash
-      run: |
-        export CLOUDFRONT_KEY_PAIR_ID=$(aws ssm get-parameter \
-          --name "${{ inputs.ssm-parameter-prefix }}/cloudfront-key-pair-id" \
-          --region "${{ inputs.aws-region }}" \
-          --query "Parameter.Value" \
-          --output text)
-        echo "CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID" >> $GITHUB_ENV
+    # - name: Get CloudFront Key Pair ID
+    #   shell: bash
+    #   run: |
+    #     export CLOUDFRONT_KEY_PAIR_ID=$(aws ssm get-parameter \
+    #       --name "${{ inputs.ssm-parameter-prefix }}/cloudfront-key-pair-id" \
+    #       --region "${{ inputs.aws-region }}" \
+    #       --query "Parameter.Value" \
+    #       --output text)
+    #     echo "CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID" >> $GITHUB_ENV
 
     - name: Deploy CloudFront Stack
       shell: bash
       run: |
         export NODE_ENV=${{ inputs.environment }}
-        export CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID
+        # export CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID
         npx cdk deploy CloudFrontStack --require-approval never
 
     - name: Deploy Main Stack

@@ -6,6 +6,8 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as opensearchserverless from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 
+const appName = 'CfoManager';
+
 export interface StaticStackProps extends cdk.StackProps {
   /**
    * Environment name (e.g., dev, staging, prod)
@@ -14,7 +16,7 @@ export interface StaticStackProps extends cdk.StackProps {
 }
 
 /**
- * Static Stack for AWS Starter Kit
+ * Static Stack for Cfo Manager
  *
  * Creates a CloudFront distribution with:
  * - S3 bucket for static web content (default route)
@@ -33,7 +35,7 @@ export class StaticStack extends cdk.Stack {
 
     // Create S3 bucket for static website content
     this.bucket = new s3.Bucket(this, 'WebContentBucket', {
-      bucketName: `aws-starter-kit-${environmentName}-web-${this.account}`,
+      bucketName: `${appName}-${environmentName}-web-${this.account}`,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html', // For SPA routing
       publicReadAccess: false, // CloudFront will access via OAI
@@ -51,8 +53,8 @@ export class StaticStack extends cdk.Stack {
 
     // Create API Gateway for Lambda functions
     this.api = new apigateway.RestApi(this, 'ApiGateway', {
-      restApiName: `aws-starter-kit-${environmentName}-api`,
-      description: `AWS Starter Kit API - ${environmentName}`,
+      restApiName: `${appName}-${environmentName}-api`,
+      description: `${appName} API - ${environmentName}`,
       deployOptions: {
         stageName: environmentName,
         throttlingRateLimit: 100,
@@ -102,7 +104,7 @@ export class StaticStack extends cdk.Stack {
 
     // Create custom cache policy for API routes
     const apiCachePolicy = new cloudfront.CachePolicy(this, 'ApiCachePolicy', {
-      cachePolicyName: `aws-starter-kit-${environmentName}-api-cache`,
+      cachePolicyName: `${appName}-${environmentName}-api-cache`,
       comment: 'Cache policy for API Gateway with query strings and headers',
       defaultTtl: cdk.Duration.seconds(0), // No caching for API by default
       minTtl: cdk.Duration.seconds(0),
@@ -120,7 +122,7 @@ export class StaticStack extends cdk.Stack {
 
     // Create custom origin request policy for API
     const apiOriginRequestPolicy = new cloudfront.OriginRequestPolicy(this, 'ApiOriginRequestPolicy', {
-      originRequestPolicyName: `aws-starter-kit-${environmentName}-api-origin`,
+      originRequestPolicyName: `${appName}-${environmentName}-api-origin`,
       comment: 'Origin request policy for API Gateway',
       cookieBehavior: cloudfront.OriginRequestCookieBehavior.none(),
       headerBehavior: cloudfront.OriginRequestHeaderBehavior.allowList(
@@ -135,7 +137,7 @@ export class StaticStack extends cdk.Stack {
 
     // Create CloudFront distribution
     this.distribution = new cloudfront.Distribution(this, 'Distribution', {
-      comment: `AWS Starter Kit - ${environmentName}`,
+      comment: `${appName} - ${environmentName}`,
       defaultRootObject: 'index.html',
       priceClass: cloudfront.PriceClass.PRICE_CLASS_100, // North America and Europe
       httpVersion: cloudfront.HttpVersion.HTTP2_AND_3,
@@ -182,7 +184,7 @@ export class StaticStack extends cdk.Stack {
     });
 
     // OpenSearch Serverless Collection
-    const collectionName = `starter-kit-${environmentName}`;
+    const collectionName = `${appName}-${environmentName}`;
 
     // Encryption policy (required for all collections)
     const encryptionPolicy = new opensearchserverless.CfnSecurityPolicy(this, 'OpenSearchEncryptionPolicy', {
@@ -261,7 +263,7 @@ export class StaticStack extends cdk.Stack {
     this.openSearchCollection = new opensearchserverless.CfnCollection(this, 'OpenSearchCollection', {
       name: collectionName,
       type: 'SEARCH', // SEARCH, TIMESERIES, or VECTORSEARCH
-      description: `OpenSearch Serverless collection for AWS Starter Kit - ${environmentName}`,
+      description: `OpenSearch Serverless collection for ${appName} ${environmentName}`,
     });
 
     // Ensure policies are created before the collection
