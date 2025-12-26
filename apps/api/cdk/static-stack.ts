@@ -35,7 +35,7 @@ export class StaticStack extends cdk.Stack {
 
     // Create S3 bucket for static website content
     this.bucket = new s3.Bucket(this, 'WebContentBucket', {
-      bucketName: `${appName}-${environmentName}-web-${this.account}`,
+      bucketName: `${appName}-${environmentName}-web-${this.account}`.toLowerCase(),
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html', // For SPA routing
       publicReadAccess: false, // CloudFront will access via OAI
