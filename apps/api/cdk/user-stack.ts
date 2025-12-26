@@ -21,6 +21,11 @@ export interface LambdaConfig {
   memorySize?: number;
   timeout?: number;
   environment?: Record<string, string>;
+  /**
+   * If true, grants the Lambda function access to AWS Secrets Manager
+   * to read secrets (e.g., for QuickBooks OAuth credentials)
+   */
+  secretsAccess?: boolean;
 }
 
 /**
@@ -49,6 +54,12 @@ export interface UserStackProps extends cdk.StackProps {
    * Defaults to './lambdas.yml' relative to the project root
    */
   configPath?: string;
+
+  /**
+   * The name/prefix of the secret in Secrets Manager for QuickBooks credentials
+   * Defaults to 'cfo-manager/quickbooks'
+   */
+  qbSecretName?: string;
 }
 
 /**
@@ -61,12 +72,14 @@ export class UserStack extends cdk.Stack {
   public readonly functions: Map<string, lambda.Function>;
   private readonly api: apigateway.RestApi;
   private readonly environmentName: string;
+  private readonly qbSecretName: string;
 
   constructor(scope: Construct, id: string, props: UserStackProps) {
     super(scope, id, props);
 
     this.api = props.api;
     this.environmentName = props.environmentName;
+    this.qbSecretName = props.qbSecretName || 'cfo-manager/quickbooks';
     this.functions = new Map();
 
     // Read Lambda configurations from YAML file
@@ -100,15 +113,22 @@ export class UserStack extends cdk.Stack {
         throw new Error('Invalid YAML structure: expected "lambdas" object');
       }
 
-      // Load user-lambdas specifically for this stack
-      const userLambdas = config.lambdas['user-lambdas'];
+      // Load all lambda groups from the configuration
+      const allLambdas: LambdaConfig[] = [];
 
-      if (!userLambdas || !Array.isArray(userLambdas)) {
-        throw new Error('Invalid YAML structure: expected "lambdas.user-lambdas" array');
+      for (const [groupName, lambdas] of Object.entries(config.lambdas)) {
+        if (lambdas && Array.isArray(lambdas)) {
+          console.log(`Loading ${lambdas.length} Lambda configurations from group: ${groupName}`);
+          allLambdas.push(...lambdas);
+        }
       }
 
-      console.log(`Loaded ${userLambdas.length} user Lambda configurations from ${configPath}`);
-      return userLambdas;
+      if (allLambdas.length === 0) {
+        throw new Error('No Lambda configurations found in any group');
+      }
+
+      console.log(`Loaded ${allLambdas.length} total Lambda configurations from ${configPath}`);
+      return allLambdas;
     } catch (error) {
       throw new Error(`Failed to load Lambda configurations from ${configPath}: ${error}`);
     }
@@ -118,7 +138,7 @@ export class UserStack extends cdk.Stack {
    * Create a Lambda function and API Gateway integration from configuration
    */
   private createLambdaFunction(config: LambdaConfig): void {
-    const { name, source, handler, method, path: apiPath, description, memorySize, timeout, environment } = config;
+    const { name, source, handler, method, path: apiPath, description, memorySize, timeout, environment, secretsAccess } = config;
 
     // Validate configuration
     if (!name || !source || !handler || !method || !apiPath) {
@@ -142,6 +162,22 @@ export class UserStack extends cdk.Stack {
         iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
       ],
     });
+
+    // If secretsAccess is enabled, add Secrets Manager read permissions
+    if (secretsAccess) {
+      role.addToPolicy(new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'secretsmanager:GetSecretValue',
+          'secretsmanager:DescribeSecret',
+        ],
+        resources: [
+          // Allow access to the specific secret and any version
+          `arn:aws:secretsmanager:${this.region}:${this.account}:secret:${this.qbSecretName}*`,
+        ],
+      }));
+      console.log(`Granted Secrets Manager access to ${name} for secret: ${this.qbSecretName}`);
+    }
 
     // Create Lambda function using NodejsFunction for automatic TypeScript bundling
     const lambdaFunction = new lambdaNodejs.NodejsFunction(this, `${name}Function`, {
@@ -214,7 +250,7 @@ export class UserStack extends cdk.Stack {
     // Add method to resource
     // Note: CORS OPTIONS methods are automatically added by the API Gateway's
     // defaultCorsPreflightOptions configuration in StaticStack
-    const apiMethod = currentResource.addMethod(method.toUpperCase(), integration, {
+    currentResource.addMethod(method.toUpperCase(), integration, {
       methodResponses: [
         {
           statusCode: '200',
@@ -253,4 +289,3 @@ export class UserStack extends cdk.Stack {
     return Array.from(this.functions.values());
   }
 }
-

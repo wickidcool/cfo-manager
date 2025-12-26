@@ -15,4 +15,5 @@ export * from './user.types';
 export * from './api.types';
 export * from './lambda.types';
 export * from './common.types';
+export * from './quickbooks.types';
 

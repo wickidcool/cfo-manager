@@ -57,3 +57,208 @@ lambdas:
       timeout: 30
       environment:
         LOG_LEVEL: info
+
+  quickbooks-lambdas:
+    # OAuth Flow
+    - name: QBAuthStart
+      source: src/handlers/quickbooks/auth-start.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/auth/start
+      description: Start QuickBooks OAuth flow
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    - name: QBAuthCallback
+      source: src/handlers/quickbooks/auth-callback.ts
+      handler: handler
+      method: GET
+      path: /api/quickbooks/auth/callback
+      description: Handle QuickBooks OAuth callback
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    - name: QBConnectionStatus
+      source: src/handlers/quickbooks/connection-status.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/connection/status
+      description: Check QuickBooks connection status
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    - name: QBDisconnect
+      source: src/handlers/quickbooks/disconnect.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/disconnect
+      description: Disconnect from QuickBooks
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    # Company Info
+    - name: QBGetCompanyInfo
+      source: src/handlers/quickbooks/get-company-info.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/company
+      description: Get QuickBooks company information
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    # Customers
+    - name: QBGetCustomers
+      source: src/handlers/quickbooks/get-customers.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/customers
+      description: Get QuickBooks customers
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    # Vendors
+    - name: QBGetVendors
+      source: src/handlers/quickbooks/get-vendors.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/vendors
+      description: Get QuickBooks vendors
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    # Accounts
+    - name: QBGetAccounts
+      source: src/handlers/quickbooks/get-accounts.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/accounts
+      description: Get QuickBooks chart of accounts
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    # Invoices
+    - name: QBGetInvoices
+      source: src/handlers/quickbooks/get-invoices.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/invoices
+      description: Get QuickBooks invoices
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    # Bills
+    - name: QBGetBills
+      source: src/handlers/quickbooks/get-bills.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/bills
+      description: Get QuickBooks bills
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    # Items (Products/Services)
+    - name: QBGetItems
+      source: src/handlers/quickbooks/get-items.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/items
+      description: Get QuickBooks items (products/services)
+      memorySize: 256
+      timeout: 30
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    # Reports
+    - name: QBGetProfitLoss
+      source: src/handlers/quickbooks/get-profit-loss.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/reports/profit-loss
+      description: Get QuickBooks Profit and Loss report
+      memorySize: 512
+      timeout: 60
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
+
+    - name: QBGetBalanceSheet
+      source: src/handlers/quickbooks/get-balance-sheet.ts
+      handler: handler
+      method: POST
+      path: /api/quickbooks/reports/balance-sheet
+      description: Get QuickBooks Balance Sheet report
+      memorySize: 512
+      timeout: 60
+      secretsAccess: true
+      environment:
+        LOG_LEVEL: info
+        QB_SECRET_NAME: cfo-manager/quickbooks
+        QB_REDIRECT_URI: ${QB_REDIRECT_URI}
+        QB_ENVIRONMENT: ${QB_ENVIRONMENT}
