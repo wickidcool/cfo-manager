@@ -4,12 +4,12 @@ import * as cdk from 'aws-cdk-lib';
 import { StaticStack } from './static-stack';
 import { UserStack } from './user-stack';
 
-const appName = 'AwsStarterKit';
+const appName = 'CfoManager';
 
 /**
- * AWS CDK App for AWS Starter Kit
+ * AWS CDK App for Cfo Manager
  *
- * This app creates the infrastructure for the AWS Starter Kit including:
+ * This app creates the infrastructure for the Cfo Manager including:
  * - S3 bucket for static web content
  * - API Gateway for Lambda functions
  * - CloudFront distribution with both S3 and API Gateway origins
@@ -28,7 +28,7 @@ const env = {
 
 // Common tags for all resources
 const tags = {
-  Project: 'AWS Starter Kit',
+  Project: appName,
   Environment: environmentName,
   ManagedBy: 'CDK',
 };
@@ -37,7 +37,7 @@ const tags = {
 const staticStack = new StaticStack(app, `${appName}-Static-${environmentName}`, {
   env,
   environmentName,
-  description: `AWS Starter Kit static infrastructure for ${environmentName} environment`,
+  description: `${appName} static infrastructure for ${environmentName} environment`,
   tags,
 });
 
@@ -47,7 +47,7 @@ const userStack = new UserStack(app, `${appName}-Users-${environmentName}`, {
   env,
   environmentName,
   api: staticStack.api,
-  description: `AWS Starter Kit user Lambda functions for ${environmentName} environment`,
+  description: `${appName} user Lambda functions for ${environmentName} environment`,
   tags,
 });
 

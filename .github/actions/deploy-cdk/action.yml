@@ -51,15 +51,8 @@ runs:
     #     echo "CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID" >> $GITHUB_ENV
 
     - name: Deploy Main Stack
-      shell: bash
-      run: |
-        export NODE_ENV=${{ inputs.environment }}
-        # export CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID
-        npx cdk deploy MainStack --require-approval never
-
-    - name: Deploy Users Stack
-      shell: bash
-      run: |
-        export NODE_ENV=${{ inputs.environment }}
-        npx cdk deploy UsersStack --require-approval never
-
+      run: npm run cdk:deploy -- --require-approval never
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ inputs.aws-region }}
