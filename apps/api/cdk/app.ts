@@ -37,6 +37,7 @@ const tags = {
 const staticStack = new StaticStack(app, `${appName}-Static-${environmentName}`, {
   env,
   environmentName,
+  nodeEnv: environmentName,
   description: `${appName} static infrastructure for ${environmentName} environment`,
   tags,
 });
