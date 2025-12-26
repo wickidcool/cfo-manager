@@ -6,7 +6,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as opensearchserverless from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 
-const appName = 'CfoManager';
+const appName = 'cfo-manager';
 
 export interface StaticStackProps extends cdk.StackProps {
   /**
@@ -35,7 +35,7 @@ export class StaticStack extends cdk.Stack {
 
     // Create S3 bucket for static website content
     this.bucket = new s3.Bucket(this, 'WebContentBucket', {
-      bucketName: `${appName}-${environmentName}-web-${this.account}`.toLowerCase(),
+      bucketName: `${appName}-${environmentName}-web-${this.account}`,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html', // For SPA routing
       publicReadAccess: false, // CloudFront will access via OAI
