@@ -19,18 +19,15 @@ inputs:
     description: "SSM parameter prefix for CloudFront key pair"
     required: true
 
-permissions:
-  id-token: write        # required for OIDC
-  contents: read
-
 runs:
   using: "composite"
   steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v5
       with:
-        role-to-assume: arn:aws:iam::985962085606:role/github-deployment
-        aws-region: us-east-2
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
 
     - name: Clean old CDK assets
       shell: bash
