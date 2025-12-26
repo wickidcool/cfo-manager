@@ -3,6 +3,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as logs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -26,6 +27,10 @@ export interface LambdaConfig {
    * to read secrets (e.g., for QuickBooks OAuth credentials)
    */
   secretsAccess?: boolean;
+  /**
+   * Log retention in days (default: 30 days)
+   */
+  logRetentionDays?: number;
 }
 
 /**
@@ -138,7 +143,7 @@ export class UserStack extends cdk.Stack {
    * Create a Lambda function and API Gateway integration from configuration
    */
   private createLambdaFunction(config: LambdaConfig): void {
-    const { name, source, handler, method, path: apiPath, description, memorySize, timeout, environment, secretsAccess } = config;
+    const { name, source, handler, method, path: apiPath, description, memorySize, timeout, environment, secretsAccess, logRetentionDays } = config;
 
     // Validate configuration
     if (!name || !source || !handler || !method || !apiPath) {
@@ -154,14 +159,24 @@ export class UserStack extends cdk.Stack {
       throw new Error(`Source file not found: ${sourcePath} for Lambda ${name}`);
     }
 
+    const functionName = `${this.environmentName}-${name}`;
+
+    // Create CloudWatch Log Group explicitly for the Lambda function
+    // This ensures logs are created before first invocation and allows retention control
+    const logGroup = new logs.LogGroup(this, `${name}LogGroup`, {
+      logGroupName: `/aws/lambda/${functionName}`,
+      retention: this.getLogRetention(logRetentionDays),
+      removalPolicy: cdk.RemovalPolicy.DESTROY, // Clean up logs when stack is deleted
+    });
+
     // Create Lambda execution role with CloudWatch Logs permissions
     const role = new iam.Role(this, `${name}Role`, {
       roleName: `${this.environmentName}-${name}-role`,
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
-      ],
     });
+
+    // Grant permissions to write to the specific log group
+    logGroup.grantWrite(role);
 
     // If secretsAccess is enabled, add Secrets Manager read permissions
     if (secretsAccess) {
@@ -181,7 +196,7 @@ export class UserStack extends cdk.Stack {
 
     // Create Lambda function using NodejsFunction for automatic TypeScript bundling
     const lambdaFunction = new lambdaNodejs.NodejsFunction(this, `${name}Function`, {
-      functionName: `${this.environmentName}-${name}`,
+      functionName,
       entry: sourcePath,
       handler: handler,
       runtime: lambda.Runtime.NODEJS_20_X,
@@ -203,6 +218,9 @@ export class UserStack extends cdk.Stack {
         tsconfig: path.join(__dirname, '../tsconfig.app.json'),
       },
     });
+
+    // Ensure log group is created before the Lambda function
+    lambdaFunction.node.addDependency(logGroup);
 
     // Store function reference
     this.functions.set(name, lambdaFunction);
@@ -287,5 +305,40 @@ export class UserStack extends cdk.Stack {
    */
   public getAllFunctions(): lambda.Function[] {
     return Array.from(this.functions.values());
+  }
+
+  /**
+   * Convert log retention days to CDK RetentionDays enum
+   */
+  private getLogRetention(days?: number): logs.RetentionDays {
+    const retentionDays = days || 30; // Default to 30 days
+
+    // Map common values to RetentionDays enum
+    const retentionMap: Record<number, logs.RetentionDays> = {
+      1: logs.RetentionDays.ONE_DAY,
+      3: logs.RetentionDays.THREE_DAYS,
+      5: logs.RetentionDays.FIVE_DAYS,
+      7: logs.RetentionDays.ONE_WEEK,
+      14: logs.RetentionDays.TWO_WEEKS,
+      30: logs.RetentionDays.ONE_MONTH,
+      60: logs.RetentionDays.TWO_MONTHS,
+      90: logs.RetentionDays.THREE_MONTHS,
+      120: logs.RetentionDays.FOUR_MONTHS,
+      150: logs.RetentionDays.FIVE_MONTHS,
+      180: logs.RetentionDays.SIX_MONTHS,
+      365: logs.RetentionDays.ONE_YEAR,
+      400: logs.RetentionDays.THIRTEEN_MONTHS,
+      545: logs.RetentionDays.EIGHTEEN_MONTHS,
+      731: logs.RetentionDays.TWO_YEARS,
+      1096: logs.RetentionDays.THREE_YEARS,
+      1827: logs.RetentionDays.FIVE_YEARS,
+      2192: logs.RetentionDays.SIX_YEARS,
+      2557: logs.RetentionDays.SEVEN_YEARS,
+      2922: logs.RetentionDays.EIGHT_YEARS,
+      3288: logs.RetentionDays.NINE_YEARS,
+      3653: logs.RetentionDays.TEN_YEARS,
+    };
+
+    return retentionMap[retentionDays] || logs.RetentionDays.ONE_MONTH;
   }
 }
