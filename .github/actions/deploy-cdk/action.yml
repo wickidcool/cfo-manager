@@ -50,17 +50,16 @@ runs:
     #       --output text)
     #     echo "CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID" >> $GITHUB_ENV
 
-    - name: Deploy CloudFront Stack
-      shell: bash
-      run: |
-        export NODE_ENV=${{ inputs.environment }}
-        # export CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID
-        npx cdk deploy CloudFrontStack --require-approval never
-
     - name: Deploy Main Stack
       shell: bash
       run: |
         export NODE_ENV=${{ inputs.environment }}
-        export CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID
+        # export CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID
         npx cdk deploy MainStack --require-approval never
+
+    - name: Deploy Users Stack
+      shell: bash
+      run: |
+        export NODE_ENV=${{ inputs.environment }}
+        npx cdk deploy UsersStack --require-approval never
 
