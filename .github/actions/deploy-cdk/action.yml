@@ -51,6 +51,7 @@ runs:
     #     echo "CLOUDFRONT_KEY_PAIR_ID=$CLOUDFRONT_KEY_PAIR_ID" >> $GITHUB_ENV
 
     - name: Deploy Main Stack
+      shell: bash
       run: npm run cdk:deploy -- --require-approval never
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id  }}
