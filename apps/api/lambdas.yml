@@ -7,7 +7,7 @@ lambdas:
       source: src/handlers/users/get-users.ts
       handler: handler
       method: GET
-      path: /api/users
+      path: /users
       description: Get all users
       memorySize: 256
       timeout: 30
@@ -18,7 +18,7 @@ lambdas:
       source: src/handlers/users/get-user.ts
       handler: handler
       method: GET
-      path: /api/users/{id}
+      path: /users/{id}
       description: Get user by ID
       memorySize: 256
       timeout: 30
@@ -29,7 +29,7 @@ lambdas:
       source: src/handlers/users/create-user.ts
       handler: handler
       method: POST
-      path: /api/users
+      path: /users
       description: Create a new user
       memorySize: 256
       timeout: 30
@@ -40,7 +40,7 @@ lambdas:
       source: src/handlers/users/update-user.ts
       handler: handler
       method: PUT
-      path: /api/users/{id}
+      path: /users/{id}
       description: Update an existing user
       memorySize: 256
       timeout: 30
@@ -51,7 +51,7 @@ lambdas:
       source: src/handlers/users/delete-user.ts
       handler: handler
       method: DELETE
-      path: /api/users/{id}
+      path: /users/{id}
       description: Delete a user
       memorySize: 256
       timeout: 30
@@ -64,7 +64,7 @@ lambdas:
       source: src/handlers/quickbooks/auth-start.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/auth/start
+      path: /quickbooks/auth/start
       description: Start QuickBooks OAuth flow
       memorySize: 256
       timeout: 30
@@ -79,7 +79,7 @@ lambdas:
       source: src/handlers/quickbooks/auth-callback.ts
       handler: handler
       method: GET
-      path: /api/quickbooks/auth/callback
+      path: /quickbooks/auth/callback
       description: Handle QuickBooks OAuth callback
       memorySize: 256
       timeout: 30
@@ -94,7 +94,7 @@ lambdas:
       source: src/handlers/quickbooks/connection-status.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/connection/status
+      path: /quickbooks/connection/status
       description: Check QuickBooks connection status
       memorySize: 256
       timeout: 30
@@ -109,7 +109,7 @@ lambdas:
       source: src/handlers/quickbooks/disconnect.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/disconnect
+      path: /quickbooks/disconnect
       description: Disconnect from QuickBooks
       memorySize: 256
       timeout: 30
@@ -125,7 +125,7 @@ lambdas:
       source: src/handlers/quickbooks/get-company-info.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/company
+      path: /quickbooks/company
       description: Get QuickBooks company information
       memorySize: 256
       timeout: 30
@@ -141,7 +141,7 @@ lambdas:
       source: src/handlers/quickbooks/get-customers.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/customers
+      path: /quickbooks/customers
       description: Get QuickBooks customers
       memorySize: 256
       timeout: 30
@@ -157,7 +157,7 @@ lambdas:
       source: src/handlers/quickbooks/get-vendors.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/vendors
+      path: /quickbooks/vendors
       description: Get QuickBooks vendors
       memorySize: 256
       timeout: 30
@@ -173,7 +173,7 @@ lambdas:
       source: src/handlers/quickbooks/get-accounts.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/accounts
+      path: /quickbooks/accounts
       description: Get QuickBooks chart of accounts
       memorySize: 256
       timeout: 30
@@ -189,7 +189,7 @@ lambdas:
       source: src/handlers/quickbooks/get-invoices.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/invoices
+      path: /quickbooks/invoices
       description: Get QuickBooks invoices
       memorySize: 256
       timeout: 30
@@ -205,7 +205,7 @@ lambdas:
       source: src/handlers/quickbooks/get-bills.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/bills
+      path: /quickbooks/bills
       description: Get QuickBooks bills
       memorySize: 256
       timeout: 30
@@ -221,7 +221,7 @@ lambdas:
       source: src/handlers/quickbooks/get-items.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/items
+      path: /quickbooks/items
       description: Get QuickBooks items (products/services)
       memorySize: 256
       timeout: 30
@@ -237,7 +237,7 @@ lambdas:
       source: src/handlers/quickbooks/get-profit-loss.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/reports/profit-loss
+      path: /quickbooks/reports/profit-loss
       description: Get QuickBooks Profit and Loss report
       memorySize: 512
       timeout: 60
@@ -252,7 +252,7 @@ lambdas:
       source: src/handlers/quickbooks/get-balance-sheet.ts
       handler: handler
       method: POST
-      path: /api/quickbooks/reports/balance-sheet
+      path: /quickbooks/reports/balance-sheet
       description: Get QuickBooks Balance Sheet report
       memorySize: 512
       timeout: 60
