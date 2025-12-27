@@ -72,3 +72,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           environment: development
           ssm-parameter-prefix: /cfo-manager-dev
+
+      - name: Deploy Web to AWS
+        uses: ./.github/actions/deploy-web
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          environment: development
